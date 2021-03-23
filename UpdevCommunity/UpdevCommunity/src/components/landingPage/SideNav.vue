@@ -4,20 +4,22 @@
 
         <nav-link :class="'px-4 py-2'" v-for="menu in menus" :key="menu.title" :text="menu.title" :link="menu.link"/>
      
-      <div class="flex flex-col space-y-4 px-4 mt-3">
-            <primary-outline-btn title="Se connecter"/>
-            <primary-btn title="Créer un compte"/>
-      </div>
+        <div class="flex flex-col space-y-4 px-4 mt-3">
+            <primary-outline-link-btn title="Se connecter" link="/login" />
+            <primary-btn-link title="Créer un compte" link="/signup" />
+        </div>
     </div>
 </template>
 <script>
+
 import NavLink from './NavLink.vue';
-import PrimaryBtn from '../Button.vue';
-import PrimaryOutlineBtn from '../ButtonOutline.vue';
+import PrimaryBtnLink from '../ButtonLink.vue';
+import PrimaryOutlineLinkBtn from '../ButtonLinkOutline.vue';
+
 
 export default{
-    name:"SideNav",
-    components: { NavLink, PrimaryOutlineBtn, PrimaryBtn},
+        name: "SideNav",
+        components: { NavLink, PrimaryOutlineLinkBtn, PrimaryBtnLink },
     props:{
         isOpen:Boolean,
         menus:Object

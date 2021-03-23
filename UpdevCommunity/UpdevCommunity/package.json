@@ -12,6 +12,9 @@
   "author": {
     "name": "Updev"
   },
+  "engines": {
+    "node": "15.x"
+  },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",
     "@vitejs/plugin-vue": "^1.1.5",
@@ -20,7 +23,8 @@
     "express": "^4.17.1",
     "serve-static": "^1.14.1",
     "vite": "^2.1.2",
-    "vue": "^3.0.7"
+    "vue": "^3.0.7",
+    "vue-router": "^4.0.5"
   },
   "devDependencies": {
     "@types/node": "^14.14.35",

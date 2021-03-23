@@ -56,6 +56,8 @@
     <Content Include="src\assets\icons\votedone.svg" />
     <Content Include="src\assets\logo.png" />
     <Content Include="src\components\Button.vue" />
+    <Content Include="src\components\ButtonLink.vue" />
+    <Content Include="src\components\ButtonLinkOutline.vue" />
     <Content Include="src\components\ButtonOutline.vue" />
     <Content Include="src\components\Footer.vue" />
     <Content Include="src\components\landingPage\About.vue" />
@@ -70,6 +72,10 @@
     <Content Include="src\components\landingPage\NavLink.vue" />
     <Content Include="src\components\landingPage\SideNav.vue" />
     <Content Include="src\index.css" />
+    <Content Include="src\layouts\MainLayout.vue" />
+    <Content Include="src\router\index.js" />
+    <Content Include="src\views\LandingPage.vue" />
+    <Content Include="src\views\Login.vue" />
     <Content Include="tailwind.config.js" />
     <Content Include="tailwind.config.ts" />
     <Content Include="tsconfig.json" />
@@ -84,6 +90,9 @@
     <Folder Include="src\assets\icons\" />
     <Folder Include="src\components\" />
     <Folder Include="src\components\landingPage\" />
+    <Folder Include="src\layouts\" />
+    <Folder Include="src\router\" />
+    <Folder Include="src\views\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\main.ts" />
@@ -94,6 +103,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="server.js" />
     <TypeScriptCompile Include="vite.config.ts" />
+    <TypeScriptCompile Include="src\vue-shim.d.ts" />
     <TypeScriptCompile Include="vue.config.ts" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />

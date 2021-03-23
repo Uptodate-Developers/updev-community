@@ -41,10 +41,10 @@ export default {
     return {
       isOpen: false,
       menus:[
-        {title:"Acceuil",link:"#home"},
-        {title:"Qui sommes nous?",link:"#about"},
-        {title:"Fonctionalités",link:"#features"},
-        {title:"Contribuer",link:"#contribute"},
+        {title:"Acceuil",link:"/#home"},
+        {title:"Qui sommes nous?",link:"/#about"},
+        {title:"Fonctionalités",link:"/#features"},
+        {title:"Contribuer",link:"/#contribute"},
         {title:"Forum",link:""},
       ]
     };

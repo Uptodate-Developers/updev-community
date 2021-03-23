@@ -1,5 +1,5 @@
 <template>
-     <a :href="link" class="text-md text-gray-500 font-normal">{{title}}</a>
+    <router-link :to="link" class="text-md text-gray-500 font-normal">{{title}}</router-link>
 </template>
 <script>
 export default{
