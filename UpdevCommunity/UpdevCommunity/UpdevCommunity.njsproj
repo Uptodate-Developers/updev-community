@@ -90,6 +90,7 @@
     <Content Include="babel.config.ts" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="server.js" />
     <TypeScriptCompile Include="vite.config.ts" />
     <TypeScriptCompile Include="vue.config.ts" />
   </ItemGroup>
