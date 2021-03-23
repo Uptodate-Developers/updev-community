@@ -33,6 +33,7 @@
   <ItemGroup>
     <Content Include="index.html" />
     <Content Include="libman.json" />
+    <Content Include="postcss.config.js" />
     <Content Include="postcss.config.ts" />
     <Content Include="public\favicon.ico" />
     <Content Include="src\App.vue" />
@@ -69,6 +70,7 @@
     <Content Include="src\components\landingPage\NavLink.vue" />
     <Content Include="src\components\landingPage\SideNav.vue" />
     <Content Include="src\index.css" />
+    <Content Include="tailwind.config.js" />
     <Content Include="tailwind.config.ts" />
     <Content Include="tsconfig.json" />
     <Content Include="package.json" />
