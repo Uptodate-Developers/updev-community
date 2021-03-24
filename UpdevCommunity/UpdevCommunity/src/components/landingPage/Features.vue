@@ -1,25 +1,27 @@
 <template>
-    <div id="features" class="px-4 py-5">
-        <div class="">
-            <div class="flex flex-col items-center  pb-3 space-y-1">
-                <h1 class=" text-xl font-medium">Fonctionalités</h1>
-                <div style="height:2px" class=" w-20  bg-blue-300 rounded-lg"/>
-            </div>
-
-            <div  >
-                <div class=" md:flex md:items-center md:justify-center" >
-                    <feature-item v-for="feature in features" :key="feature.title" :title="feature.title" :iconLink="feature.titleIcon" />
+    <div id="features">
+        <div class="px-4 py-5">
+            <div class="">
+                <div class="flex flex-col items-center  pb-3 space-y-1">
+                    <h1 class=" text-xl font-medium">Fonctionalités</h1>
+                    <div style="height:2px" class=" w-20  bg-blue-300 rounded-lg" />
                 </div>
-                <div class="py-3 px-4" >
-                    <a-carousel autoplay afterChange="indexChanged" >
-                       <feature-details v-for="feature in features" :key="feature.title" :details="feature.details" :iconLink="feature.detailsImg"/>
-                    </a-carousel>
-                </div>
-            </div>
 
-             <button class="block mx-auto mt-5 self-start font-semibold text-center text-gray-50 bg-blue-500 px-10 py-3 rounded-md shadow">
-          Créer une discussion
-        </button>
+                <div>
+                    <div class=" md:flex md:items-center md:justify-center">
+                        <feature-item v-for="feature in features" :key="feature.title" :title="feature.title" :iconLink="feature.titleIcon" />
+                    </div>
+                    <div class="py-3 px-4">
+                        <a-carousel autoplay afterChange="indexChanged">
+                            <feature-details v-for="feature in features" :key="feature.title" :details="feature.details" :iconLink="feature.detailsImg" />
+                        </a-carousel>
+                    </div>
+                </div>
+
+                <button class="block mx-auto mt-5 self-start font-semibold text-center text-gray-50 bg-blue-500 px-10 py-3 rounded-md shadow">
+                    Créer une discussion
+                </button>
+            </div>
         </div>
     </div>
 </template>

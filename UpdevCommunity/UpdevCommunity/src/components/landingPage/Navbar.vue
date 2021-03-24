@@ -14,7 +14,7 @@
         </button>
       </div>
       <div class="hidden md:block space-x-4" >
-           <nav-link v-for="menu in menus" :key="menu.title" :text="menu.title" :link="menu.link"/>
+           <nav-link v-for="menu in menus"  :key="menu.title" :text="menu.title" :link="menu.link" :scrollToLink="menu.scrollToLink" />
       </div>
 
       <div class="hidden lg:flex space-x-2">
@@ -41,11 +41,11 @@ export default {
     return {
       isOpen: false,
       menus:[
-        {title:"Acceuil",link:"/#home"},
-        {title:"Qui sommes nous?",link:"/#about"},
-        {title:"Fonctionalités",link:"/#features"},
-        {title:"Contribuer",link:"/#contribute"},
-        {title:"Forum",link:""},
+          { title: "Acceuil", link: "/", scrollToLink:"#home"},
+          { title: "Qui sommes nous?", link: "/", scrollToLink: "#about"},
+          { title: "Fonctionalités", link: "/", scrollToLink: "#features"},
+          { title: "Contribuer", link: "/", scrollToLink:"#contribute"},
+          {title:"Forum",link:""},
       ]
     };
   },

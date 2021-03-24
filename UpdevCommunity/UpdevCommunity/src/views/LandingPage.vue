@@ -1,8 +1,10 @@
 <template>
-    <home-section />
-    <about-section />
-    <features-section />
-    <contributions-section />
+    <v-content>
+        <home-section  />
+        <about-section  />
+        <features-section  />
+        <contributions-section />
+    </v-content>
 </template>
 
 <script>
