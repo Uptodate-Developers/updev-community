@@ -55,6 +55,8 @@
     <Content Include="src\assets\icons\upvote.svg" />
     <Content Include="src\assets\icons\votedone.svg" />
     <Content Include="src\assets\logo.png" />
+    <Content Include="src\assets\logo.svg" />
+    <Content Include="src\assets\updevcommunitylogo.svg" />
     <Content Include="src\components\Button.vue" />
     <Content Include="src\components\ButtonLink.vue" />
     <Content Include="src\components\ButtonLinkOutline.vue" />

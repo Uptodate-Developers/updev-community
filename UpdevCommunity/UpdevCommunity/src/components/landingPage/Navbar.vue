@@ -1,9 +1,9 @@
 <template>
   <header class="fixed left-0 right-0 bg-gray-50 z-30">
     <div class="shadow">
-      <div class="md:container mx-auto   flex justify-between items-center px-2 py-2 md:py-4">
+      <div class="md:container xl:px-12 mx-auto   flex justify-between items-center px-2 py-2 md:py-4">
       <div class="flex justify-center items-center">
-        <h2 class="font-normal text-lg mt-2">UpdevCommunity</h2>
+        <img class="h-10" src="../../assets/updevcommunitylogo.svg" alt="UpdevCommunity logo"/>
       </div>
       <div class="md:hidden">
         <button @click="isOpen = true" :class="isOpen ? 'hidden' : 'block'" class="focus:outline-none">
