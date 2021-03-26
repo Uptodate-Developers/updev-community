@@ -1,6 +1,6 @@
 module.exports = {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+    purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+    darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {
             colors: {
@@ -16,11 +16,20 @@ module.exports = {
                     800: '#003e6e',
                     900: '#00335a'
                 }
-            }
+            },
+            height: theme => ({
+                "screen/1.2": "calc(100vh / 1.25)",
+                "screen/1.5": "calc(100vh / 1.5)",
+                "screen/1.8": "calc(100vh / 1.76)",
+                "screen/2": "50vh",
+                "screen/3": "calc(100vh / 3)",
+                "screen/4": "calc(100vh / 4)",
+                "screen/5": "calc(100vh / 5)",
+            }),
         },
     },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
+    variants: {
+        extend: {},
+    },
+    plugins: [],
 }

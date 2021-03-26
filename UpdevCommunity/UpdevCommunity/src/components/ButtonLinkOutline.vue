@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="link" class="block text-center text-blue-500 px-5 py-2 border-2 border-blue-500 rounded-lg shadow-sm">
+    <router-link :to="link" class="text-center text-blue-500 px-5 py-2 border-2 border-blue-500 rounded-lg shadow-sm flex justify-center items-center hover:bg-blue-500 hover:text-gray-50">
         {{title}}
     </router-link>
 </template>

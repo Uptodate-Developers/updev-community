@@ -58,6 +58,7 @@
     <Content Include="src\assets\logo.svg" />
     <Content Include="src\assets\updevcommunitylogo.svg" />
     <Content Include="src\components\Button.vue" />
+    <Content Include="src\components\ButtonIcon.vue" />
     <Content Include="src\components\ButtonLink.vue" />
     <Content Include="src\components\ButtonLinkOutline.vue" />
     <Content Include="src\components\ButtonOutline.vue" />
