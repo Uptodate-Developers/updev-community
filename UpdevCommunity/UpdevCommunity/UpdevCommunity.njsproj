@@ -36,6 +36,7 @@
     <Content Include="postcss.config.js" />
     <Content Include="postcss.config.ts" />
     <Content Include="public\favicon.ico" />
+    <Content Include="public\UpdevCommunityLogo.png" />
     <Content Include="src\App.vue" />
     <Content Include="src\assets\icons\close.svg" />
     <Content Include="src\assets\icons\community.svg" />

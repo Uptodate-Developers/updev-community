@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-14 md:flex md:container mx-auto xl:px-12">
+    <div id="start" class="pt-14 md:flex md:container mx-auto xl:px-12">
         <div class="container flex flex-col justify-center">
             <div class="py-5 px-4">
             <h1 class=" text-lg font-medium">Bienvenu sur UpdevCommunity</h1>

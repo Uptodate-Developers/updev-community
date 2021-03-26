@@ -1,5 +1,5 @@
 <template>
-    <router-link  :to="link" v-scroll-to="scrollToLink" class="text-md text-gray-500 font-normal">
+    <router-link :to="link" v-scroll-to="scrollToLink" class="text-md text-gray-500 font-normal">
         {{title}}
     </router-link>
 </template>
@@ -13,10 +13,7 @@ export default{
     },
     emits:['link-clicked'],
     methods:{
-        closeSideNav() {
-            this.$emit("link-clicked");
-            console.log("LInk clicked");
-        },
+        
     }
    
 }
