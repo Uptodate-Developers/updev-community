@@ -1,6 +1,6 @@
 <template>
-    <div class=" bg-gray-50 px-2 py-2 rounded-md space-y-2">
-        <div class=" flex space-x-2">
+    <div class=" bg-gray-50  py-2 rounded-md space-y-2">
+        <div class=" px-2 flex space-x-2">
             <a-avatar :style="{backgroundColor: '#0068B7', verticalAlign: 'middle'}" :size="50"><span style="line-height: 50px" class="block text-xl font-semibold">JM</span></a-avatar>
             <div>
                 <h2 class=" mb-0">Julius Nyere</h2>
@@ -8,18 +8,25 @@
             </div>
         </div>
 
-        <div class="px-4">
+        <div class="px-6">
             <h1 class=" text-gray-800">Comment résoudre l'erreur InvalidOperationException en Java?</h1>
             <p class=" text-gray-500">Je suis nouveau dans le development, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
 
-        <div class="px-4 space-x-1">
+        <div v-if="showImages" class=" img-container flex overflow-x-auto space-x-1 px-2">
+                <img class=" object-contain h-52 w-full" src="../../assets/imgs/pexels-1.jpg" alt="Pexels-1">
+                <img class=" object-contain h-52 w-full"  src="../../assets/imgs/pexels-2.jpg" alt="Pexels-2">
+                <img class=" object-contain h-52 w-full" src="../../assets/imgs/pexels-3.jpg" alt="Pexels-3">
+                <img class=" object-contain h-52 w-full" src="../../assets/imgs/pexels-4.jpg" alt="Pexels-4">
+            </div>
+
+        <div class="px-6 space-x-1">
             <button class=" bg-gray-200 px-4 pb-0.5 rounded-2xl text-xs text-gray-500">#java</button>
             <button class=" bg-gray-200 px-4 pb-0.5 rounded-2xl text-xs text-gray-500">#python</button>
             <button class=" bg-gray-200 px-4 pb-0.5 rounded-2xl text-xs text-gray-500">#microservices</button>
         </div>
 
-        <div class="pt-2 flex flex-col lg:flex-row-reverse lg:justify-between">
+        <div class="pt-2 px-2 flex flex-col lg:flex-row-reverse lg:justify-between">
             <p class=" text-gray-400 self-end lg:self-stretch">2 minutes de lecture</p>
             <div class="flex justify-around space-x-4 lg:space-x-12">
                 <button class="focus:outline-none">
@@ -35,7 +42,7 @@
                         <h3 class=" text-current fill-current mb-0 font-normal">20</h3>
                     </div>
                 </button>
-                <button class="focus:outline-none">
+                <button @click="commentsOpened = !commentsOpened" class="focus:outline-none">
                     <div class=" flex items-center space-x-1  text-gray-900 hover:text-blue-400">
                         <svg class=" h-4 fill-current" id="comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.783 17.5">
                             <path id="Path_96" data-name="Path 96" d="M18.167,19.5,12.791,18a9,9,0,0,1-1.9.162C5.759,18.167,2,14.772,2,10.083A7.654,7.654,0,0,1,4.263,4.506,9.429,9.429,0,0,1,10.892,2c5.133,0,8.892,3.395,8.892,8.083a7.724,7.724,0,0,1-1.617,4.769Zm-5.375-2.3,4.567,1.253V14.61l.081-.121a6.958,6.958,0,0,0,1.536-4.405c0-4.2-3.395-7.275-8.083-7.275A8.571,8.571,0,0,0,4.829,5.072a6.924,6.924,0,0,0-2.021,5.012c0,4.2,3.395,7.275,8.083,7.275A7.992,7.992,0,0,0,12.71,17.2Z" transform="translate(-2 -2)" />
@@ -72,5 +79,46 @@
 
             </div>
         </div>
+
+        <div v-if="commentsOpened">
+            <horizontal-line />
+            <forum-post-comment-input class="px-1 py-2" />
+            <horizontal-line />
+        </div>
+
+        <div v-if="openDetailComment && commentsOpened">
+            <forum-response />
+            <forum-response />
+        </div>
     </div>
 </template>
+<script>
+    import ForumResponse from './ForumResponse.vue'
+    import HorizontalLine from './HorizontalLine.vue'
+    import ForumPostCommentInput from './ForumPostCommentInput.vue'
+
+    export default {
+        name: "ForumPost",
+        components: { ForumResponse, HorizontalLine, ForumPostCommentInput },
+        props: {
+            openComment: Boolean,
+            showImages: Boolean,
+            openDetailComment: Boolean
+        },
+        data() {
+            return {
+                commentsOpened: false,
+            };
+        },
+        watch: {
+            openComment: function (newVal, oldVal) {
+                this.commentsOpened = newVal
+            }
+        }
+    }
+</script>
+<style scoped>
+.img-container::-webkit-scrollbar {
+    display: none;
+}
+</style>

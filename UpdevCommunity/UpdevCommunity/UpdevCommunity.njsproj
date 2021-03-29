@@ -60,10 +60,17 @@
     <Content Include="src\assets\logo.svg" />
     <Content Include="src\assets\updevcommunitylogo.svg" />
     <Content Include="src\components\app\ForumPost.vue" />
+    <Content Include="src\components\app\ForumPostCommentInput.vue" />
     <Content Include="src\components\app\ForumPostOverview.vue" />
     <Content Include="src\components\app\ForumResponse.vue" />
+    <Content Include="src\components\app\forum\Feed.vue" />
+    <Content Include="src\components\app\forum\Hashtag.vue" />
+    <Content Include="src\components\app\forum\HashTagClosable.vue" />
+    <Content Include="src\components\app\forum\NewPost.vue" />
     <Content Include="src\components\app\HorizontalLine.vue" />
     <Content Include="src\components\app\Navbar.vue" />
+    <Content Include="src\components\app\NewPostInput.vue" />
+    <Content Include="src\components\app\NotConnected.vue" />
     <Content Include="src\components\app\profile\HighLights.vue" />
     <Content Include="src\components\app\profile\PopularTopics.vue" />
     <Content Include="src\components\app\profile\User.vue" />
@@ -90,6 +97,7 @@
     <Content Include="src\layouts\AppLayout.vue" />
     <Content Include="src\layouts\MainLayout.vue" />
     <Content Include="src\router\index.js" />
+    <Content Include="src\views\AppHome.vue" />
     <Content Include="src\views\LandingPage.vue" />
     <Content Include="src\views\Login.vue" />
     <Content Include="src\views\Profile.vue" />
@@ -108,6 +116,7 @@
     <Folder Include="src\assets\imgs\" />
     <Folder Include="src\components\" />
     <Folder Include="src\components\app\" />
+    <Folder Include="src\components\app\forum\" />
     <Folder Include="src\components\app\profile\" />
     <Folder Include="src\components\landingPage\" />
     <Folder Include="src\layouts\" />

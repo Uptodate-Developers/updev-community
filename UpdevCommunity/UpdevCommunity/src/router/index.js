@@ -4,6 +4,7 @@ import AppLayout from '../layouts/AppLayout.vue'
 import LandingPage from '../views/LandingPage.vue'
 import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
+import AppHome from '../views/AppHome.vue'
 
 const routes = [
     {
@@ -22,6 +23,18 @@ const routes = [
         path: '/profile',
         name: 'Profile',
         component: Profile,
+        meta: { layout: AppLayout }
+    },
+    {
+        path: '/app/home',
+        name: 'AppHome',
+        component: AppHome,
+        meta: { layout: AppLayout }
+    },
+    {
+        path: '/app',
+        name: 'AppHome',
+        component: AppHome,
         meta: { layout: AppLayout }
     },
 ]

@@ -4,7 +4,7 @@
             <h2 class=" mb-0 text-gray-50">Topics populaires</h2>
         </div>
         <div >
-            <forum-post-overview v-for="item in [...Array(2).keys()]" :key="item" />
+            <forum-post-overview v-for="item in [...Array(7).keys()]" :key="item" />
         </div>
     </div>
 </template>

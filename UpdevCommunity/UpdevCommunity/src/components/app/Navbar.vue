@@ -9,7 +9,7 @@
         <div  class=" md:hidden bg-gray-100">
            <horizontal-line/>
             <div class="grid grid-cols-3 content-center divide-x divide-gray-200">
-                <router-link class=" py-1 text-gray-600 hover:text-blue-400 flex justify-center items-center" to="/app/home">
+                <router-link class=" py-1 text-gray-600 hover:text-blue-400 flex justify-center items-center" to="/app">
                     <svg class=" h-6 fill-current" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30.801 29.122">
                         <g id="home" transform="translate(0 -2.616)">
                             <g id="Group_58" data-name="Group 58" transform="translate(0 2.616)">
@@ -54,7 +54,7 @@
                 <img class="h-10" src="../../assets/updevcommunitylogo.svg" alt="UpdevCommunity Logo"/>
             </div>
             <div class="flex space-x-10 lg:space-x-20 ">
-                <router-link class=" py-1 text-gray-600 hover:text-blue-400 flex justify-center items-center" to="/app/home">
+                <router-link class=" py-1 text-gray-600 hover:text-blue-400 flex justify-center items-center" to="/app">
                     <svg class=" h-7 fill-current" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30.801 29.122">
                         <g id="home" transform="translate(0 -2.616)">
                             <g id="Group_58" data-name="Group 58" transform="translate(0 2.616)">

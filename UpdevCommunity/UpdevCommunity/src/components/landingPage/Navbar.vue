@@ -48,7 +48,7 @@
                     { title: "Qui sommes nous?", link: "/", scrollToLink: "#about" },
                     { title: "Fonctionalités", link: "/", scrollToLink: "#features" },
                     { title: "Contribuer", link: "/", scrollToLink: "#contribute" },
-                    { title: "Forum", link: "" },
+                    { title: "Forum", link: "/app" },
                 ]
             };
         },

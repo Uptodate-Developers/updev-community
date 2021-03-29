@@ -5,7 +5,7 @@
             <user-journal />
         </div>
         <div >
-            <div  class="space-y-1 md:sticky top-16 h-screen z-20">
+            <div  class="space-y-1 md:sticky top-16 h-screen z-20 overflow-y-auto hiddescrollbar">
                 <high-lights />
                 <popular-topics />
             </div>
@@ -30,3 +30,8 @@
     }
 
 </script>
+<style scoped>
+.hiddescrollbar::-webkit-scrollbar {
+    display: none;
+}
+</style>
