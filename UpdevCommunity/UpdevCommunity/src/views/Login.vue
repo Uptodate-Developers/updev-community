@@ -6,7 +6,7 @@
             <h2 class="text-md font-medium text-gray-400">Veuillez vous identifiez pour accéder au forum</h2>
         </div>
         <div class="flex flex-col  px-4 space-y-2 mb-5">
-            <button-icon class=" max-w-lg" v-for="btn in buttons" :key="btn.title" :title="btn.title" :img="btn.btnImg"/>
+            <button-icon @click="navigateToProfile" class=" max-w-lg" v-for="btn in buttons" :key="btn.title" :title="btn.title" :img="btn.btnImg"/>
         </div>
         </div>
         
@@ -38,6 +38,12 @@
             {title:"Se connecter avec Github", btnImg:githubImg}
       ]
     };
+    },
+    methods:{
+        navigateToProfile()
+        {
+            this.$router.push({ path: 'profile' });
+        }
     }
     }
 </script>

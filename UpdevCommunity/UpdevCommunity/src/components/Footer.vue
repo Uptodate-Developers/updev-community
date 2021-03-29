@@ -1,5 +1,5 @@
 <template>
-    <div class=" bg-gray-800 text-red-50">
+    <div class=" bg-gray-800 text-red-50 z-50 relative">
         <div class="px-4 py-5 space-y-5 md:container xl:px-12 mx-auto" >
             <div class="space-y-5 md:grid grid-cols-2">
             <div class="flex space-x-2" >
