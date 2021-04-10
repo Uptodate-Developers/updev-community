@@ -1,6 +1,7 @@
+import {Description, Example, Property, Title} from "@tsed/schema";
 export class AuthResponse{
     message:string;
     user:any;
-    status:string;
+    status:number;
     token: string;
 }

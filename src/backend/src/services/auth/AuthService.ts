@@ -1,5 +1,5 @@
 import {Service,Inject} from "@tsed/common";
-import {UserRepository} from "../../repositories/user/UserRepository";
+import {UserRepository} from "../../repositories/users/UserRepository";
 import {User} from "../../entities/User";
 import { classToPlain } from 'class-transformer';
 import {UserRoles} from "../../entities/UserRoles";

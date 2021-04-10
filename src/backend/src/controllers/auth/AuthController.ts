@@ -1,10 +1,11 @@
 import { Controller, Get, Req,PathParams,Inject } from "@tsed/common";
 import {Authenticate, Authorize} from "@tsed/passport";
-import { plainToClass } from 'class-transformer';
+import { plainToClass,serialize } from 'class-transformer';
 import {AuthService} from "../../services/auth/AuthService";
 import {User} from "../../entities/User";
 import {AuthProtocols} from "../../constants/AuthProtocols";
 import {AuthResponse} from "../../responses/auth/AuthResponse";
+import {StatusCodes} from "../../models/StatusCodes";
 
 @Controller("/auth")
 export class AuthController {
@@ -49,21 +50,21 @@ export class AuthController {
 
     private getAuthResponse(user: Req) {
         if(user) {
-            return <AuthResponse>{
+            return serialize(<AuthResponse>{
                 message: "Vous êtes authentifié",
                 user: user,
-                status: '200',
+                status: StatusCodes.Success,
                 token: this.authService.generateToken(plainToClass(User, user))
-            };
+            });
         }
         else
         {
-            return <AuthResponse>{
+            return serialize(<AuthResponse>{
                 message:"Authentification échouée",
                 user:user,
-                status:'400',
+                status:StatusCodes.BadRequest,
                 token:""
-            }
+            })
         }
     }
 }
