@@ -55,6 +55,7 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
         database: "updevcommunity",
         synchronize: true,
         logging: true,
+        timezone: 'Z',
         entities: ["${rootDir}/entities/**/*.ts"],
         migrations: ["${rootDir}/database/migrations/**/*.ts"],
         subscribers: ["${rootDir}/database/subscribers/**/*.ts"],
@@ -106,7 +107,7 @@ export class Server {
         this.app.getApp().set("trust proxy", 1);
         this.app.getApp().use(session({
             secret: "8647916702SecretKey",
-            resave: true,
+            resave: false,
             saveUninitialized: true,
             // maxAge: 36000,
             cookie: {

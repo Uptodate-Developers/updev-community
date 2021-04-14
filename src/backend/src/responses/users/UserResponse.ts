@@ -1,7 +1,7 @@
 import {User} from "../../entities/User";
 
-export class GetUserResponse{
+export class UserResponse {
     message:string;
-    user:User;
+    user:User|null;
     status:number;
 }

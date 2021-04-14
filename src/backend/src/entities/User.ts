@@ -1,6 +1,6 @@
-import {Description,Example,Required, MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "@tsed/schema";
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {UserRoles} from "./UserRoles";
+import {Description,Example,Required, MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "@tsed/schema"
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm"
+import {UserRoles} from "./UserRoles"
 
 @Entity()
 export class User{
@@ -57,5 +57,14 @@ export class User{
 
     @Column()
     role:string = UserRoles.Member;
+
+    @Column()
+    profession:string;
+
+    @Column()
+    dateCreated: Date
+
+    @Column()
+    dateUpdated: Date
 }
 

@@ -7,6 +7,10 @@ import Axios from "axios";
 import {FileService} from "../files/FileService";
 import {appConfig} from "../../config/app";
 import * as jwt from "jsonwebtoken";
+import * as dayjs from "dayjs"
+import * as utc from "dayjs/plugin/utc"
+
+dayjs.extend(utc)
 
 @Service()
 export class AuthService{
@@ -42,9 +46,11 @@ export class AuthService{
             email:profile._json.email,
             name :profile.name.givenName,
             profilePicUrl:profileImagePath,
-            role:UserRoles.Member
-        }
+            role:UserRoles.Member,
+            dateUpdated:dayjs().utc().toDate(),
+            dateCreated:dayjs().utc().toDate()
 
+        }
         return this.userRepository.save(user);
     }
 
@@ -57,7 +63,8 @@ export class AuthService{
             name:profile.firstName,
             role:UserRoles.Member,
             profilePicUrl:profile.picture,
-            googleProfileId:profile.id
+            googleProfileId:profile.id,
+            dateUpdated: dayjs().utc().toDate()
         }
 
         return this.userRepository.save(user);

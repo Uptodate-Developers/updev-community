@@ -1,4 +1,4 @@
-import { Controller, Get, Req,PathParams,Inject } from "@tsed/common";
+import {Controller, Get, Req, PathParams, Inject, Res} from "@tsed/common";
 import {Authenticate, Authorize} from "@tsed/passport";
 import { plainToClass,serialize } from 'class-transformer';
 import {AuthService} from "../../services/auth/AuthService";
@@ -40,6 +40,14 @@ export class AuthController {
     @Authenticate(AuthProtocols.Github)
     githubAuthentication(@Req() req: Req) {
         return "Github auth request received"
+    }
+
+    @Get("/logout")
+    logout(@Req() req, @Res() res)
+    {
+        req.logout()
+        res.status(StatusCodes.Success)
+        return "Vous êtes déconnecté avec succès"
     }
 
     @Get("/github/callback")
