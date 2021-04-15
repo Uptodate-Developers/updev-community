@@ -11,6 +11,8 @@ import * as methodOverride from "method-override";
 import typeormConfig from "./config/typeorm";
 import {User} from "./entities/User";
 import {ServerResponse} from "http";
+import * as cors from "cors";
+import * as multer from "multer";
 
 
 const send = require('send');
@@ -82,7 +84,12 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
     swagger:[{
         path: "/docs",
         specVersion: "2.0"
-    }]
+    }],
+    uploadDir: `${rootDir}/public`,
+    multer:{
+        dest: `${rootDir}/public`,
+
+    }
 })
 export class Server {
     @Inject()
@@ -97,6 +104,7 @@ export class Server {
      */
     public $beforeRoutesInit(): void | Promise<any> {
         this.app
+            .use(cors())
             .use(cookieParser())
             .use(compress({}))
             .use(methodOverride())

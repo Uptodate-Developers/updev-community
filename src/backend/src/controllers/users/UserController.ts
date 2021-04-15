@@ -1,4 +1,4 @@
-import {Controller,Get,Put,Res, Req, PathParams, BodyParams} from "@tsed/common";
+import {Controller,Get,Put,Res, Req, PathParams, BodyParams, Post,MulterOptions, MultipartFile, PlatformMulterFile} from "@tsed/common";
 import {Description, Returns} from "@tsed/schema";
 import {Authorize} from "@tsed/passport";
 import {AuthProtocols} from "../../constants/AuthProtocols";
@@ -8,12 +8,18 @@ import {UserResponse} from "../../responses/users/UserResponse";
 import {StatusCodes} from "../../models/StatusCodes";
 import {serialize} from "class-transformer";
 import {UpdateUserRequest} from "../../requests/users/UpdateUserRequest";
+import {FileService} from "../../services/files/FileService"
+import * as multer from "multer"
+import {appConfig} from "../../config/app";
+import {FileUploadResponse} from "../../responses/files/FileUploadResponse";
 
 @Controller("/users")
 export class UserController{
 
     @Inject()
     private userService:UserService
+    @Inject()
+    private fileService:FileService
 
     @Get("/:id")
     @Authorize(AuthProtocols.Jwt)
@@ -59,5 +65,26 @@ export class UserController{
         return serialize(updateResult)
     }
 
+    @Post("/photo")
+    @MulterOptions({storage: multer.diskStorage({
+            destination: (req, file, callback) => {
+                callback(null, `${appConfig.appPublicPath}/profiles/images`)
+            },
+            filename: (req, file, callback) => {
+                const name = `updev-${Date.now()}`
+                const fileNameArray = file.originalname.split(".")
+                const extension = fileNameArray[fileNameArray.length - 1]
+                callback(null, name + '.' + extension)
+            },
+        })})
+    async uploadProfilePic(@MultipartFile("file") file: MultipartFile) {
+
+        const fileUrl = await this.fileService.getFilePublicUrl(file.path)
+        return <FileUploadResponse>{
+            status:StatusCodes.Success,
+            fileUrl:fileUrl,
+            message:"Le téléchargement du fichier a réussi"
+        }
+    }
 
 }

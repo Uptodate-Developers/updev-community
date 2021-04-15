@@ -3,7 +3,7 @@ import * as Path from "path"
 
 function getAppPath() {
     let currentDir = __dirname
-    currentDir = currentDir.replace('/app/config', '')
+    currentDir = currentDir.replace('\\config', '')
 
     return currentDir
 }
