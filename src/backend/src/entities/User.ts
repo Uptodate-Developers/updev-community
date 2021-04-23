@@ -1,70 +1,89 @@
-import {Description,Example,Required, MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "@tsed/schema"
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm"
-import {UserRoles} from "./UserRoles"
+import {Description,Example,Required,Format} from "@tsed/schema"
+import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm"
+import {Photo} from "./Photo";
+import {Post} from "./Post";
+import {Reply} from "./Reply";
 
 @Entity()
 export class User{
-
-    @Description("Id generer par la base de données")
     @PrimaryGeneratedColumn()
-    id:number;
+    id:number
 
     @Description("Email de l'utilisateur")
     @Example("utlisateur@domaine.com")
     @Format("email")
     @Column({unique: true,nullable:true},)
-    email:string;
+    email:string
 
     @Description("Numéro de téléphone de l'utilisateur")
     @Example("+243893843203")
     @Format("phone")
     @Column({unique: true,nullable:true})
-    phoneNumber:string;
+    phoneNumber:string
 
     @Description("Brève description de l'utilisateur")
     @Column()
-    bio:string;
+    bio:string
 
     @Description("Nom de l'utilisateur")
     @Required(true)
     @Column()
-    name:string;
+    name:string
 
     @Description("Prénom de l'utilisateur")
     @Required(true)
     @Column()
-    firstName:string;
+    firstName:string
 
     @Description("Postnom de l'utilisateur")
     @Required(true)
     @Column()
-    lastName:string;
+    lastName:string
 
     @Column({unique: true,nullable:true})
-    facebookProfileId:string;
+    facebookProfileId:string
+
+    @Column()
+    facebookProfileLink:string
 
     @Column({unique: true,nullable:true})
-    googleProfileId:string;
+    googleProfileId:string
 
     @Column({unique: true,nullable:true})
-    twitterProfileId:string;
+    twitterProfileId:string
+
+    @Column()
+    twitterProfileLink:string
 
     @Column({unique: true,nullable:true})
-    githubProfileId:string;
+    githubProfileId:string
 
     @Column()
-    profilePicUrl:string;
+    githubProfileLink:string
 
     @Column()
-    role:string = UserRoles.Member;
+    profilePicUrl:string
 
     @Column()
-    profession:string;
+    role:string = UserRoles.Member
 
     @Column()
-    dateCreated: Date
+    profession:string
 
     @Column()
-    dateUpdated: Date
+    dateCreated: Date = new Date()
+
+    @Column()
+    dateUpdated: Date = new Date()
+
+    @OneToMany(() => Post, post => post.user)
+    posts:Post[]
+
+    @OneToMany(() => Reply, reply => reply.user)
+    replies:Reply[]
 }
-
+export enum UserRoles {
+    Member = "Member",
+    Moderator = "Moderator",
+    Admin = "Admin"
+}

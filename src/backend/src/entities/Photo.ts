@@ -1,22 +1,26 @@
-import {Column, Entity, PrimaryGeneratedColumn,ManyToOne} from "typeorm"
-import {Post} from "./Post";
-import {Reply} from "./Reply";
+import {Column, Entity, PrimaryGeneratedColumn, ManyToOne} from "typeorm"
+import {Post} from "./Post"
+import {Reply} from "./Reply"
 
 @Entity()
 export class Photo {
+
     @PrimaryGeneratedColumn()
     id:number
 
-    @Column({unique:true})
+    @Column({nullable:false})
     url:string
 
-    @ManyToOne(type => Post,post => post.photos)
+    @Column()
+    description:string
+
+    @ManyToOne(() => Post, post => post.photos)
     post:Post
 
-    @ManyToOne(type=> Reply, reply => reply.photos)
+    @ManyToOne(() => Reply, reply => reply.photos)
     reply:Reply
 
     @Column()
-    dateCreated: Date
+    dateCreated: Date= new Date()
 
 }

@@ -1,13 +1,15 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from "typeorm";
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm"
 import {Post} from "./Post"
-import {Photo} from "./Photo";
+import {Photo} from "./Photo"
+import {User} from "./User"
 
 @Entity()
 export class Reply{
+
     @PrimaryGeneratedColumn()
     id:number
 
-    @Column()
+    @Column({nullable:false})
     body:string
 
     @Column()
@@ -17,17 +19,20 @@ export class Reply{
     downvote:number
 
     @Column()
-    datePosted: Date
+    datePosted: Date = new Date()
 
-    @ManyToOne(type => Post, post => post.replys)
+    @ManyToOne(() => Post, post => post.replies)
     post: Post
 
-    @OneToMany(type => Photo,photo => photo.post)
+    @OneToMany(() => Photo, photo => photo.post)
     photos:Photo[]
 
-    @ManyToOne(type => Reply, reply => reply.replies)
+    @ManyToOne(() => Reply, reply => reply.replies)
     reply: Reply
 
-    @OneToMany(type => Reply, reply => reply.reply)
+    @OneToMany(() => Reply, reply => reply.reply)
     replies:Reply[]
+
+    @ManyToOne(() => User, user => user.replies)
+    user: User
 }

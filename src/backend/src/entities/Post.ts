@@ -1,17 +1,18 @@
-import {Column, Entity, PrimaryGeneratedColumn,OneToMany,ManyToMany, JoinTable} from "typeorm"
+import {Column, Entity, PrimaryGeneratedColumn,OneToMany,ManyToOne} from "typeorm"
 import {Reply} from "./Reply"
-import {Photo} from "./Photo";
-import {HashTag} from "./HashTag";
+import {Photo} from "./Photo"
+import {HashTag} from "./HashTag"
+import {User} from "./User"
 
 @Entity()
 export class Post{
+
     @PrimaryGeneratedColumn()
     id:number
-
-    @Column()
+    @Column({nullable:false})
     title:string
 
-    @Column()
+    @Column({nullable:false})
     body:string
 
     @Column()
@@ -23,14 +24,14 @@ export class Post{
     @Column()
     datePosted: Date
 
-    @OneToMany(type => Reply, reply => reply.post)
-    replys: Reply[]
+    replies: Reply[]
 
-    @OneToMany(type => Photo,photo => photo.post)
+    @OneToMany(() => Photo, photo => photo.post)
     photos:Photo[]
 
-    @ManyToMany(type => HashTag)
-    @JoinTable()
-    hashTags: HashTag[];
+    hashTags: HashTag[]
+
+    @ManyToOne(() => User, user => user.posts)
+    user: User
 
 }

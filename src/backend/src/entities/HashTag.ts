@@ -1,13 +1,17 @@
-import {Column, Entity, PrimaryGeneratedColumn,ManyToMany, JoinTable} from "typeorm"
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm"
 
 @Entity()
 export class HashTag{
+
     @PrimaryGeneratedColumn()
     id:number
 
-    @Column({unique:true})
+    @Column({nullable:false})
     tag:string
 
     @Column()
-    dateCreated: Date
+    dateCreated: Date = new Date()
+
+    @Column()
+    taggedPostsCount:number
 }

@@ -3,7 +3,7 @@ import * as Path from "path"
 
 function getAppPath() {
     let currentDir = __dirname
-    currentDir = currentDir.replace('\\config', '')
+    currentDir = currentDir.replace('/app/config', '')
 
     return currentDir
 }
@@ -28,7 +28,21 @@ export const appConfig = {
     githubAppSecret:env('GITHUB_APP_SECRET'),
     githubCallbackUrl:env('GITHUB_APP_CALLBACK_URL'),
 
+    twitterAppId:env('TWITTER_APP_ID'),
+    twitterAppSecret:env('TWITTER_APP_SECRET'),
+    twitterCallbackUrl:env('TWITTER_APP_CALLBACK_URL'),
+
     jwtSecret:env('JWT_SECRET'),
     jwtIssuer:env('JWT_ISSUER'),
-    jwtAudience:env('JWT_AUDIENCE')
+    jwtAudience:env('JWT_AUDIENCE'),
+
+    dbConnection:env('TYPEORM_CONNECTION'),
+    dbHost:env('TYPEORM_HOST'),
+    dbPort:env('TYPEORM_PORT'),
+    dbUsername:env('TYPEORM_USERNAME'),
+    dbPassword:env('TYPEORM_PASSWORD'),
+    dbDatabase:env('TYPEORM_DATABASE'),
+    dbAutoSchemaSycn:env('TYPEORM_AUTO_SCHEMA_SYNC'),
+    dbLogging:env('TYPEORM_LOGGING')
+
 }
