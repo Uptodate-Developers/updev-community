@@ -1,8 +1,7 @@
 import {Description,Example,Required,Format} from "@tsed/schema"
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm"
-import {Photo} from "./Photo";
-import {Post} from "./Post";
-import {Reply} from "./Reply";
+import {Post} from "./Post"
+import {Reply} from "./Reply"
 
 @Entity()
 export class User{

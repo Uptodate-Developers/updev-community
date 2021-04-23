@@ -1,4 +1,4 @@
-import {Column, Entity, PrimaryGeneratedColumn,OneToMany,ManyToOne} from "typeorm"
+import {Column, Entity, PrimaryGeneratedColumn,OneToMany,ManyToOne,ManyToMany, JoinTable} from "typeorm"
 import {Reply} from "./Reply"
 import {Photo} from "./Photo"
 import {HashTag} from "./HashTag"
@@ -24,11 +24,14 @@ export class Post{
     @Column()
     datePosted: Date
 
+    @OneToMany(() => Reply, reply => reply.post)
     replies: Reply[]
 
     @OneToMany(() => Photo, photo => photo.post)
     photos:Photo[]
 
+    @ManyToMany(() => HashTag)
+    @JoinTable()
     hashTags: HashTag[]
 
     @ManyToOne(() => User, user => user.posts)

@@ -15,6 +15,7 @@ export const appConfig = {
     appPublicPath: Path.resolve(getAppPath(),"public"),
     appPath: getAppPath(),
     appUrl:env('APP_URL'),
+    appUseHttps:Boolean(env('APP_USE_HTTPS')),
 
     facebookAppId:env('FACEBOOK_APP_ID'),
     facebookAppSecret:env('FACEBOOK_APP_SECRET'),
@@ -36,13 +37,16 @@ export const appConfig = {
     jwtIssuer:env('JWT_ISSUER'),
     jwtAudience:env('JWT_AUDIENCE'),
 
+    typeormName: "default",
     dbConnection:env('TYPEORM_CONNECTION'),
     dbHost:env('TYPEORM_HOST'),
-    dbPort:env('TYPEORM_PORT'),
+    dbPort:Number(env('TYPEORM_PORT')),
     dbUsername:env('TYPEORM_USERNAME'),
     dbPassword:env('TYPEORM_PASSWORD'),
     dbDatabase:env('TYPEORM_DATABASE'),
-    dbAutoSchemaSycn:env('TYPEORM_AUTO_SCHEMA_SYNC'),
-    dbLogging:env('TYPEORM_LOGGING')
+    dbAutoSchemaSync:Boolean(env('TYPEORM_AUTO_SCHEMA_SYNC')),
+    dbLogging:Boolean(env('TYPEORM_LOGGING')),
+
+    sessionSecret:env('SESSION_SECRET')
 
 }
