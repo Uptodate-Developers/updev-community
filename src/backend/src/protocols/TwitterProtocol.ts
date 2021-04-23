@@ -7,26 +7,29 @@ import {AuthProtocols} from "./AuthProtocols"
 
 
 @Protocol<StrategyOptions>({
-    name: AuthProtocols.Facebook,
+    name: AuthProtocols.Twitter,
     useStrategy: Strategy,
     settings: {
-        clientID: appConfig.facebookAppId,
-        clientSecret: appConfig.facebookAppSecret,
-        callbackURL: appConfig.facebookCallbackUrl,
+        consumerKey: appConfig.twitterAppId,
+        consumerSecret: appConfig.twitterAppSecret,
+        callbackURL: appConfig.twitterCallbackUrl,
         profileFields: ["id", "emails", "name"]
     }
 })
-export class FacebookProtocol implements OnVerify {
+export class TwitterProtocol implements OnVerify {
     @Inject()
-    private authService: AuthService;
+    private authService: AuthService
 
     async $onVerify(@Req() req: Req, @Args() [accessToken, refreshToken, profile]: any) {
-        profile.refreshToken = refreshToken;
-        let user = await this.authService.getUserByFacebookId(profile.id);
+        profile.refreshToken = refreshToken
+
+        console.log(profile)
+        /*let user = await this.authService.getUserByTwitterId(profile.id);
 
         if(!user && profile.id && accessToken)
             user = await this.authService.saveFacebookUser(profile,accessToken);
 
-        return user ? user : false;
+        return user ? user : false;*/
+        return false
     }
 }
