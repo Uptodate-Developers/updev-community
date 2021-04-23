@@ -1,11 +1,11 @@
-import {User} from "../entities"
+import {StatusCodes} from "../http"
 
 export class AuthResponse{
     message:string
 
-    user:User|undefined
+    user:any
 
-    status:string
+    status:StatusCodes
 
     token: string
 }

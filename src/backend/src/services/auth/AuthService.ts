@@ -7,8 +7,8 @@ import Axios from "axios"
 import {FileService} from "../files/FileService"
 import {appConfig} from "../../config/app"
 import * as jwt from "jsonwebtoken"
-import dayjs from "dayjs"
-import utc from "dayjs/plugin/utc"
+import * as dayjs from "dayjs"
+import * as utc from "dayjs/plugin/utc"
 dayjs.extend(utc)
 
 @Service()

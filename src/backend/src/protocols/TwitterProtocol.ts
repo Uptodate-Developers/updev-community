@@ -1,6 +1,6 @@
 import {Inject, Req} from "@tsed/common"
 import {Args, OnVerify, Protocol} from "@tsed/passport"
-import {Strategy, StrategyOptions} from "passport-facebook"
+import {Strategy, StrategyOptions} from "passport-twitter"
 import {AuthService} from "../services"
 import {appConfig} from "../config/app"
 import {AuthProtocols} from "./AuthProtocols"

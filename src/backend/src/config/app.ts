@@ -16,6 +16,7 @@ export const appConfig = {
     appPath: getAppPath(),
     appUrl:env('APP_URL'),
     appUseHttps:Boolean(env('APP_USE_HTTPS')),
+    appHttpsPort:(env('APP_HTTPS_PORT')),
 
     facebookAppId:env('FACEBOOK_APP_ID'),
     facebookAppSecret:env('FACEBOOK_APP_SECRET'),

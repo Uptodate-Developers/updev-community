@@ -6,6 +6,7 @@ import {User} from "../../entities"
 import {AuthProtocols} from "../../protocols"
 import {AuthResponse} from "../../reponses"
 import {BadRequest} from "@tsed/exceptions"
+import {StatusCodes} from "../../http";
 
 @Controller("/auth")
 export class AuthController {
@@ -72,20 +73,21 @@ export class AuthController {
     }
 
     private getAuthResponse(user: Req) {
-        if(user) {
-            return <AuthResponse>{
+        const loggedUser = plainToClass(User,user)
+        if(loggedUser) {
+            return serialize(<AuthResponse>{
                 message: "Vous êtes authentifié",
-                user: <User><unknown>user,
-                status: '200',
-                token: this.authService.generateToken(plainToClass(User, user))
-            };
+                user: user,
+                status: StatusCodes.Success,
+                token: this.authService.generateToken(loggedUser)
+            })
         }
         else
         {
             return new BadRequest(serialize(<AuthResponse>{
                 message:"Authentification échouée",
-                user:<User><unknown>user,
-                status:'400',
+                user:user,
+                status:StatusCodes.BadRequest,
                 token:""
             }))
         }

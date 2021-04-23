@@ -30,7 +30,7 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
     rootDir,
     acceptMimes: ["application/json"],
     httpPort: appConfig.port,
-    httpsPort: appConfig.appUseHttps,
+    httpsPort: false,
     mount: {
         "/api": [
             `${rootDir}/controllers/**/*.ts`
