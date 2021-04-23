@@ -31,11 +31,11 @@ export class UserController{
     @Authorize(AuthProtocols.Jwt)
     async updateUser(@BodyParams() updateModel:UpdateUserRequest, @Res() res){
         //To-do: verify that the person making the request has ownership of this resouce before updating
-        const updateUserResult = this.userService.updateUser(updateModel)
+        console.log(updateModel)
+        const updateUserResult = await this.userService.updateUser(updateModel)
         if(typeof updateUserResult == "string")
             return new BadRequest(updateUserResult)
 
-        res.status = StatusCodes.Updated
         return serialize(updateUserResult)
     }
 

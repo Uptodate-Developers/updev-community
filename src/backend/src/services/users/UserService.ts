@@ -34,6 +34,7 @@ export class UserService{
         user.lastName = updateModel.lastName
         user.githubProfileLink = updateModel.githubProfileLink
         user.twitterProfileLink = updateModel.twitterProfileLink
+        user.phoneNumber = updateModel.phoneNumber
 
         const updatedUser =  await this.userRepository.update(user.id,user)
 
