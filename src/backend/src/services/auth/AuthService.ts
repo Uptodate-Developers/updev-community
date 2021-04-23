@@ -71,19 +71,15 @@ export class AuthService{
     async getUserByTwitterId(id:string):Promise<User | undefined> {
         return await this.userRepository.findByTwitterProfileId(id);
     }
-    async saveTwitterUser(profile:any, accessToken:string):Promise<User>{
-
-        const profilePicResponse = await Axios.get(`https://graph.facebook.com/${profile.id}/picture?type=large&redirect=false&access_token=${accessToken}`);
-        const profileImagePath = await this.fileService.downloadImage(profilePicResponse.data.data.url,"profiles/images",`${profile.name.givenName}${profile.name.middleName}${profile.name.familyName}.jpg`);
+    async saveTwitterUser(profile:any):Promise<User>{
 
         const createdDate = dayjs.utc().toDate()
         const user = <User>{
-            firstName : profile.name.middleName,
-            lastName: profile.name.familyName,
-            facebookProfileId: profile.id,
-            email:profile._json.email,
-            name :profile.name.givenName,
-            profilePicUrl:profileImagePath,
+            firstName : profile.displayName.split(" ")[0],
+            lastName: profile.displayName.split(" ")[1],
+            twitterProfileId: profile.id,
+            bio:profile._json.description,
+            profilePicUrl: profile._json.profile_image_url_https,
             role:UserRoles.Member,
             dateCreated:createdDate,
             dateUpdated:createdDate

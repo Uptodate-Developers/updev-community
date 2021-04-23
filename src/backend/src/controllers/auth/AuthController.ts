@@ -62,7 +62,6 @@ export class AuthController {
     }
 
     @Get("/logout")
-    @Authorize()
     logout(@Req() req: Req) {
         //@ts-ignore
         req.logout()

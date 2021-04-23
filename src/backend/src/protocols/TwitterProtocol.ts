@@ -23,13 +23,11 @@ export class TwitterProtocol implements OnVerify {
     async $onVerify(@Req() req: Req, @Args() [accessToken, refreshToken, profile]: any) {
         profile.refreshToken = refreshToken
 
-        console.log(profile)
-        /*let user = await this.authService.getUserByTwitterId(profile.id);
+        let user = await this.authService.getUserByTwitterId(profile.id);
 
         if(!user && profile.id && accessToken)
-            user = await this.authService.saveFacebookUser(profile,accessToken);
+            user = await this.authService.saveTwitterUser(profile);
 
-        return user ? user : false;*/
-        return false
+        return user ? user : false
     }
 }
