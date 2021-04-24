@@ -6,7 +6,7 @@ import {User} from "../../entities"
 import {AuthProtocols} from "../../protocols"
 import {AuthResponse} from "../../reponses"
 import {BadRequest} from "@tsed/exceptions"
-import {StatusCodes} from "../../http";
+import {StatusCodes} from "../../http"
 
 @Controller("/auth")
 export class AuthController {

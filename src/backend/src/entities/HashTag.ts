@@ -6,11 +6,14 @@ export class HashTag{
     @PrimaryGeneratedColumn()
     id:number
 
-    @Column({nullable:false})
+    @Column({unique:true,nullable:false})
     tag:string
 
     @Column()
     dateCreated: Date = new Date()
+
+    @Column()
+    dateUpdated: Date = new Date()
 
     @Column()
     taggedPostsCount:number
