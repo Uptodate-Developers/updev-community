@@ -108,14 +108,13 @@ export class Server {
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
                 extended: true
-            }));
+            }))
+            .use(session({
+                secret:appConfig.sessionSecret,
+                resave: false,
+                saveUninitialized: true
+            }))
         this.app.getApp().set("trust proxy", 1)
-        this.app.getApp().use(session({
-            secret: "keyboard cat",
-            resave: false,
-            saveUninitialized: true,
-            cookie: {secure: true}
-        }))
     }
 
     $afterRoutesInit() {

@@ -22,6 +22,7 @@ export class FacebookProtocol implements OnVerify {
 
     async $onVerify(@Req() req: Req, @Args() [accessToken, refreshToken, profile]: any) {
         profile.refreshToken = refreshToken;
+
         let user = await this.authService.getUserByFacebookId(profile.id);
 
         if(!user && profile.id && accessToken)

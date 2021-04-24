@@ -31,6 +31,7 @@ export class AuthService{
         const profilePicResponse = await Axios.get(`https://graph.facebook.com/${profile.id}/picture?type=large&redirect=false&access_token=${accessToken}`);
         const profileImagePath = await this.fileService.downloadImage(profilePicResponse.data.data.url,"profiles/images",`${profile.name.givenName}${profile.name.middleName}${profile.name.familyName}.jpg`);
 
+
         const createdDate = dayjs.utc().toDate()
         const user = <User>{
             firstName : profile.name.middleName,

@@ -65,9 +65,6 @@ export class AuthController {
     logout(@Req() req: Req) {
         //@ts-ignore
         req.logout()
-
-        //@ts-ignore
-        req.session.destroy()
         return "Vous avez été déconnecté avec succès"
     }
 
