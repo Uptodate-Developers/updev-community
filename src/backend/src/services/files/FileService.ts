@@ -9,20 +9,22 @@ export class FileService{
 
     async downloadImage(url:string,downloadFolder:string, fileName:string)
     {
-        const folderPath = Path.resolve(appConfig.appPublicPath,downloadFolder);
+        const folderPath = Path.resolve(appConfig.appPublicPath,downloadFolder)
         if(!Fs.existsSync(folderPath))
-            Fs.mkdir(folderPath,{recursive : true},(err) =>  { if(err) throw err });
+            Fs.mkdir(folderPath,{recursive : true},(err) =>  { if(err) throw err })
 
-        const fileDownloadResponse = await Axios.get(url,{responseType: "stream", method:"GET"});
+        const fileDownloadResponse = await Axios.get(url,{responseType: "stream", method:"GET"})
 
-        const fullLocalPath = Path.resolve(folderPath,fileName);
+        const fullLocalPath = Path.resolve(folderPath,fileName)
 
-        const writer = Fs.createWriteStream(fullLocalPath);
-        fileDownloadResponse.data.pipe(writer);
+        const writer = Fs.createWriteStream(fullLocalPath)
+        fileDownloadResponse.data.pipe(writer)
 
-        const filePath = fullLocalPath.replace(appConfig.appPublicPath,appConfig.appUrl);
+        return this.getPublicFileUrl(fullLocalPath)
+    }
 
-        return filePath.replace(/\\/g,"/");
+    getPublicFileUrl(fullLocalPath:string){
+        return fullLocalPath.replace(appConfig.appPublicPath,appConfig.appUrl).replace(/\\/g,"/")
     }
 
 }

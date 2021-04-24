@@ -14,9 +14,9 @@ import {appConfig} from "./config/app"
 import * as path from "path"
 
 
-const send = require('send');
+const send = require('send')
 
-const rootDir = __dirname;
+const rootDir = __dirname
 
 function setCustomCacheControl(res: ServerResponse, path: string) {
     if (send.mime.lookup(path) === "text/html") {
@@ -83,7 +83,11 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
     swagger:[{
         path: "/docs",
         specVersion: "2.0"
-    }]
+    }],
+    multer: {
+        dest: `${rootDir}/public`
+    }
+
 })
 export class Server {
     @Inject()
@@ -104,8 +108,14 @@ export class Server {
             .use(bodyParser.json())
             .use(bodyParser.urlencoded({
                 extended: true
-            }))
-            .use(session({secret:appConfig.sessionSecret}))
+            }));
+        this.app.getApp().set("trust proxy", 1)
+        this.app.getApp().use(session({
+            secret: "keyboard cat",
+            resave: false,
+            saveUninitialized: true,
+            cookie: {secure: true}
+        }))
     }
 
     $afterRoutesInit() {
