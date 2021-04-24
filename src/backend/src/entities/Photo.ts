@@ -8,7 +8,7 @@ export class Photo {
     @PrimaryGeneratedColumn()
     id:number
 
-    @Column({nullable:false})
+    @Column({unique:true,nullable:false})
     url:string
 
     @Column()

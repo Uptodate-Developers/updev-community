@@ -43,7 +43,7 @@ export class UserController{
 
     @Post("/photo")
     @Authorize(AuthProtocols.Jwt)
-    @MulterOptions({storage:multerStorage(`${appConfig.appPublicPath}/profiles`)})
+    @MulterOptions({storage:multerStorage(`${appConfig.appPublicPath}/profiles/images`)})
     async uploadProfilePic(@MultipartFile("file") file: PlatformMulterFile,@Res() res){
         const url = this.fileService.getPublicFileUrl(file.path)
         if(!url)

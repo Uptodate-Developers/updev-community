@@ -1,9 +1,11 @@
 import { Controller, Get,Post,BodyParams,QueryParams,PathParams, Res,Inject } from "@tsed/common"
 import {HashtagService} from "../../services"
-import {StatusCodes} from "../../http";
-import {BadRequest, NotFound} from "@tsed/exceptions";
-import {serialize} from "class-transformer";
-import {ErrorResponse} from "../../reponses";
+import {StatusCodes} from "../../http"
+import {BadRequest, NotFound} from "@tsed/exceptions"
+import {serialize} from "class-transformer"
+import {ErrorResponse} from "../../reponses"
+import {Authorize} from "@tsed/passport"
+import {AuthProtocols} from "../../protocols"
 
 @Controller("/tags")
 export class HashTagController{
@@ -19,6 +21,7 @@ export class HashTagController{
     }
 
     @Post()
+    @Authorize(AuthProtocols.Jwt)
     async createTag(@BodyParams()tag:string,@Res() res){
         const regTag = await this.hashTagService.createTag(tag)
         if(regTag){
