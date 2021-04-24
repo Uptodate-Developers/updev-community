@@ -29,4 +29,19 @@ export class PhotoService{
         return this.photoRepository.findOne({url:url})
     }
 
+    async  getPhotoById(id:string):Promise<Photo|undefined>{
+        return this.photoRepository.findByID(id)
+    }
+
+    async getPhotosByIds(ids:string[]):Promise<Photo[]>{
+        const photos:Photo[] = []
+        for(const id of ids){
+            const photo = await this.getPhotoById(id)
+            if(photo)
+                photos.push(photo)
+        }
+        return photos
+    }
+
+
 }

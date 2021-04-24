@@ -1,8 +1,8 @@
 import {Service,Inject} from "@tsed/common"
 import {HashTagRepository} from "../../repositories"
+import { HashTag } from "../../entities"
 import * as dayjs from "dayjs"
 import * as utc from "dayjs/plugin/utc"
-import { HashTag } from "../../entities"
 dayjs.extend(utc)
 
 @Service()
@@ -37,6 +37,12 @@ export class HashtagService{
         return "Tag not found"
     }
 
+    async updateHashTagsCount(tagIds:string[],count:number){
+        for(const id in tagIds){
+            await this.updateHashTagCount(id,count)
+        }
+    }
+
     async getHashTags(isPopular:boolean,skip:number, take:number){
         if(isPopular)
             return this.hashTagRepository.find({order:{dateUpdated:"DESC",taggedPostsCount:"DESC"},skip:skip,take:take})
@@ -45,6 +51,18 @@ export class HashtagService{
 
     async getTag(tag:string):Promise<HashTag|undefined>{
         return this.hashTagRepository.findOne({tag:tag})
+    }
+
+    async getTags(tags:string[]):Promise<HashTag[]>{
+        const hashTags:HashTag[] = []
+
+        for(const t in tags){
+            const hashTag = await this.getTag(t)
+            if(hashTag)
+                hashTags.push(hashTag)
+        }
+
+        return hashTags
     }
 
 }

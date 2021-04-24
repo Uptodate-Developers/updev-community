@@ -6,6 +6,7 @@ import {serialize} from "class-transformer"
 import {ErrorResponse} from "../../reponses"
 import {Authorize} from "@tsed/passport"
 import {AuthProtocols} from "../../protocols"
+import {CreateHashtagRequest} from "../../requests";
 
 @Controller("/tags")
 export class HashTagController{
@@ -22,8 +23,8 @@ export class HashTagController{
 
     @Post()
     @Authorize(AuthProtocols.Jwt)
-    async createTag(@BodyParams()tag:string,@Res() res){
-        const regTag = await this.hashTagService.createTag(tag)
+    async createTag(@BodyParams()hashtagRequest:CreateHashtagRequest,@Res() res){
+        const regTag = await this.hashTagService.createTag(hashtagRequest.tag)
         if(regTag){
             res.status(StatusCodes.Created)
             return serialize(regTag)
