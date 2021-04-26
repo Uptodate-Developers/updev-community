@@ -71,5 +71,18 @@ export class PostController {
         return serialize(posts)
     }
 
+    @Get("/:id")
+    async getPost(@PathParams("id")postId:string){
+        const postResponse = await this.postService.getPostAsResponse(postId)
+        if(typeof postResponse == "string")
+            return new BadRequest(postResponse)
+        return serialize(postResponse)
+    }
+
+    @Get("/user/:id")
+    async getPostsForUser(@PathParams("id")userId:string,@QueryParams("isPopular")isPopular:boolean,@QueryParams("skip")skip:number,@QueryParams("take")take:number){
+        const posts = await this.postService.getPostsForUser(userId,isPopular ?? true,skip ?? 0,take ?? 20)
+        return serialize(posts)
+    }
 
 }

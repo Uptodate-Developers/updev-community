@@ -61,6 +61,29 @@ export class PostService{
         return postResponses
     }
 
+    async getPostsForUser(userId:string,isPopular:boolean,skip:number,take:number){
+        const posts = isPopular ? await this.postRepository.getPopularPostsForUser(userId,skip,take) : await this.postRepository.getRecentPostsForUser(userId,skip,take)
+
+        const postResponses:PostResponse[] = []
+
+        for(const p of posts){
+            postResponses.push(await this.getPostResponse(p))
+        }
+
+        return postResponses
+    }
+
+    async getPostAsResponse(postId:string):Promise<PostResponse|string>{
+        const post = await this.postRepository.getPost(postId)
+        if(post)
+            return this.getPostResponse(post)
+        return "Post not found"
+    }
+
+    async getPost(postId:string):Promise<Post|undefined>{
+        return this.postRepository.findByID(postId)
+    }
+    
     private async getPostResponse(p: Post) {
         return <PostResponse>{
             title: p.title,
@@ -72,7 +95,7 @@ export class PostService{
             replyCounts: await this.getReplyCountForPost(p.id.toString()),
             hashtags: p.hashTags.map(t => t.tag),
             photoUrls: p.photos.map(p => p.url)
-        };
+        }
     }
 
     async getReplyCountForPost(postId:string):Promise<number>{
