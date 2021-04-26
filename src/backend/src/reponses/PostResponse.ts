@@ -17,4 +17,6 @@ export class PostResponse{
     hashtags:string[]
 
     photoUrls:string[]
+
+    user:any
 }

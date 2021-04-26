@@ -31,15 +31,19 @@ export class ReplyService{
 
     async createReply(replyRequest:CreateReplyRequest):Promise<ReplyResponse|string>{
         const tags = await this.hashtagService.getTags(replyRequest.hashtags)
-        const photos =  await this.photoService.getPhotosByIds(replyRequest.photoIds.map(i => i.toString()))
+        const photos = replyRequest?.photoIds?.length ?  await this.photoService.getPhotosByIds(replyRequest.photoIds.map(i => i.toString())) : []
         const user = await this.userService.getUser(replyRequest.userId.toString())
+        const post = await this.postService.getPost(replyRequest.postId.toString())
+        const parentReply = replyRequest?.replyId ? await this.replyRepository.findByID(replyRequest.replyId.toString()) : undefined
 
         const reply = <Reply>{
             datePosted:dayjs().utc().toDate(),
             body:replyRequest.body,
             user:user,
             hashTags:tags,
-            photos:photos
+            photos:photos,
+            post:post,
+            reply:parentReply
         }
 
         const regReply = await this.replyRepository.save(reply)
@@ -100,7 +104,8 @@ export class ReplyService{
             upvote: p.upvote,
             replyCounts: await this.getReplyCountForReply(p.id.toString()),
             hashtags: p.hashTags.map(t => t.tag),
-            photoUrls: p.photos.map(p => p.url)
+            photoUrls: p.photos.map(p => p.url),
+            user:p.user
         }
     }
 

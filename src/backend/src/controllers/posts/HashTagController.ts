@@ -3,10 +3,10 @@ import {HashtagService} from "../../services"
 import {StatusCodes} from "../../http"
 import {BadRequest, NotFound} from "@tsed/exceptions"
 import {serialize} from "class-transformer"
-import {ErrorResponse} from "../../reponses"
+import {ErrorResponse, HashTagResponse} from "../../reponses"
 import {Authorize} from "@tsed/passport"
 import {AuthProtocols} from "../../protocols"
-import {CreateHashtagRequest} from "../../requests";
+import {CreateHashtagRequest} from "../../requests"
 
 @Controller("/tags")
 export class HashTagController{
@@ -24,10 +24,15 @@ export class HashTagController{
     @Post()
     @Authorize(AuthProtocols.Jwt)
     async createTag(@BodyParams()hashtagRequest:CreateHashtagRequest,@Res() res){
+
         const regTag = await this.hashTagService.createTag(hashtagRequest.tag)
+
         if(regTag){
             res.status(StatusCodes.Created)
-            return serialize(regTag)
+            return serialize(<HashTagResponse>{
+                tag:regTag.tag,
+                taggedPostsCount:regTag.taggedPostsCount
+            })
         }
         return new BadRequest(serialize(<ErrorResponse>{
             status:StatusCodes.BadRequest,
@@ -40,7 +45,10 @@ export class HashTagController{
         const regTag = await  this.hashTagService.getTag(tag)
         if(regTag){
             res.status(StatusCodes.Success)
-            return serialize(regTag)
+            return serialize(<HashTagResponse>{
+                tag:regTag.tag,
+                taggedPostsCount:regTag.taggedPostsCount
+            })
         }
         return new NotFound(serialize(<ErrorResponse>{
             status:StatusCodes.NotFound,

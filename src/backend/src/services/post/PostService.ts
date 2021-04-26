@@ -94,7 +94,8 @@ export class PostService{
             upvote: p.upvote,
             replyCounts: await this.getReplyCountForPost(p.id.toString()),
             hashtags: p.hashTags.map(t => t.tag),
-            photoUrls: p.photos.map(p => p.url)
+            photoUrls: p.photos.map(p => p.url),
+            user:p.user
         }
     }
 

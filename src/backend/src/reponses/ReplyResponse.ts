@@ -12,6 +12,8 @@ export class ReplyResponse{
 
     replyCounts:number
 
+    user:any
+
     hashtags:string[]
 
     photoUrls:string[]

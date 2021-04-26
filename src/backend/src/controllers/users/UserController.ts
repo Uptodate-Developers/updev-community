@@ -1,12 +1,25 @@
-import {Controller, Get,Post, Put, Req, PathParams, Inject, BodyParams, Res,MulterOptions, MultipartFile, PlatformMulterFile} from "@tsed/common"
+import {
+    BodyParams,
+    Controller,
+    Get,
+    Inject,
+    MulterOptions,
+    MultipartFile,
+    PathParams,
+    PlatformMulterFile,
+    Post,
+    Put,
+    Req,
+    Res
+} from "@tsed/common"
 import {Authorize} from "@tsed/passport"
 import {AuthProtocols} from "../../protocols"
 import {AcceptRoles} from "../../decorators/AcceptRoles"
 import {UserRoles} from "../../entities"
-import {UserService,FileService,multerStorage} from "../../services"
+import {FileService, multerStorage, UserService} from "../../services"
 import {BadRequest, NotFound} from "@tsed/exceptions"
 import {serialize} from "class-transformer"
-import {ErrorResponse} from "../../reponses"
+import {ErrorResponse, FileResponse} from "../../reponses"
 import {StatusCodes} from "../../http"
 import {UpdateUserRequest} from "../../requests"
 import {appConfig} from "../../config/app"
@@ -52,13 +65,15 @@ export class UserController{
                 message:"An error occured"
             })))
 
-        return serialize(url)
+        return serialize(<FileResponse>{
+            url:url,
+            status:StatusCodes.Success
+        })
     }
 
     @Get("/test")
     @AcceptRoles(UserRoles.Member)
-    getTest(@Req() req:Req)
-    {
-        return "Request test received";
+    getTest(@Req() req:Req) {
+        return "Request test received"
     }
 }

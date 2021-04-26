@@ -12,7 +12,8 @@ export class HashtagService{
     private hashTagRepository:HashTagRepository
 
     async createTag(tag:string):Promise<HashTag|undefined>{
-        const regTag = this.getTag(tag)
+
+        const regTag = await this.getTag(tag)
         if(regTag)
             return regTag
 

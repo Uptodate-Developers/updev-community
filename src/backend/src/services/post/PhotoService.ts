@@ -12,10 +12,11 @@ export class PhotoService{
     private photoRepository:PhotoRepository
 
     async createPhoto(url:string,description:string):Promise<Photo|undefined>{
-        const regPhoto = this.getPhoto(url)
+        const regPhoto = await this.getPhoto(url)
         if(regPhoto)
             return regPhoto
 
+        console.log(regPhoto)
         const newPhoto = <Photo>{
             dateCreated:dayjs().utc().toDate(),
             url:url,

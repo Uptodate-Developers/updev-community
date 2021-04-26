@@ -24,24 +24,25 @@ export class UserService{
         const user = await this.getUser(updateModel.userId)
         if(typeof user == "string")
             return user
+
         user.dateUpdated = dayjs().utc().toDate()
         user.name = updateModel.name
         user.bio = updateModel.bio
         user.email= updateModel.email
         user.profilePicUrl = updateModel.profilePic
         user.profession = updateModel.profession
-        user.facebookProfileId = updateModel.facebookProfileLink
+        user.facebookProfileLink = updateModel.facebookProfileLink
         user.firstName = updateModel.firstName
         user.lastName = updateModel.lastName
         user.githubProfileLink = updateModel.githubProfileLink
         user.twitterProfileLink = updateModel.twitterProfileLink
         user.phoneNumber = updateModel.phoneNumber
 
-        const updatedUser =  await this.userRepository.update(user.id,user)
+        const updatedUser =  await this.userRepository.save(user)
 
-        if(updatedUser.affected)
-            return user
-        return `Update failed,${updatedUser.affected}`
+        if(updatedUser)
+            return updatedUser
+        return `Update failed,${updatedUser}`
 
     }
 }
