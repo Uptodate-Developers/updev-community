@@ -39,7 +39,8 @@ export class PostController {
     async uploadPostPic(@MultipartFile("file") file: PlatformMulterFile,@Res() res){
 
         const url = await this.fileService.getPublicFileUrl(file.path)
-        if(!url){
+
+        if(url){
             const photo = await this.photoService.createPhoto(url,"")
             console.log(photo)
             if(photo){

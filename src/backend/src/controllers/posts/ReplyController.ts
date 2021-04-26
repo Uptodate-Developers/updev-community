@@ -18,7 +18,7 @@ import {Authorize} from "@tsed/passport";
 import {AuthProtocols} from "../../protocols"
 import {FileService, multerStorage, PhotoService, ReplyService} from "../../services"
 import {appConfig} from "../../config/app"
-import {CreatePostRequest, CreateReplyRequest} from "../../requests";
+import { CreateReplyRequest} from "../../requests";
 
 @Controller("/replies")
 export class ReplyController {
@@ -37,7 +37,7 @@ export class ReplyController {
     @MulterOptions({storage:multerStorage(`${appConfig.appPublicPath}/replies/images`)})
     async uploadReplyPic(@MultipartFile("file") file: PlatformMulterFile,@Res() res){
         const url = await this.fileService.getPublicFileUrl(file.path)
-        if(!url){
+        if(url){
             const photo = await this.photoService.createPhoto(url,"")
             if(photo){
                 res.status(StatusCodes.Created)
