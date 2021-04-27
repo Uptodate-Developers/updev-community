@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv'
-dotenv.config({path:__dirname.replace('src\\utilities','') + '.env'})
+
+dotenv.config({path:__dirname.replace('utilities','') + '.env'})
 
 export function env(key: string): string {
 
