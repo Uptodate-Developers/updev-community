@@ -1,5 +1,0 @@
-export * from "./PhotoRepository"
-export * from "./ReplyRepository"
-export * from "./PostRepository"
-export * from "./HashTagRepositoy"
-export * from "./UserRepository"

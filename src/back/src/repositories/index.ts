@@ -1,0 +1,7 @@
+export * from "./PhotoRepository"
+export * from "./ReplyRepository"
+export * from "./PostRepository"
+export * from "./HashTagRepositoy"
+export * from "./UserRepository"
+export * from "./PostVoteRepository"
+export * from "./ReplyVoteRepository"
