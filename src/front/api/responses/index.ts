@@ -1,1 +1,1 @@
-export * from "../../../backend/src/reponses"
+export * from "../../../back/src/reponses"

@@ -35,8 +35,8 @@ import {appConfig} from "../config/app"
 import {AuthService, UserService} from "../services"
 import {AuthResponse} from "../../api/responses"
 import {deserialize} from 'class-transformer'
-import {StatusCodes} from "../../../backend/src/http";
-import {message} from "ant-design-vue";
+import {StatusCodes} from "../../api/models"
+import {message} from "ant-design-vue"
 
 export default defineComponent({
       name: "Login",

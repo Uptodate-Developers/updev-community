@@ -1,3 +1,3 @@
-export * from "../../../backend/src/http"
+export * from "../../../back/src/http"
 export * from "./User"
-export * from "../../../backend/src/entities/VoteStatus"
+export * from "../../../back/src/entities/VoteStatus"

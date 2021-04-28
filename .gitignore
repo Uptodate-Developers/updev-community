@@ -1,6 +1,7 @@
 node_modules
 .DS_Store
 dist
+src/back/.git
 dist-ssr
 *.local
 ## Ignore Visual Studio temporary files, build results, and
