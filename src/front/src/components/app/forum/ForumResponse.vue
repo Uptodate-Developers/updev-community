@@ -65,7 +65,9 @@
         <forum-post-comment-input v-if="respond" :user="user" :post="post" :reply="reply"/>
         <horizontal-line />
       <div v-if="repliesOpened">
-        <forum-response v-if="replies.length" v-for="reply in replies" :key="reply.id" :post="post" :user="user" :reply="reply" can-respond="false" />
+        <div class="pl-4">
+          <forum-response v-if="replies.length" v-for="reply in replies" :key="reply.id" :post="post" :user="user" :reply="reply" can-respond="false" />
+        </div>
       </div>
     </div>
 </template>

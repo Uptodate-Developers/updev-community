@@ -9,7 +9,7 @@
             <button-icon @click="onFacebookLogin" class=" max-w-lg"  title="Se connecter avec Facebook" :img="fbImage"/>
           <button-icon @click="onGoogleLogin" class=" max-w-lg"  title="Se connecter avec Google" :img="googleImage"/>
           <button-icon @click="onTwitterLogin" class=" max-w-lg"  title="Se connecter avec Twitter" :img="twitterImage"/>
-          <button-icon @click="onGithubLogin" class=" max-w-lg"  title="Se connecter avec Github" :img="githubImage"/>
+          <button-icon @click="onGithubLogin" class=" max-w-lg hidden"  title="Se connecter avec Github" :img="githubImage"/>
 
         </div>
         </div>
@@ -50,10 +50,8 @@ export default defineComponent({
         }
       },
       setup() {
-        const router = useRouter();
-        const userService = new UserService();
-        const authService = new AuthService();
-
+        const userService = new UserService()
+        const authService = new AuthService()
         const onFacebookLogin = async () => await getAuthResponse(`${appConfig.apiUrl}/auth/facebook`);
 
         const onGoogleLogin = async () => await getAuthResponse(`${appConfig.apiUrl}/auth/google`);
@@ -62,26 +60,30 @@ export default defineComponent({
 
         const onGithubLogin = async () => await getAuthResponse(`${appConfig.apiUrl}/auth/github`);
 
-        async function getAuthResponse(url:string)
-        {
-          const popupWindow = window.open(url, 'Se connecter à Updev Community');
+        async function getAuthResponse(url:string) {
+          try{
+            const popupWindow = window.open(url, 'Se connecter à Updev Community')
+            popupWindow?.addEventListener('unload', async function(event) {
+              setInterval(async () => {
+                try{
+                  const authResp = deserialize(AuthResponse, popupWindow.document.body.innerText)
+                  const authResult = await saveUser(authResp)
+                  popupWindow.close()
+                  if (authResult === true)
+                    navigateToProfile()
+                  else
+                    message.error(`L'authentification a echoué, message:${authResult}`)
+                }
+                catch (ex){
+                  console.log(ex)
+                }
 
-          popupWindow?.addEventListener('unload', async function(event) {
-
-            await sleep(100);//Wait for window to load
-
-            const authResp = deserialize(AuthResponse,popupWindow.document.body.innerText);
-
-            popupWindow.close();
-
-            const authResult = await saveUser(authResp);
-
-            if(authResult === true)
-              navigateToProfile();
-            else
-              message.error(`L'authentification a echoué, message:${authResult}`);
-
-          });
+              },100)
+            })
+          }
+          catch (ex){
+            console.log(ex)
+          }
         }
 
         async function saveUser(authResponse:AuthResponse):Promise<Boolean|string>

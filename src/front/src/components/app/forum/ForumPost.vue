@@ -123,7 +123,6 @@
         const isLoading = ref(false)
         const voteStatus = ref(VoteStatus)
 
-
         const commentsOpened = ref(false)
 
         const skip = ref(0)
