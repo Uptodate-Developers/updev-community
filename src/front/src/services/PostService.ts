@@ -45,6 +45,24 @@ export class PostService {
         return `errror:Une erreur est survenue, message:${response.data}, status:${response.status}`
     }
 
+    async getPostsForTags(tags:string[],isPopular:boolean,skip:number,take:number): Promise<PostResponse[] | string> {
+        let requestUrl = `/posts?isPopular=${isPopular}&skip=${skip}&take=${take}`
+        for(const tag of tags)
+            requestUrl = `${requestUrl}&tags=${tag}`
+
+        const response = await axios.get(requestUrl)
+
+        if (response.status == StatusCodes.Success) {
+            const posts: PostResponse[] = []
+            for (let post of response.data) {
+                posts.push(post)
+            }
+            return posts
+        }
+
+        return `errror:Une erreur est survenue, message:${response.data}, status:${response.status}`
+    }
+
 
     async createReply(request:CreateReplyRequest):Promise<ReplyResponse|string>{
         const response = await axios.post(`/replies`,request)
@@ -97,4 +115,6 @@ export class PostService {
 
         return `errror:Une erreur est survenue, message:${response.data}, status:${response.status}`
     }
+
+
 }

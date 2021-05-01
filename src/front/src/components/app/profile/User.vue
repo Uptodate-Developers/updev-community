@@ -35,9 +35,9 @@
             <p class=" text-sm text-gray-800 max-w-lg">{{user.bio}}</p>
           </div>
             <div class=" space-x-2 flex">
-                <a :src="user.githubProfileLink"><img class=" h-8 md:h-24 lg:h-10 " src="../../../assets/icons/githubblack.svg" alt="Github logo"/></a>
-                <a :src="user.twitterProfileLink"><img class=" h-8 md:h-24 lg:h-10 " src="../../../assets/icons/twitter.svg" alt="Twitter logo"/></a>
-                <a :src="user.facebookProfileLink"><img class=" h-8 md:h-24 lg:h-10 " src="../../../assets/icons/facebook.svg" alt="Facebook  logo"/></a>
+                <button class="focus:outline-none" @click="onOpenSocial(user.githubProfileLink)"  ><img class=" h-8 md:h-24 lg:h-10 " src="../../../assets/icons/githubblack.svg" alt="Github logo"/></button>
+                <button class="focus:outline-none" @click="onOpenSocial(user.twitterProfileLink)"><img class=" h-8 md:h-24 lg:h-10 " src="../../../assets/icons/twitter.svg" alt="Twitter logo"/></button>
+                <button class="focus:outline-none" @click="onOpenSocial(user.facebookProfileLink)"><img class=" h-8 md:h-24 lg:h-10 " src="../../../assets/icons/facebook.svg" alt="Facebook  logo"/></button>
             </div>
         </div>
     </div>
@@ -63,7 +63,9 @@ export default defineComponent({
 
     const updateUser = ref(false)
 
-    return {fullName, avatar, updateUser}
+    const onOpenSocial = (link) => window.open(link)
+
+    return {fullName, avatar, updateUser,onOpenSocial}
   }
 })
 </script>

@@ -25,7 +25,7 @@
         </div>
 
         <div class="px-6 space-x-1">
-            <button v-for="tag in post.hashtags" :key="tag"  class=" bg-gray-200 px-4 pb-0.5 rounded-2xl text-xs text-gray-500">#{{tag}}</button>
+            <button  v-for="tag in post.hashtags" :key="tag"  class=" bg-gray-200 px-4 pb-0.5 rounded-2xl text-xs text-gray-500 focus:outline-none">#{{tag}}</button>
         </div>
 
         <div class="pt-2 px-2 flex flex-col lg:flex-row-reverse lg:justify-between">
@@ -93,13 +93,14 @@
     import ForumResponse from './ForumResponse.vue'
     import HorizontalLine from '../HorizontalLine.vue'
     import ForumPostCommentInput from './ForumPostCommentInput.vue'
-    import {computed, defineComponent, ref, onMounted} from "vue"
+    import {computed, defineComponent, ref} from "vue"
     import dayjs from "dayjs"
     import utc from "dayjs/plugin/utc"
     import {User, VoteStatus} from "../../../../api/models"
     import {PostResponse,ReplyResponse} from "../../../../api/responses"
     import {PostService} from "../../../services"
-    import {message} from "ant-design-vue";
+    import {EventKeys} from "../../../constants"
+    import {message} from "ant-design-vue"
     dayjs.extend(utc)
 
     export default defineComponent({
@@ -114,7 +115,8 @@
           type:Object as () => User
         }
       },
-      setup(props){
+      emits:[EventKeys.TagSelected],
+      setup(props,context){
         const postService = new PostService()
         const isAuth = ref(props.user !== null && props.user !== undefined)
         const fullName = computed(() => `${props.post.user?.name} ${props.post.user?.firstName} ${props.post.user?.lastName}`)
@@ -122,6 +124,7 @@
         const fullDate = computed(() => `${dayjs(props.post.datePosted).local().format("DD MMMM YYYY")} à ${dayjs(props.post.datePosted).local().format("HH:mm")}`)
         const isLoading = ref(false)
         const voteStatus = ref(VoteStatus)
+
 
         const commentsOpened = ref(false)
 
