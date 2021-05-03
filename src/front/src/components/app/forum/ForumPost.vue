@@ -10,7 +10,7 @@
 
         <div class="px-6">
             <h1 class=" text-gray-800">{{post.title}}</h1>
-            <div class=" text-gray-500" v-html="post.body.substring(0,200)"></div>
+            <div class=" text-gray-500" v-html="post.body.substring(0,300)"></div>
         </div>
 
 
@@ -32,7 +32,7 @@
             <p class=" text-gray-400 self-end lg:self-stretch"></p>
             <div class="flex justify-around space-x-4 lg:space-x-12">
                 <button @click="onVote(voteStatus.Up)" class="focus:outline-none">
-                    <div class=" flex items-center space-x-1 text-gray-900  hover:text-blue-400">
+                    <div :class="isUpvoted ? 'text-yellow-600':'hover:text-blue-400'" class=" flex items-center space-x-1 text-gray-900">
                         <svg class=" fill-current h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 20.634">
                             <g id="upvoteico" transform="translate(25 -3) rotate(90)">
                                 <g id="Group_72" data-name="Group 72">
@@ -45,7 +45,7 @@
                     </div>
                 </button>
               <button @click="onVote(voteStatus.Down)" class="focus:outline-none">
-                <div class=" flex items-center space-x-1 text-gray-900  hover:text-blue-400">
+                <div :class="isDownvoted ? 'text-yellow-600':'hover:text-blue-400'" class=" flex items-center space-x-1 text-gray-900">
                   <svg class=" fill-current h-4 transform rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 20.634">
                     <g id="upvoteico" transform="translate(25 -3) rotate(90)">
                       <g id="Group_72" data-name="Group 72">
@@ -90,18 +90,19 @@
     </div>
 </template>
 <script lang="ts">
-    import ForumResponse from './ForumResponse.vue'
-    import HorizontalLine from '../HorizontalLine.vue'
-    import ForumPostCommentInput from './ForumPostCommentInput.vue'
-    import {computed, defineComponent, ref} from "vue"
-    import dayjs from "dayjs"
-    import utc from "dayjs/plugin/utc"
-    import {User, VoteStatus} from "../../../../api/models"
-    import {PostResponse,ReplyResponse} from "../../../../api/responses"
-    import {PostService} from "../../../services"
-    import {EventKeys} from "../../../constants"
-    import {message} from "ant-design-vue"
-    dayjs.extend(utc)
+import ForumResponse from './ForumResponse.vue'
+import HorizontalLine from '../HorizontalLine.vue'
+import ForumPostCommentInput from './ForumPostCommentInput.vue'
+import {computed, defineComponent, onMounted, ref} from "vue"
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
+import {User, VoteStatus} from "../../../../api/models"
+import {PostResponse, ReplyResponse} from "../../../../api/responses"
+import {PostService} from "../../../services"
+import {EventKeys} from "../../../constants"
+import {message} from "ant-design-vue"
+
+dayjs.extend(utc)
 
     export default defineComponent({
       name:"ForumPost",
@@ -124,6 +125,8 @@
         const fullDate = computed(() => `${dayjs(props.post.datePosted).local().format("DD MMMM YYYY")} à ${dayjs(props.post.datePosted).local().format("HH:mm")}`)
         const isLoading = ref(false)
         const voteStatus = ref(VoteStatus)
+        const isUpvoted = ref(false)
+        const isDownvoted = ref(false)
 
 
         const commentsOpened = ref(false)
@@ -159,6 +162,8 @@
             if(typeof post !== "string"){
               props.post.downvote = post.downvote
               props.post.upvote = post.upvote
+              isUpvoted.value = status == VoteStatus.Up
+              isDownvoted.value = status == VoteStatus.Down
             }
             else{
               message.error(post)
@@ -166,7 +171,18 @@
           }
         }
 
-        return {fullName, avatar,voteStatus, fullDate,commentsOpened,isAuth,replies,onGetReplies,onVote}
+        onMounted(async () => {
+          const voteStatusResponse = await postService.getVoteStatus(props.post.id,undefined,props.user?.id)
+          if(typeof voteStatusResponse == "string")
+            console.log(voteStatusResponse)
+          else{
+            isUpvoted.value = voteStatusResponse.status == VoteStatus.Up
+            isDownvoted.value = voteStatusResponse.status == VoteStatus.Down
+          }
+
+        })
+
+        return {fullName,isUpvoted,isDownvoted, avatar,voteStatus, fullDate,commentsOpened,isAuth,replies,onGetReplies,onVote}
       }
     })
 </script>

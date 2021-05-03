@@ -6,7 +6,6 @@ import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueScrollTo from 'vue-scrollto'
-
 import {
     Avatar,
     Carousel,
@@ -19,7 +18,8 @@ import {
     Mentions,
     Image,
     List,
-    Spin
+    Spin,
+    Tooltip
 } from 'ant-design-vue';
 
 
@@ -41,6 +41,7 @@ app.use(router);
 app.use(VueScrollTo);
 app.use(VueAxios, axios);
 app.use(Spin);
+app.use(Tooltip)
 
 
 app.mount('#app');

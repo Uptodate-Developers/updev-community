@@ -1,7 +1,7 @@
 import {plainToClass} from 'class-transformer'
 import axios from "../services/Axios"
 import {CreateReplyRequest} from "../../api/requests"
-import {PostResponse, ReplyResponse} from "../../api/responses"
+import {PostResponse, ReplyResponse,ItemVoteStatus} from "../../api/responses"
 import {StatusCodes, VoteStatus} from "../../api/models"
 import {CreatePostRequest,AddVoteRequest} from "../../api/requests"
 
@@ -114,6 +114,22 @@ export class PostService {
         }
 
         return `errror:Une erreur est survenue, message:${response.data}, status:${response.status}`
+    }
+
+    async getVoteStatus(postId:string|undefined,replyId:string|undefined,userId:string|undefined):Promise<ItemVoteStatus|string>{
+        if(!userId)
+            return "Not connected"
+        let requestUrl = ""
+        if(postId)
+            requestUrl = `/posts/status/${postId}/${userId}`
+        if(replyId)
+            requestUrl = `/replies/status/${postId}/${userId}`
+
+        const response = await axios.get(requestUrl)
+        if(response.status == StatusCodes.Success)
+            return plainToClass(ItemVoteStatus,response.data)
+
+        return `error:Une erreur est survenue, message:${response.data}, status:${response.status}`
     }
 
 

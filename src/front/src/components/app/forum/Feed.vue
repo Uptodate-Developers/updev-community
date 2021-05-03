@@ -8,7 +8,7 @@
     <template #loadMore>
       <div class="flex justify-center py-2">
         <a-spin v-if="isLoading" />
-        <button v-else @click="loadMore" class="text-blue-500 font-semibold focus:outline-none">Charger plus...</button>
+        <button  v-if="!isLoading && canLoadMore" @click="loadMore" class="text-blue-500 font-semibold focus:outline-none">Charger plus...</button>
       </div>
     </template>
     <template #renderItem="{ item }">
@@ -56,6 +56,8 @@
         const isLoading = ref(false)
         const posts = ref<PostResponse[]>([])
         const hideTags = ref(true)
+        const canLoadMore = ref(false)
+
         const onPosts = async (tags:string[]) => {
           isLoading.value = true
           const postsResponse = tags.length ? await postService.getPostsForTags(tags,isPopular.value,skip.value,take.value)
@@ -66,6 +68,7 @@
           }
           else
             message.error(postsResponse)
+          canLoadMore.value = posts.value.length > take.value
           isLoading.value = false
           return []
         }

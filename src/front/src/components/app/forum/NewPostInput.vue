@@ -2,7 +2,7 @@
 
   <div>
     <button @click="newPostEdit = !newPostEdit" class=" flex-col justify-center py-2 bg-transparent border rounded-lg px-5 w-full focus:outline-none ">
-      <input class=" bg-transparent focus:outline-none" placeholder="Qu'est-ce que tu penses en ce moment...?"/>
+      <input class=" bg-transparent focus:outline-none" placeholder="Que voulez-vous poster?"/>
     </button>
     <new-post-editor :user="user" :openEditor="newPostEdit"/>
     <button @click="newPostEdit = !newPostEdit" class="md:hidden md:h-0 md:w-0 bg-blue-500 fixed bottom-5 right-2.5 h-12 w-12 z-50 text-gray-50 flex justify-center items-center rounded-3xl focus:outline-none">

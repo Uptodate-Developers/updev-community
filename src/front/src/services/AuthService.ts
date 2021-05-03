@@ -72,7 +72,8 @@ export class AuthService{
                 headers: { Authorization: `Bearer ${token}` }
             }
 
-            await axios.get(`/auth/logout`,config)
+            const logoutResponse = await axios.get(`/auth/logout`,config)
+            sessionStorage.clear()
 
             localStorage.removeItem(LocalStorageKeys.User)
             localStorage.removeItem(LocalStorageKeys.JwtToken)

@@ -2,8 +2,8 @@
     <div id="start" class="pt-14 md:flex md:container mx-auto xl:px-12">
         <div class="container flex flex-col justify-center">
             <div class="py-5 px-4">
-            <h1 class=" text-lg font-medium">Bienvenu sur Updev Community</h1>
-            <h2 class="text-md font-medium text-gray-400">Veuillez vous identifiez pour accéder au forum</h2>
+            <h1 class=" text-lg font-medium">Bienvenue sur Updev Community</h1>
+            <h2 class="text-md font-medium text-gray-400">Veuillez vous identifier pour accéder au forum</h2>
         </div>
         <div class="flex flex-col  px-4 space-y-2 mb-5">
             <button-icon @click="onFacebookLogin" class=" max-w-lg"  title="Se connecter avec Facebook" :img="fbImage"/>
