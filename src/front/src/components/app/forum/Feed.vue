@@ -4,7 +4,7 @@
     <not-connected v-if="!isAuth" class="md:hidden" />
     <hash-tags class="md:hidden" :tags="tags" @tagSelected="onTagSelected" @tagRemoved="onTagRemoved" :hide-tags="hideTags" />
 
-  <a-list :data-source="posts" :grid="{ column: 1 }" itemLayout="vertical">
+  <a-list v-if="!selectedTags.length"  :data-source="posts" :grid="{ column: 1 }" itemLayout="vertical">
     <template #loadMore>
       <div class="flex justify-center py-2">
         <a-spin v-if="isLoading" />
@@ -13,11 +13,12 @@
     </template>
     <template #renderItem="{ item }">
       <a-list-item>
-        <forum-post  :post="item"  :user="user" />
+        <forum-post @postDeleted="onPostDeleted"  :post="item"  :user="user"  />
       </a-list-item>
     </template>
   </a-list>
 
+  <search-by-tags  :user="user" :tags="selectedTags"/>
 </div>
 </template>
 <script lang="ts">
@@ -31,10 +32,11 @@
     import {PostResponse} from "../../../../api/responses"
     import {message} from "ant-design-vue"
     import {EventKeys} from "../../../constants"
+    import SearchByTags from "./SearchByTags.vue"
 
     export default defineComponent({
       name: "Feed",
-      components: {NewPost, NotConnected, HashTags, ForumPost },
+      components: {NewPost, SearchByTags, NotConnected, HashTags, ForumPost },
       emits:[EventKeys.TagRemoved],
       props:{
         user: {
@@ -55,57 +57,53 @@
         const isPopular = ref(false)
         const isLoading = ref(false)
         const posts = ref<PostResponse[]>([])
-        const hideTags = ref(true)
+        const hideTags = ref(false)
         const canLoadMore = ref(false)
-
-        const onPosts = async (tags:string[]) => {
+        const onPosts = async () => {
           isLoading.value = true
-          const postsResponse = tags.length ? await postService.getPostsForTags(tags,isPopular.value,skip.value,take.value)
-              : await postService.getPosts(skip.value,take.value,isRecent.value,isPopular.value)
+          const postsResponse = await postService.getPosts(skip.value,take.value,isRecent.value,isPopular.value)
+
           if(typeof postsResponse != "string") {
             isLoading.value = false
             return postsResponse
           }
           else
             message.error(postsResponse)
-          canLoadMore.value = posts.value.length > take.value
           isLoading.value = false
+
           return []
         }
+        const selectedTags = ref(props.tags)
 
         onMounted(async () => {
-          if(props.tags.some(t => typeof t == "string"))
-            posts.value = await onPosts(props.tags)
-          else
-            posts.value = await onPosts([])
+          posts.value = await onPosts()
+          canLoadMore.value = posts.value.length >= take.value
         })
 
         const loadMore = async () => {
           skip.value = skip.value + take.value
-          const newPosts = await onPosts(props.tags)
+          const newPosts = await onPosts()
           posts.value.push(...newPosts)
+          canLoadMore.value = posts.value.length >= take.value
         }
 
         watch(() => props.tags,async () => {
-            skip.value = 0
-          const newPosts = await onPosts(props.tags)
-          posts.value = []
-          posts.value.push(...newPosts)
-          hideTags.value = props.tags.length == 0
+          selectedTags.value = props.tags
+          hideTags.value = selectedTags.value.length > 0
         })
 
         const onTagSelected = async (tags:string[]) => {
-          skip.value = 0
-          const newPosts = await onPosts(tags)
-          posts.value = []
-          posts.value.push(...newPosts)
-          hideTags.value = tags.length == 0
+          selectedTags.value = tags
+          hideTags.value = selectedTags.value.length > 0
         }
 
         const onTagRemoved = () => context.emit(EventKeys.TagRemoved)
 
+        const onPostDeleted = (postId:string) => {
+          posts.value = posts.value.filter(p => p.id.toString() != postId)
+        }
 
-        return{isAuth,posts,hideTags, loadMore,onTagSelected,onTagRemoved}
+        return{onPostDeleted,selectedTags,canLoadMore,isLoading,isAuth,posts,hideTags, loadMore,onTagSelected,onTagRemoved}
       }
     })
 </script>

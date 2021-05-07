@@ -40,7 +40,7 @@ import Feed from '../components/app/forum/Feed.vue'
  import NotConnected from '../components/app/NotConnected.vue'
  import PopularTopics from '../components/app/PopularTopics.vue'
  import SideHasgTags from '../components/app/forum/SideHashtags.vue'
- import Connected from '../components/app/Connected.vue'
+ import Connected from '../components/app/ShortUserProfile.vue'
  import { defineComponent, ref,reactive} from "vue"
  import {AuthService,HashTagService} from "../services"
 

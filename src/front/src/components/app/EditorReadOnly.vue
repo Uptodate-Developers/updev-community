@@ -1,11 +1,14 @@
 <template>
-  <QuillEditor style="border:none" :options="options" :content="contentInHtml" contentType="html"  />
+  <div class="relative">
+    <div class="absolute h-full w-full bg-transparent z-20"></div>
+    <QuillEditor style="border:none" :key="contentUpdated"  :options="options" v-model:content="contentInHtml" contentType="html"  />
+  </div>
 </template>
 <script lang="ts">
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import '@vueup/vue-quill/dist/vue-quill.bubble.css'
-import {defineComponent,reactive,ref} from "vue"
+import {defineComponent,reactive,ref,watch} from "vue"
 
 export default defineComponent({
   name:"Editor",
@@ -22,8 +25,14 @@ export default defineComponent({
       theme: 'snow'
     })
     const contentInHtml = ref(props.content)
+    const contentUpdated = ref(false)
 
-    return {contentInHtml,options}
+    watch(() => props.content,() => {
+      contentInHtml.value = props.content
+      contentUpdated.value = !contentUpdated.value
+    })
+
+    return {contentUpdated,contentInHtml,options}
   }
 })
 </script>

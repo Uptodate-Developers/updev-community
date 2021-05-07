@@ -6,6 +6,7 @@ import Login from '../views/Login.vue'
 import Profile from '../views/Profile.vue'
 import AppHome from '../views/AppHome.vue'
 import AppNotification from '../views/AppNotification.vue'
+import AppPost from '../views/AppPost.vue'
 
 const routes = [
     {
@@ -21,10 +22,11 @@ const routes = [
         meta: { layout: MainLayout }
     },
     {
-        path: '/app/profile',
+        path: '/app/profile/:profileId?',
         name: 'Profile',
         component: Profile,
-        meta: { layout: AppLayout }
+        meta: { layout: AppLayout },
+        props:true
     },
     {
         path: '/app/home',
@@ -44,6 +46,13 @@ const routes = [
         component: AppNotification,
         meta: {layout: AppLayout}
         
+    },
+    {
+        path: '/app/post/:id',
+        name: 'AppPost',
+        component: AppPost,
+        meta: {layout: AppLayout},
+        props:true
     }
 ]
 

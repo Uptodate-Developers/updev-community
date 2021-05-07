@@ -1,5 +1,5 @@
 <template>
-  <a-modal  title="Modifier mon profile" :visible="updateUser" @cancel="updateUser = false" @ok="onSubmit" cancelText="Annuler" okText="Valider" :confirmLoading="isLoading">
+  <a-modal v-if="user"  title="Modifier mon profile" :visible="updateUser" @cancel="updateUser = false" @ok="onSubmit" cancelText="Annuler" okText="Valider" :confirmLoading="isLoading">
 
     <div class="flex justify-center items-center">
       <a-upload v-model:file-list="fileList"  name="avatar" list-type="picture-card"
@@ -52,13 +52,12 @@
 </template>
 <script lang="ts">
 import {defineComponent,reactive,UnwrapRef, watch,ref,toRaw} from "vue"
-import {User,StatusCodes} from "../../../../api/models"
+import {User} from "../../../../api/models"
 import {AuthService,UserService,PhotoService} from "../../../services"
 import {UpdateUserRequest} from "../../../../api/requests"
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import {FileInfo} from "../../../models/files/FileInfo"
-import {PhotoResponse} from "../../../../../backend/src/reponses";
 
 
 
@@ -130,7 +129,7 @@ export default defineComponent({
         uploadImageUrl = uplaodResult.url
       }
       else{
-        message.error(uplaodResult.data)
+        message.error(uplaodResult)
       }
 
       isLoading.value = false

@@ -1,4 +1,9 @@
 export enum EventKeys{
     TagSelected = "tagSelected",
-    TagRemoved = "tagRemoved"
+    TagRemoved = "tagRemoved",
+    PostDeleted = "postDeleted",
+    PostAdded = "postAdded",
+    ReplyDeleted = "replyDeleted",
+    ReplyAdded = "replyAdded",
+
 }

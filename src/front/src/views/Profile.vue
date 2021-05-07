@@ -1,17 +1,17 @@
 <template>
-    <div class=" hidden container mx-auto md:grid grid-cols-3 gap-1 my-2 xl:px-28">
+    <div v-if="!isLoading" class=" hidden container mx-auto md:grid grid-cols-3 gap-1 my-2 xl:px-28">
         <div class="col-span-2 space-y-1">
             <user-vue :user="user" />
             <user-journal :user="user" />
         </div>
         <div >
             <div  class=" container space-y-1 md:sticky top-16 h-screen z-20 overflow-y-auto hiddescrollbar">
-                <high-lights :user="user" />
+                <high-lights  :user="user" />
                 <popular-topics :user="user" isForUserOnly="true" />
             </div>
         </div>
     </div>
-    <div class="md:hidden space-y-1">
+    <div v-if="!isLoading" class="md:hidden space-y-1">
         <user-vue :user="user" />
         <high-lights :user="user" />
         <user-journal :user="user" />
@@ -36,30 +36,58 @@
       </div>
 
     </div>
+  <div v-if="isLoading" class="container mx-auto flex justify-center items-center py-20">
+    <a-spin >En cours de chargement...</a-spin>
+  </div>
 </template>
-<script>
+<script lang="ts">
     import HighLights from '../components/app/profile/HighLights.vue'
     import UserVue from '../components/app/profile/User.vue'
     import UserJournal from '../components/app/profile/UserJournal.vue'
     import PopularTopics from '../components/app/PopularTopics.vue'
-    import { defineComponent, ref,reactive} from "vue"
-    import {AuthService} from "../services/AuthService";
-    import {appConfig} from "../config/app";
+    import {defineComponent, ref, onMounted, reactive} from "vue"
+    import {AuthService,UserService} from "../services"
+    import {appConfig} from "../config/app"
+    import {useRouter} from "vue-router"
+    import {message} from "ant-design-vue";
 
     export default defineComponent({
       name: "Profile",
+      props: {
+        profileId: {
+          type: Number,
+          default: 0
+        }
+      },
       components: { UserVue, HighLights, UserJournal, PopularTopics },
       setup()
       {
         const authService = new AuthService()
-        const user = reactive(authService.user)
+        const userService = new UserService()
+        const router = useRouter()
+        const isLoading = ref(true)
+        const profileId = router.currentRoute.value.params.profileId
+        const user = ref({})
         const isAuthenticated = ref(authService.isAuthenticated)
         const onLogout = async () => {
           if(await authService.logout())
             window.location.href = `${appConfig.appUrl}/app`
         }
-
-        return{user,isAuthenticated,onLogout};
+        onMounted(async () => {
+          if(profileId){
+            const userResponse =  await userService.getUserFromApi(String(profileId))
+            if(typeof userResponse == "string")
+              message.error(userResponse)
+            else{
+              user.value = userResponse
+            }
+          }
+          else{
+            user.value = authService.user ?? {}
+          }
+          isLoading.value = false
+        })
+        return{isLoading,user,isAuthenticated,onLogout};
       }
     })
 

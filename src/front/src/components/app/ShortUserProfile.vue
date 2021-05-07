@@ -1,5 +1,5 @@
 <template>
-    <div class=" bg-gray-50">
+    <div v-if="user" class=" bg-gray-50">
         <div class="py-1.5 px-4 bg-blue-500 h-10 -mb-5">
            
         </div>
@@ -14,7 +14,7 @@
     </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from "vue"
+import { defineComponent, ref,watch } from "vue"
 import {User} from "../../../api/models/User"
 export default defineComponent({
   props:{
@@ -23,10 +23,15 @@ export default defineComponent({
       required: true
     }
   },
-  setup({user}){
+  setup(props){
 
-    const fullName = computed(() => `${user.name} ${user.firstName} ${user.lastName}`);
-    const avatar = computed(()=> `${user.firstName?.charAt(0)}${user.lastName?.charAt(0)}`);
+    const fullName = ref(`${props?.user?.name} ${props?.user?.firstName} ${props.user?.lastName}`)
+    const avatar = ref(`${props.user?.firstName?.charAt(0)}${props.user?.lastName?.charAt(0)}`)
+
+    watch(() => props.user, () => {
+      fullName.value = `${props.user.name} ${props.user.firstName} ${props.user.lastName}`
+      avatar.value = `${props.user.firstName?.charAt(0)}${props.user.lastName?.charAt(0)}`
+    })
 
     return {fullName, avatar}
   }

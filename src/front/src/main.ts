@@ -38,10 +38,9 @@ app.use(Mentions);
 app.use(Image);
 app.use(List)
 app.use(router);
-app.use(VueScrollTo);
-app.use(VueAxios, axios);
-app.use(Spin);
+app.use(VueScrollTo)
+app.use(VueAxios, axios)
+app.use(Spin)
 app.use(Tooltip)
 
-
-app.mount('#app');
+app.mount('#app')

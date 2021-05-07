@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4 py-4 bg-gray-50">
+    <div v-if="user" class="px-4 py-4 bg-gray-50">
         <div class="flex justify-between">
             <div class=" flex items-center space-x-2">
                 <a-avatar :src="user.profilePicUrl" :style="{backgroundColor: '#0068B7', verticalAlign: 'middle'}" :size="70"><span style="line-height: 70px" class="block text-2xl font-semibold">{{avatar}}</span></a-avatar>
@@ -9,7 +9,7 @@
                 </div>
             </div>
 
-            <button @click="updateUser = !updateUser" class=" text-gray-400 hover:text-blue-400 outline-none focus:outline-none">
+            <button v-if="isOwner" @click="updateUser = !updateUser" class=" text-gray-400 hover:text-blue-400 outline-none focus:outline-none">
                 <svg class=" fill-current hover:text-blue-400" id="edit" xmlns="http://www.w3.org/2000/svg" width="29.201" height="29.2" viewBox="0 0 29.201 29.2">
                     <g id="Group_64" data-name="Group 64">
                         <g id="Group_60" data-name="Group 60" transform="translate(0 2.433)">
@@ -44,9 +44,10 @@
   <updater-user :user="user" :canUpdate="updateUser"/>
 </template>
 <script lang="ts">
-import {computed,ref, defineComponent} from "vue"
-import {User} from "../../../../api/models/User"
+import {computed,ref, defineComponent,watch} from "vue"
+import {User} from "../../../../api/models"
 import UpdaterUser from "./UpdaterUser.vue"
+import {AuthService} from "../../../services"
 
 export default defineComponent({
   name:"UserProfileVue",
@@ -57,15 +58,19 @@ export default defineComponent({
       required: true
     }
   },
-  setup({user}){
-    const fullName = computed(() => `${user.name} ${user.firstName} ${user.lastName}`);
-    const avatar = computed(()=> `${user.firstName?.charAt(0)}${user.lastName?.charAt(0)}`);
-
+  setup(props){
+    const authService = new AuthService()
+    const user = computed(() => props.user)
+    const fullName = computed(() => `${user.value.name} ${user.value.firstName} ${user.value.lastName}`)
+    const avatar = computed(()=> `${user.value.firstName?.charAt(0)}${user.value.lastName?.charAt(0)}`)
+    const isOwner = ref(authService.user?.id == user.value.id)
+    watch(() => props.user,() => isOwner.value = authService.user?.id == user.value.id)
     const updateUser = ref(false)
 
-    const onOpenSocial = (link) => window.open(link)
+    const onOpenSocial = (link:string) => window.open(link)
 
-    return {fullName, avatar, updateUser,onOpenSocial}
+
+    return {isOwner,fullName, avatar, updateUser,onOpenSocial}
   }
 })
 </script>

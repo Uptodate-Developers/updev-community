@@ -2,7 +2,7 @@ import {plainToClass} from 'class-transformer'
 import axios from "../services/Axios"
 import {CreateReplyRequest} from "../../api/requests"
 import {PostResponse, ReplyResponse,ItemVoteStatus} from "../../api/responses"
-import {StatusCodes, VoteStatus} from "../../api/models"
+import {SearchIn, StatusCodes, VoteStatus} from "../../api/models"
 import {CreatePostRequest,AddVoteRequest} from "../../api/requests"
 
 export class PostService {
@@ -132,5 +132,41 @@ export class PostService {
         return `error:Une erreur est survenue, message:${response.data}, status:${response.status}`
     }
 
+    async getPost(postId:string):Promise<PostResponse|string>{
+        const response = await axios.get(`/posts/${postId}`)
+        if (response.status == StatusCodes.Success) {
+            return plainToClass(PostResponse,response.data)
+        }
+        return `error:Une erreur est survenue, message:${response.data}, status:${response.status}`
+    }
 
+
+    async delete(postId:string|undefined,replyId:string|undefined,userId:string):Promise<boolean|string>{
+
+        if(!userId)
+            return "Not connected, can not delete anything"
+
+        let requestUrl = ""
+        if(postId)
+            requestUrl = `/posts/${postId}/${userId}`
+        if(replyId)
+            requestUrl = `/replies/${replyId}/${userId}`
+
+        const response = await axios.delete(requestUrl)
+        if(response.status == StatusCodes.Success)
+            return true
+        return `errror:Une erreur est survenue, message:${response.data}, status:${response.status}`
+    }
+
+    async search(query:string,searchIn:SearchIn):Promise<PostResponse[]|string>{
+        const response = await axios.get(`/posts/search/${searchIn}?query=${query}`)
+        if (response.status == StatusCodes.Success) {
+            const posts: PostResponse[] = []
+            for (let post of response.data) {
+                posts.push(post)
+            }
+            return posts
+        }
+        return `errror:Une erreur est survenue, message:${response.data}, status:${response.status}`
+    }
 }

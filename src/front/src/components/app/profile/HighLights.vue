@@ -1,8 +1,8 @@
 <template>
     <div class=" bg-gray-50">
         <div class="flex justify-between items-center px-4 py-1">
-            <h2 class=" mb-0 text-gray-600">Grands titres</h2>
-            <button class=" text-gray-400 hover:text-blue-400 outline-none focus:outline-none">
+            <h2 class=" mb-0 text-gray-600">Grandes lignes</h2>
+            <button class=" hidden text-gray-400 hover:text-blue-400 outline-none focus:outline-none">
                 <svg class=" h-5 fill-current hover:text-blue-400" id="edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.201 29.2">
                     <g id="Group_64" data-name="Group 64">
                         <g id="Group_60" data-name="Group 60" transform="translate(0 2.433)">

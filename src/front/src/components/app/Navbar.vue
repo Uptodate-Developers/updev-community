@@ -1,12 +1,10 @@
 <template>
   <nav class="container  mx-auto xl:px-16 fixed left-0 right-0 bg-gray-50 z-30 shadow-sm">
-    <div class=" md:hidden flex justify-between px-2 py-1">
-      <router-link to="/app">
+    <div class=" md:hidden grid grid-cols-12  px-2 py-1">
+      <router-link  class="col-span-2 h-full flex items-center" to="/app">
         <img class=" h-8" src="../../assets/logo.svg" alt="UpdevCommunity short logo"/>
       </router-link>
-      <button class=" px-2 py-1 rounded-lg hover:shadow-md focus:shadow-md focus:outline-none">
-        <img src="../../assets/icons/search.svg" alt="Search icon"/>
-      </button>
+     <serch-input class="col-span-10 w-full"/>
     </div>
     <div class=" md:hidden bg-gray-100">
       <horizontal-line/>
@@ -160,7 +158,7 @@
 
       <router-link class="text-gray-900" v-if="!isAuth" to="/login">
         <a-tooltip>
-          <template #title>Voulez-vous vraiment vous deconnecter?</template>
+          <template v-if="isAuth" #title>Voulez-vous vraiment vous deconnecter?</template>
           <div class="fill-current text-current flex justify-center items-center space-x-2.5">
             <svg class=" h-8 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.2 39.2">
               <path id="Path_95" data-name="Path 95"
@@ -177,19 +175,19 @@
 import Button from "../Button.vue"
 import SerchInput from "./SearchInput.vue"
 import HorizontalLine from "./HorizontalLine.vue"
-import {defineComponent, ref, reactive, computed, onMounted} from "vue"
-import {AuthService} from "../../services/AuthService";
+import {defineComponent, computed} from "vue"
+import {AuthService} from "../../services/AuthService"
 import {useRouter} from "vue-router"
-import {appConfig} from "../../config/app";
+import {appConfig} from "../../config/app"
 
 export default defineComponent({
   name: "Navbar",
   components: {SerchInput, Button, HorizontalLine},
   setup() {
-    const authService = new AuthService();
-    const router = useRouter();
-    const user = authService.user;
-    const isAuth = authService.isAuthenticated;
+    const authService = new AuthService()
+    const router = useRouter()
+    const user = authService.user
+    const isAuth = authService.isAuthenticated
     const fullName = computed(() => `${user?.name} ${user?.firstName} ${user?.lastName}`);
     const avatar = computed(() => `${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`);
 

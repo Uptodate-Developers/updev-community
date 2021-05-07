@@ -42,7 +42,6 @@
         const hashTagService = new HashTagService()
         const tags = ref(hashTagService.selectedTags)
         const canHideTags = ref(tags.value.length == 0)
-        console.log(canHideTags.value)
 
         watch(() => props.tags,() => tags.value = props.tags)
         watch(() => props.hideTags,() => canHideTags.value = props.hideTags)

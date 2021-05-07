@@ -127,7 +127,7 @@ export default defineComponent({
       await uploadHashTags()
 
       const hashTags = uploadedHashTags.map(h => h.tag)
-      const photosIds = uploadedImages.map((i => i.id))
+      const photosIds = uploadedImages.map((i => Number(i.id)))
 
       const newPost = <CreatePostRequest>{
         title:title.value,

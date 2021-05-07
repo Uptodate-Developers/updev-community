@@ -1,16 +1,23 @@
 <template>
     <div class="px-2 py-1 pl-4 rouded-md bg-gray-50 space-y-2">
-        <div class=" flex space-x-2">
-            <a-avatar :src="reply.user?.profilePicUrl" :style="{backgroundColor: '#0068B7', verticalAlign: 'middle'}" :size="35"><span style="line-height: 35px" class="block text-lg font-semibold">{{avatar}}</span></a-avatar>
-            <div>
-                <h2 class=" mb-0">{{fullName}}</h2>
-                <h3 class=" text-xs  text-gray-400 font-light">{{fullDate}}</h3>
-            </div>
+      <div class="flex justify-between items-center">
+        <div @click="goToProfile" class="flex space-x-2 cursor-pointer hover:text-blue-300">
+          <a-avatar :src="reply.user?.profilePicUrl" :style="{backgroundColor: '#0068B7', verticalAlign: 'middle'}" :size="35"><span style="line-height: 35px" class="block text-lg font-semibold">{{avatar}}</span></a-avatar>
+          <div>
+            <h2 class=" mb-0">{{fullName}}</h2>
+            <h3 class=" text-xs  text-gray-400 font-light">{{fullDate}}</h3>
+          </div>
         </div>
+        <button v-if="isOwner" @click="showConfirmDeletion" class="bg-gray-50 p-2 text-red-500 hover:bg-red-500 hover:text-gray-50">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
+      </div>
         <div class=" flex px-4">
             <div style="width:1.5px" class="bg-gray-200 h-full"></div>
             <div>
-              <div class=" text-gray-500" v-html="reply.body.substring(0,200)"></div>
+              <div class=" text-gray-500" v-html="reply?.body?.substring(0,200)"></div>
             </div>
         </div>
         <div class=" flex space-x-4">
@@ -74,16 +81,20 @@
 <script lang="ts">
     import HorizontalLine from '../HorizontalLine.vue'
     import ForumPostCommentInput from './ForumPostCommentInput.vue'
-    import {computed, defineComponent, ref} from "vue"
+    import {computed, createVNode, defineComponent, ref, watch} from "vue"
     import {User,VoteStatus} from "../../../../api/models"
     import dayjs from "dayjs";
-    import {message} from "ant-design-vue"
-    import {PostService} from "../../../services"
+    import {message, Modal} from "ant-design-vue"
+    import {PostService,AuthService} from "../../../services"
     import {PostResponse, ReplyResponse} from "../../../../api/responses"
+    import {EventKeys} from "../../../constants"
+    import { WarningOutlined } from '@ant-design/icons-vue'
+    import {useRouter} from "vue-router"
 
     export default defineComponent({
       name: "ForumResposne",
       components: { HorizontalLine, ForumPostCommentInput },
+      emits: [EventKeys.ReplyDeleted],
       props: {
         user: {
           type: Object as () => User,
@@ -101,10 +112,8 @@
           default:true
         }
       },
-      setup(props){
+      setup(props,context){
         const postService = new PostService()
-        const isAuth = ref(props.user !== null && props.user !== undefined)
-        const isAuthToRespond = ref(props.canRespond && isAuth.value)
         const respond = ref(false)
         const fullName = computed(() => `${props.reply.user?.name} ${props.reply.user?.firstName} ${props.reply.user?.lastName}`)
         const avatar = computed(()=> `${props.reply.user?.firstName?.charAt(0)}${props.reply.user?.lastName?.charAt(0)}`)
@@ -115,7 +124,6 @@
         const skip = ref(0)
         const take = ref(10)
 
-        const onRespond = () => respond.value = !respond.value && isAuthToRespond.value
 
         const repliesOpened = ref(false)
 
@@ -144,7 +152,7 @@
           if(!props.user)
             message.info("Vous devez vous connecter pour placer votre vote")
           else {
-            const reply = await postService.vote(undefined, props.reply.id.toString(), props.user.id.toString(), status)
+            const reply = await postService.vote(undefined, props.reply.id.toString(), props.user?.id?.toString(), status)
             if(typeof reply !== "string"){
               props.reply.downvote = reply.downvote
               props.reply.upvote = reply.upvote
@@ -155,7 +163,38 @@
           }
         }
 
-        return {isAuth,fullName,fullDate,avatar,respond,onRespond,voteStatus,onVote, replies, repliesOpened,onGetReplies}
+        const authService = new AuthService()
+        const isAuth = ref(authService.isAuthenticated)
+        const isOwner = ref(authService.user?.id == props.post?.user?.id)
+        watch(() => props.reply,() => isOwner.value = authService.user?.id == props.reply?.user?.id)
+
+        const isAuthToRespond = ref(props.canRespond && isAuth.value)
+        const onRespond = () => respond.value = !respond.value && isAuthToRespond.value
+        const onDelete = async () => {
+          const postDeleted = await postService.delete(undefined,props.reply?.id?.toString(),props.user?.id?.toString() ?? "")
+          if(typeof postDeleted == "boolean"){
+            isOwner.value = false
+            context.emit(EventKeys.ReplyDeleted,props.reply.id)
+          }
+          else
+            message.error(postDeleted)
+        }
+        const showConfirmDeletion = () => {
+          Modal.confirm({
+            title: 'Voulez-vous vraiment supprimer cette réponse?',
+            icon: createVNode(WarningOutlined),
+            okText:"Oui",
+            cancelText:"Non",
+            onOk : async () =>  await onDelete(),
+            onCancel() {},
+          });
+        }
+
+
+        const router = useRouter()
+        const goToProfile = () => router.push(`/app/profile/${props.reply.user.id}`)
+
+        return {goToProfile,isOwner,showConfirmDeletion,isAuth,fullName,fullDate,avatar,respond,onRespond,voteStatus,onVote, replies, repliesOpened,onGetReplies}
       }
     })
 
