@@ -1,5 +1,5 @@
 <template>
-  <form v-if="!showComment" class="grid grid-cols-10 gap-1">
+  <form v-if="showComment" class="grid grid-cols-10 gap-1">
     <a-avatar :src="user.profilePicUrl" :style="{backgroundColor: '#9C9C9C',verticalAlign: 'middle'}" :size="35"><span
         style="line-height: 35px"
         class="block text-sm font-semibold">{{ avatar }}</span>
@@ -33,8 +33,7 @@
 </template>
 <script lang="ts">
 import {computed, defineComponent, ref} from "vue"
-import {User} from "../../../../api/models"
-import {PostService} from "../../../services"
+import {PostService,AuthService} from "../../../services"
 import {CreateReplyRequest} from "../../../../api/requests"
 import {message} from "ant-design-vue"
 import {PostResponse, ReplyResponse} from "../../../../api/responses"
@@ -42,10 +41,6 @@ import {PostResponse, ReplyResponse} from "../../../../api/responses"
 export default defineComponent({
   name: "CommentInput",
   props: {
-    user: {
-      type: Object as () => User,
-      required: true
-    },
     post: {
       type: Object as () => PostResponse,
       required: true
@@ -56,17 +51,19 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const authService = new AuthService()
     const postService = new PostService()
-    const fullName = computed(() => `${props.user?.name} ${props.user?.firstName} ${props.user?.lastName}`)
-    const avatar = computed(() => `${props.user?.firstName?.charAt(0)}${props.user?.lastName?.charAt(0)}`)
-    const showComment = ref(typeof props.user != "undefined" && typeof props.user != null)
+    const user = authService.user
+    const fullName = computed(() => `${user?.name} ${user?.firstName} ${user?.lastName}`)
+    const avatar = computed(() => `${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`)
+    const showComment = ref(authService.isAuthenticated)
     const comment = ref("")
 
     const onSubmitComment = async () => {
       if(comment.value && comment.value.length) {
         const reply = <CreateReplyRequest>{
             body:comment.value,
-            userId:props.user.id,
+            userId:user?.id,
             replyId: props.reply?.id ?? undefined,
             postId:props.post.id
         }
@@ -82,7 +79,7 @@ export default defineComponent({
       }
     }
 
-    return {showComment,fullName, avatar, comment,onSubmitComment}
+    return {user,showComment,fullName, avatar, comment,onSubmitComment}
   }
 })
 </script>

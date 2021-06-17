@@ -7,19 +7,19 @@ const auth = new AuthService();
 
 const config: AxiosRequestConfig = {
   baseURL: appConfig.apiUrl,
+  withCredentials: true,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
   },
 };
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-axios.defaults.headers.common = { Authorization: `Bearer ${auth.jwtToken}` };
 
 const apiClient: AxiosInstance = axios.create(config);
 
+axios.defaults.headers.common = { Authorization: `Bearer ${auth.jwtToken}` };
 // /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export function useAxios() {
   return makeAxios(apiClient);
 }
-
-export default apiClient;
+export default axios;

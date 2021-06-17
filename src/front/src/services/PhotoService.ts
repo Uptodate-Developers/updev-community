@@ -1,6 +1,5 @@
 import axios from "./Axios"
 import {StatusCodes} from "../../api/models"
-import {FileInfo} from "../models"
 import {FileResponse, PhotoResponse} from "../../api/responses"
 import {plainToClass} from "class-transformer"
 

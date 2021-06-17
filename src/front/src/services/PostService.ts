@@ -28,7 +28,7 @@ export class PostService {
             return posts
         }
 
-        return `errror:Une erreur est survenue, message:${response.data}, status:${response.status}`
+        return `error:Une erreur est survenue, message:${response.data}, status:${response.status}`
     }
 
     async getPostsForUser(userId: number, skip: number, take: number, isRecent: boolean, isPopular: boolean): Promise<PostResponse[] | string> {
