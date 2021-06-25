@@ -9,7 +9,14 @@
       <button
         v-for="tag in post.hashtags"
         :key="tag"
-        class="bg-gray-200 px-4 pb-0.5 rounded-2xl text-xs text-gray-500 focus:outline-none"
+        class="
+          bg-gray-200
+          px-4
+          pb-0.5
+          rounded-2xl
+          text-xs text-gray-500
+          focus:outline-none
+        "
       >
         #{{ tag }}
       </button>
@@ -111,7 +118,7 @@ export default defineComponent({
     );
 
     const onNavigateToPostDetail = () =>
-      router.push(`/app/post/${props.post.id}`);
+      router.push(`/app/post/${props.post.slug}`);
 
     const { voteStatus } = useVote("Post");
 

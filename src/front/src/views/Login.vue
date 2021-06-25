@@ -100,7 +100,6 @@ export default defineComponent({
         popupWindow?.addEventListener("unload", async function (event) {
           setInterval(async () => {
             try {
-              // const authResp = deserialize(AuthResponse, "");
               const authResp = deserialize(
                 AuthResponse,
                 popupWindow.document.body.innerText

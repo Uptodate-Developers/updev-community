@@ -1,41 +1,39 @@
-export class User{
+export class User {
+  id: number = 0;
 
-    id:number = 0
+  email: string | undefined;
 
-    email:string|undefined
+  phoneNumber: string | undefined;
 
-    phoneNumber:string|undefined
+  bio: string | undefined;
 
-    bio:string|undefined
+  name: string | undefined;
 
-    name:string|undefined
+  firstName: string | undefined;
 
-    firstName:string|undefined
+  lastName: string | undefined;
 
-    lastName:string|undefined
+  facebookProfileId: string | undefined;
 
-    facebookProfileId:string|undefined
+  facebookProfileLink: string | undefined;
 
-    facebookProfileLink:string|undefined
+  googleProfileId: string | undefined;
 
-    googleProfileId:string|undefined
+  twitterProfileId: string | undefined;
 
+  twitterProfileLink: string | undefined;
 
-    twitterProfileId:string|undefined
+  githubProfileId: string | undefined;
 
-    twitterProfileLink:string|undefined
+  githubProfileLink: string | undefined;
 
-    githubProfileId:string|undefined
+  profilePicUrl: string | undefined;
 
-    githubProfileLink:string|undefined
+  profession: string | undefined;
 
-    profilePicUrl:string|undefined
+  dateCreated: Date = new Date();
 
+  dateUpdated: Date = new Date();
 
-    profession:string|undefined
-
-    dateCreated: Date = new Date()
-
-    dateUpdated: Date = new Date()
-
+  postsCount: number = 0;
 }
