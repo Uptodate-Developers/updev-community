@@ -5,7 +5,7 @@
     :title="title_social"
     @click.prevent="showShareWindow"
   >
-    <img class="h-12" src="../icons/twitter.svg" alt="twitter" />
+    <img class="h-12" src="../icons/twitter_50px.png" alt="twitter" />
   </a>
 </template>
 
@@ -56,10 +56,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.button-social {
-  img {
-    width: 40px;
-  }
-}
-</style>

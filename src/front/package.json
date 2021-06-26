@@ -26,6 +26,7 @@
     "axios": "^0.21.1",
     "babel-plugin-import": "^1.13.3",
     "class-transformer": "^0.4.0",
+    "cropperjs": "^1.5.12",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@types/facebook-js-sdk": "^3.3.2",
     "@types/node": "^14.14.35",
+    "@types/uuid": "^8.3.0",
     "@vue/cli-plugin-babel": "3.0.4",
     "@vue/cli-plugin-typescript": "3.0.4",
     "@vue/cli-service": "3.0.4",

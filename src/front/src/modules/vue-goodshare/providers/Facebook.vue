@@ -5,7 +5,7 @@
     :title="title_social"
     @click.prevent="showShareWindow"
   >
-    <img class="h-12" src="../icons/facebook.svg" alt="facebook" />
+    <img class="h-12" src="../icons/facebook_50px.png" alt="facebook" />
   </a>
 </template>
 
@@ -98,10 +98,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.button-social {
-  img {
-    width: 40px;
-  }
-}
-</style>

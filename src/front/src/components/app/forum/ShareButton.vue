@@ -19,14 +19,26 @@
       <a-popover trigger="hover">
         <template #content>
           <div class="flex space-x-4">
-            <vue-goodshare-facebook
-              :page_url="postUrl"
-              title_social="Facebook"
-            ></vue-goodshare-facebook>
             <vue-goodshare-twitter
               :page_url="postUrl"
               title_social="Twitter"
             ></vue-goodshare-twitter>
+            <vue-goodshare-linkedin
+              :page_url="postUrl"
+              title_social="Linkedin"
+            ></vue-goodshare-linkedin>
+            <vue-goodshare-facebook
+              :page_url="postUrl"
+              title_social="Facebook"
+            ></vue-goodshare-facebook>
+            <vue-goodshare-whatsapp
+              :page_url="postUrl"
+              title_social="Whatsapp"
+            ></vue-goodshare-whatsapp>
+            <vue-goodshare-telegram
+              :page_url="postUrl"
+              title_social="Telegram"
+            ></vue-goodshare-telegram>
           </div>
         </template>
         <h3 class="mb-0 text-current font-normal">partager</h3>
@@ -40,12 +52,18 @@ import { PostResponse } from "../../../../api/responses";
 import {
   VueGoodshareFacebook,
   VueGoodshareTwitter,
+  VueGoodshareLinkedIn,
+  VueGoodshareWhatsapp,
+  VueGoodshareTelegram,
 } from "../../../modules/vue-goodshare/providers";
 
 export default defineComponent({
   components: {
     VueGoodshareFacebook,
     VueGoodshareTwitter,
+    VueGoodshareWhatsapp,
+    VueGoodshareTelegram,
+    "vue-goodshare-linkedin": VueGoodshareLinkedIn,
   },
   props: {
     post: {

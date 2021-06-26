@@ -1,18 +1,11 @@
 <template>
   <a
     class="button-social"
-    :class="buttonSocialDesignObject"
     :page-url="page_url"
-    :button-design="button_design"
-    :title-social="title_social"
-    :has-icon="has_icon"
-    :has-square-edges="has_square_edges"
+    :title="title_social"
     @click.prevent="showShareWindow"
   >
-    <i class="icon-telegram" v-if="this.$props.has_icon"></i>
-    <span class="title-social" v-if="this.$props.title_social">
-      {{ title_social }}
-    </span>
+    <img class="h-12" src="../icons/telegram_50px.png" alt="Telegram" />
   </a>
 </template>
 
@@ -26,15 +19,15 @@ export default {
   props: {
     page_url: {
       type: String,
-      default: documentHrefWithoutHash
+      default: documentHrefWithoutHash,
     },
     button_design: {
       type: String,
-      default: () => "flat"
+      default: () => "flat",
     },
     title_social: String,
     has_icon: Boolean,
-    has_square_edges: Boolean
+    has_square_edges: Boolean,
   },
   data() {
     return {
@@ -42,8 +35,8 @@ export default {
         "button-social__square_edges": this.$props.has_square_edges,
         telegram__design__flat: this.$props.button_design === "flat",
         telegram__design__gradient: this.$props.button_design === "gradient",
-        telegram__design__outline: this.$props.button_design === "outline"
-      }
+        telegram__design__outline: this.$props.button_design === "outline",
+      },
     };
   },
   methods: {
@@ -52,7 +45,7 @@ export default {
      *
      * @return {object} a pop-up window
      */
-    showShareWindow: function() {
+    showShareWindow: function () {
       // Variables
       const width = 640;
       const height = 480;
@@ -64,127 +57,7 @@ export default {
       clickEvent(this, "telegram");
 
       return openPopUpWindow(share_url, width, height);
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style scoped lang="scss">
-// Fontello
-@font-face {
-  font-family: "Fontello";
-  src: url("../fonts/fontello.eot?26533562");
-  src: url("../fonts/fontello.eot?26533562#iefix") format("embedded-opentype"),
-    url("../fonts/fontello.woff2?26533562") format("woff2"),
-    url("../fonts/fontello.woff?26533562") format("woff"),
-    url("../fonts/fontello.ttf?26533562") format("truetype"),
-    url("../fonts/fontello.svg?26533562#fontello") format("svg");
-  font-weight: normal;
-  font-style: normal;
-}
-
-[class^="icon-"]:before,
-[class*=" icon-"]:before {
-  font-family: "Fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: 0.2em;
-  text-align: center;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1em;
-  margin-left: 0.2em;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-telegram:before {
-  content: "\f2c6";
-}
-
-// Colors
-$telegram_main_color: rgb(0, 136, 204);
-$gradient_color: rgb(30, 166, 234);
-$background_white_color: rgb(254, 254, 254);
-$text_white_color: rgb(254, 254, 254);
-
-// Reset
-.button-social * {
-  box-sizing: border-box;
-}
-
-// Button Social link style
-.button-social {
-  display: inline-flex;
-  cursor: pointer;
-  padding: 7px 10px;
-  margin: 3px 1.5px;
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-}
-
-// Button Social link style on hover
-.button-social:hover {
-  opacity: 0.9;
-}
-
-// Button Social round edges
-.button-social__square_edges {
-  border-radius: 0;
-  -moz-border-radius: 0;
-  -webkit-border-radius: 0;
-}
-
-// Button telegram style `flat`
-.telegram__design__flat {
-  background-color: $telegram_main_color;
-  color: $text_white_color;
-}
-
-// Button telegram style `gradient`
-.telegram__design__gradient {
-  background-image: linear-gradient(
-    to bottom,
-    $telegram_main_color,
-    $gradient_color
-  );
-  background-image: -moz-linear-gradient(
-    to bottom,
-    $telegram_main_color,
-    $gradient_color
-  );
-  background-image: -o-linear-gradient(
-    to bottom,
-    $telegram_main_color,
-    $gradient_color
-  );
-  background-image: -webkit-linear-gradient(
-    to bottom,
-    $telegram_main_color,
-    $gradient_color
-  );
-  background-image: -ms-linear-gradient(
-    to bottom,
-    $telegram_main_color,
-    $gradient_color
-  );
-  color: $text_white_color;
-}
-
-// Button telegram style `outline`
-.telegram__design__outline {
-  background-color: $background_white_color;
-  border: 1px solid $telegram_main_color;
-  color: $telegram_main_color;
-}
-
-// Title
-.title-social {
-  margin-left: 6px;
-}
-</style>
