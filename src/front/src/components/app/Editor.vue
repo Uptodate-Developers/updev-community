@@ -1,6 +1,5 @@
 <template>
   <QuillEditor
-    @textChange="onTextChange"
     v-model:content="contentInHtml"
     contentType="html"
     :options="options"
@@ -11,12 +10,12 @@ import { QuillEditor, Delta } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import "quill-emoji/dist/quill-emoji.css";
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, reactive, ref, watch } from "vue";
 export default defineComponent({
   name: "Editor",
   components: { QuillEditor },
   emits: ["contentChanged"],
-  setup(props, context) {
+  setup(props, { emit }) {
     const options = reactive({
       modules: {
         syntax: true,
@@ -31,7 +30,6 @@ export default defineComponent({
           [{ color: [] }, { background: [] }],
           [{ align: [] }],
           ["clean"],
-          ["emoji"],
         ],
       },
       placeholder: "Que voulez-vous poster?",
@@ -39,9 +37,13 @@ export default defineComponent({
     });
     const contentInHtml = ref("<div></div>");
 
-    const onTextChange = (newText: Delta, oldText: Delta, source) =>
-      context.emit("contentChanged", contentInHtml.value);
-    return { contentInHtml, options, onTextChange };
+    watch(contentInHtml, (newVal) => {
+      emit("contentChanged", newVal);
+    });
+
+    // const onTextChange = (newText: Delta, oldText: Delta, source) =>
+    //   context.emit("contentChanged", contentInHtml.value);
+    return { contentInHtml, options };
   },
 });
 </script>

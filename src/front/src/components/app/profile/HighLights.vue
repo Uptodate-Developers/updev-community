@@ -3,7 +3,13 @@
     <div class="flex justify-between items-center px-4 py-1">
       <h2 class="mb-0 text-gray-600">Grandes lignes</h2>
       <button
-        class="hidden text-gray-400 hover:text-blue-400 outline-none focus:outline-none"
+        class="
+          hidden
+          text-gray-400
+          hover:text-blue-400
+          outline-none
+          focus:outline-none
+        "
       >
         <svg
           class="h-5 fill-current hover:text-blue-400"
@@ -64,7 +70,7 @@
     <horizontal-line />
     <div class="flex items-center space-x-4 px-4 py-2">
       <img src="../../../assets/icons/calendar.svg" alt="Calender icon" />
-      <h3 class="mb-0 text-gray-600">A rejoins {{ joinDate }}</h3>
+      <h3 class="mb-0 text-gray-600">A rejoint {{ joinDate }}</h3>
     </div>
     <div class="flex items-center space-x-4 px-4 py-2">
       <img src="../../../assets/icons/topic.svg" width="27" alt="Posts icon" />

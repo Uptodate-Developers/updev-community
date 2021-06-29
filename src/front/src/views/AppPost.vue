@@ -4,7 +4,12 @@
   </div>
   <div class="space-y-2 md:hidden">
     <div v-if="!isLoading" class="space-y-4">
-      <ForumPost :key="key" :post="post" :user="user" />
+      <ForumPost
+        @replyAdded="onNewReply"
+        :key="key"
+        :post="post"
+        :user="user"
+      />
       <UserProfile :user="postUser" />
       <PopularTopics
         sectionTitle="Autres posts"
@@ -18,10 +23,19 @@
     class="hidden container mx-auto md:grid grid-cols-9 gap-2 py-2 xl:px-28"
   >
     <div class="col-span-6">
-      <ForumPost :post="post" :user="user" />
+      <ForumPost @replyAdded="onNewReply" :post="post" :user="user" />
     </div>
     <div
-      class="space-y-3 col-span-3 md:sticky top-16 h-screen z-20 overflow-y-auto hiddescrollbar"
+      class="
+        space-y-3
+        col-span-3
+        md:sticky
+        top-16
+        h-screen
+        z-20
+        overflow-y-auto
+        hiddescrollbar
+      "
     >
       <UserProfile :user="postUser" />
       <PopularTopics
@@ -39,6 +53,7 @@ import PopularTopics from "../components/app/PopularTopics.vue";
 import { defineComponent, ref, onMounted, watch } from "vue";
 import { AuthService, PostService } from "../services";
 import { message } from "ant-design-vue";
+import { useMeta } from "vue-meta";
 
 export default defineComponent({
   name: "AppPost",
@@ -74,6 +89,11 @@ export default defineComponent({
 
     const forceUpdate = () => key.value++;
 
+    const onNewReply = () => {
+      // @ts-ignore
+      post.value.replyCounts++;
+    };
+
     onMounted(async () => await onLoadPost());
 
     watch(
@@ -81,7 +101,7 @@ export default defineComponent({
       async () => await onLoadPost()
     );
 
-    return { key, post, user, postUser, tags, isLoading };
+    return { key, post, user, postUser, tags, isLoading, onNewReply };
   },
 });
 </script>

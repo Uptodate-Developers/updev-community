@@ -13,6 +13,8 @@
 import { clickEvent } from "../helpers/events";
 import { documentHref } from "../helpers/href";
 import { openPopUpWindow } from "../helpers/popup_window";
+import { documentTitle } from "../helpers/title";
+import { metaDescription } from "../helpers/description";
 
 export default {
   name: "VueGoodshareWhatsapp",
@@ -21,23 +23,7 @@ export default {
       type: String,
       default: documentHref,
     },
-    button_design: {
-      type: String,
-      default: () => "flat",
-    },
     title_social: String,
-    has_icon: Boolean,
-    has_square_edges: Boolean,
-  },
-  data() {
-    return {
-      buttonSocialDesignObject: {
-        "button-social__square_edges": this.$props.has_square_edges,
-        whatsapp__design__flat: this.$props.button_design === "flat",
-        whatsapp__design__gradient: this.$props.button_design === "gradient",
-        whatsapp__design__outline: this.$props.button_design === "outline",
-      },
-    };
   },
   methods: {
     /**

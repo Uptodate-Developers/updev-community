@@ -1,13 +1,16 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import "./index.css";
+import "./assets/scss/app.scss";
+import "./assets/css/animations.css";
+import "./assets/css/index.css";
 import "ant-design-vue/dist/antd.less";
 import router from "./router";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import VueScrollTo from "vue-scrollto";
 import ShareButton from "./components/app/forum/ShareButton.vue";
-
+import "./registerServiceWorker";
+import { createMetaManager } from "vue-meta";
 import {
   Avatar,
   Carousel,
@@ -46,6 +49,7 @@ app.use(Spin);
 app.use(Icon);
 app.use(Tooltip);
 app.use(Popover);
+app.use(createMetaManager());
 app.component("share-button", ShareButton);
 
 app.mount("#app");

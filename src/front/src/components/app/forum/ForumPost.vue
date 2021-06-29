@@ -135,7 +135,7 @@
             </g>
           </svg>
         </forum-vote-button>
-        <button @click="onGetReplies" class="focus:outline-none">
+        <button @click="loadReplies" class="focus:outline-none">
           <div
             class="
               flex
@@ -168,36 +168,25 @@
       </div>
     </div>
 
-    <div v-if="commentsOpened">
-      <horizontal-line v-if="isAuth" />
-      <forum-post-comment-input
-        v-if="isAuth"
-        :post="post"
-        :user="user"
-        class="px-1 py-2"
-      />
-      <horizontal-line />
-    </div>
-
-    <div v-if="commentsOpened">
-      <forum-response
-        @replyDeleted="onReplyDeleted"
-        v-if="replies.length"
-        v-for="reply in replies"
-        :key="reply.id"
-        :post="post"
-        :user="user"
-        :reply="reply"
-        can-respond="true"
-      />
-    </div>
+    <ForumCommentList
+      v-bind="$attrs"
+      @replyAdded="addReply"
+      :is-auth="isAuth"
+      :post="post"
+      :user="user"
+      :replies="replies"
+      :container-opened="containerOpened"
+    />
   </div>
 </template>
 <script lang="ts">
 import ForumResponse from "./ForumResponse.vue";
 import HorizontalLine from "../HorizontalLine.vue";
 import ForumVoteButton from "./ForumVoteButton.vue";
+import ForumCommentList from "./ForumCommentList.vue";
 import ForumPostCommentInput from "./ForumPostCommentInput.vue";
+import useComment from "../../../composables/comment-composable";
+
 import {
   computed,
   defineComponent,
@@ -205,29 +194,32 @@ import {
   createVNode,
   watch,
   ref,
+  toRefs,
 } from "vue";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { User, VoteStatus } from "../../../../api/models";
-import { PostResponse, ReplyResponse } from "../../../../api/responses";
-import { PostService, AuthService } from "../../../services";
-import { EventKeys } from "../../../constants";
-import { message } from "ant-design-vue";
-import EditorReadOnly from "../EditorReadOnly.vue";
 import { useRouter } from "vue-router";
-import { WarningOutlined } from "@ant-design/icons-vue";
 import { Modal } from "ant-design-vue";
+import { message } from "ant-design-vue";
+import { EventKeys } from "../../../constants";
+import EditorReadOnly from "../EditorReadOnly.vue";
+import { WarningOutlined } from "@ant-design/icons-vue";
+import { User, VoteStatus } from "../../../../api/models";
 import useVote from "../../../composables/vote-composable";
+import { PostService, AuthService } from "../../../services";
+import { PostResponse, ReplyResponse } from "../../../../api/responses";
 
 dayjs.extend(utc);
 
 export default defineComponent({
   name: "ForumPost",
+  inheritAttrs: false,
   components: {
     EditorReadOnly,
     ForumResponse,
     HorizontalLine,
     ForumVoteButton,
+    ForumCommentList,
     ForumPostCommentInput,
   },
   props: {
@@ -290,7 +282,6 @@ export default defineComponent({
           .local()
           .format("HH:mm")}`
     );
-    const isLoading = ref(false);
 
     const authService = new AuthService();
     const isAuth = ref(authService.isAuthenticated);
@@ -324,36 +315,19 @@ export default defineComponent({
     const onReplyDeleted = (replyId: string) => {
       replies.value = replies.value.filter((r) => r.id.toString() != replyId);
     };
+    const { manager, loadReplies, setResource, addReply } = useComment();
 
-    const commentsOpened = ref(false);
+    const managerRefs = toRefs(manager);
 
-    const skip = ref(0);
-    const take = ref(20);
-    const replies = ref<ReplyResponse[]>([]);
-    const getReplies = async () => {
-      isLoading.value = true;
-      const repliesResponse = await postService.getReplies(
-        props.post.id,
-        undefined,
-        undefined,
-        skip.value,
-        take.value
-      );
-      if (typeof repliesResponse == "string") {
-        isLoading.value = false;
-        return [];
-      }
+    const replies = managerRefs.replies;
+    const containerOpened = managerRefs.containerOpened;
 
-      isLoading.value = false;
-      return repliesResponse;
-    };
-    const onGetReplies = async () => {
-      commentsOpened.value = !commentsOpened.value;
-      if (commentsOpened.value) {
-        replies.value = [];
-        replies.value.push(...(await getReplies()));
-      }
-    };
+    onMounted(() => {
+      setResource({
+        id: props.post.id,
+        type: "Post",
+      });
+    });
 
     const goToProfile = () =>
       router.push(`/app/profile/${props.post.user.username}`);
@@ -373,11 +347,12 @@ export default defineComponent({
       fullName,
       avatar,
       fullDate,
-      commentsOpened,
+      containerOpened,
       isAuth,
       replies,
-      onGetReplies,
+      loadReplies,
       voteStatus,
+      addReply,
     };
   },
 });

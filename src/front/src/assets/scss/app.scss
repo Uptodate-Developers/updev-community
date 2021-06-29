@@ -1,0 +1,15 @@
+.voters-tooltip {
+  span {
+    display: block;
+    line-height: 1.2;
+    a {
+      color: #fff;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+.ml-06 {
+  margin: 0 0 0 0.6rem !important;
+}

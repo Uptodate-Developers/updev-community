@@ -30,7 +30,12 @@
       </template>
       <template #renderItem="{ item }">
         <a-list-item>
-          <forum-post @postDeleted="onPostDeleted" :post="item" :user="user" />
+          <forum-post
+            @postDeleted="onPostDeleted"
+            @replyAdded="onNewReply"
+            :post="item"
+            :user="user"
+          />
         </a-list-item>
       </template>
     </a-list>
@@ -48,7 +53,7 @@ import { EventKeys } from "../../../constants";
 import { User } from "../../../../api/models";
 import NotConnected from "../NotConnected.vue";
 import { PostService } from "../../../services";
-import { PostResponse } from "../../../../api/responses";
+import { PostResponse, ReplyResponse } from "../../../../api/responses";
 import { defineComponent, ref, onMounted, watch } from "vue";
 
 export default defineComponent({
@@ -128,7 +133,20 @@ export default defineComponent({
     const onTagRemoved = () => context.emit(EventKeys.TagRemoved);
 
     const onPostDeleted = (postId: string) => {
-      posts.value = posts.value.filter((p) => p.id.toString() != postId);
+      const index = posts.value.findIndex((p) => p.id.toString() == postId);
+      if (index > -1) {
+        posts.value.splice(index, 1);
+      }
+    };
+
+    const onNewReply = (reply: ReplyResponse) => {
+      if (reply.postId) {
+        const post = posts.value.find((p) => p.id === reply.postId);
+        if (post) {
+          // @ts-ignore
+          post.replyCounts++;
+        }
+      }
     };
 
     return {
@@ -143,6 +161,7 @@ export default defineComponent({
       onTagSelected,
       onTagRemoved,
       onPostAdded,
+      onNewReply,
     };
   },
 });

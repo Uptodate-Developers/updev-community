@@ -1,0 +1,236 @@
+.fade-from-right-enter-active,
+.fade-from-right-leave-active {
+    opacity: 1 !important;
+    transition: opacity 1s, transform 1s !important;
+    transform: translateX(0) !important;
+}
+
+.fade-from-right-enter,
+.fade-from-right-leave-to,
+.fade-from-right-leave {
+    opacity: 0 !important;
+    transform: translateX(50) !important;
+}
+.fade-from-right-transition {
+    opacity: 1 !important;
+    transition: opacity 3s, transform 3s !important;
+    transform: translateX(0) !important;
+}
+
+.fade-from-right-enter,
+.fade-from-right-leave {
+    opacity: 0 !important;
+    transform: translateX(50px) !important;
+}
+
+.page-enter-active,
+.page-leave-active {
+    transition: opacity 0.2s;
+}
+.page-enter,
+.page-leave-to {
+    opacity: 0;
+}
+
+.router-anim-enter-active {
+    animation: zoomIn 1s;
+}
+.router-anim-leave-active {
+    animation: zoomOut 1s;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition-duration: 0.3s;
+    transition-property: height, opacity;
+    transition-timing-function: ease;
+    overflow: hidden;
+}
+
+.fade-enter,
+.fade-leave-active {
+    opacity: 0;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+    transition-duration: 0.5s;
+    transition-property: height, opacity, transform;
+    transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+    overflow: hidden;
+}
+
+.slide-left-enter,
+.slide-right-leave-active {
+    opacity: 0;
+    transform: translate(2em, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+    opacity: 0;
+    transform: translate(-2em, 0);
+}
+
+.zoom-enter-active,
+.zoom-leave-active {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-name: zoom;
+}
+
+.zoom-leave-active {
+    animation-direction: reverse;
+}
+
+@keyframes zoom {
+    from {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes zoomIn {
+    from {
+        opacity: 0;
+        -webkit-transform: scale3d(0.3, 0.3, 0.3);
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        -webkit-transform: scale3d(0.3, 0.3, 0.3);
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.zoomIn {
+    -webkit-animation-name: zoomIn;
+    animation-name: zoomIn;
+}
+
+@-webkit-keyframes zoomOut {
+    from {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+        -webkit-transform: scale3d(0.3, 0.3, 0.3);
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes zoomOut {
+    from {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+        -webkit-transform: scale3d(0.3, 0.3, 0.3);
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.zoomOut {
+    -webkit-animation-name: zoomOut;
+    animation-name: zoomOut;
+}
+
+@keyframes going {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+}
+
+@keyframes coming {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes scaleInCircle {
+    from {
+        -webkit-transform: scale(0);
+    }
+    to {
+        -webkit-transform: scale(2);
+    }
+}
+
+@keyframes scaleInCircle {
+    from {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    to {
+        -webkit-transform: scale(2);
+        transform: scale(2);
+    }
+}
+
+.scaleInCircle {
+    -webkit-animation: scaleInCircle 0.6s;
+    animation: scaleInCircle 0.6s;
+    -webkit-animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+@-webkit-keyframes scaleOut {
+    from {
+        -webkit-transform: scale(1);
+    }
+    to {
+        -webkit-transform: scale(0);
+    }
+}
+
+@keyframes scaleOut {
+    from {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    to {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+}
+
+.scaleOut {
+    -webkit-animation: scaleOut 0.6s;
+    animation: scaleOut 0.6s;
+}

@@ -33,23 +33,10 @@ export default {
       type: String,
       default: metaDescription,
     },
-    button_design: {
-      type: String,
-      default: () => "flat",
-    },
     title_social: String,
-    has_icon: Boolean,
-    has_square_edges: Boolean,
-    has_counter: Boolean,
   },
   data() {
     return {
-      buttonSocialDesignObject: {
-        "button-social__square_edges": this.$props.has_square_edges,
-        linkedin__design__flat: this.$props.button_design === "flat",
-        linkedin__design__gradient: this.$props.button_design === "gradient",
-        linkedin__design__outline: this.$props.button_design === "outline",
-      },
       counter_linkedin: 0,
     };
   },

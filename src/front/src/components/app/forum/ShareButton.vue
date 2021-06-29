@@ -21,6 +21,7 @@
           <div class="flex space-x-4">
             <vue-goodshare-twitter
               :page_url="postUrl"
+              :page_title="post.title"
               title_social="Twitter"
             ></vue-goodshare-twitter>
             <vue-goodshare-linkedin
@@ -29,6 +30,8 @@
             ></vue-goodshare-linkedin>
             <vue-goodshare-facebook
               :page_url="postUrl"
+              :page_title="post.title"
+              :page_description="post.description"
               title_social="Facebook"
             ></vue-goodshare-facebook>
             <vue-goodshare-whatsapp

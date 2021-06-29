@@ -9,10 +9,19 @@
     </div>
     <div>
       <div
-        class="container space-y-1 md:sticky top-16 h-screen z-20 overflow-y-auto hiddescrollbar"
+        class="
+          container
+          space-y-1
+          md:sticky
+          top-16
+          h-screen
+          z-20
+          overflow-y-auto
+          hiddescrollbar
+        "
       >
         <high-lights :user="user" />
-        <popular-topics :user="user" isForUserOnly="true" />
+        <popular-topics :user="user" :isForUserOnly="true" />
       </div>
     </div>
   </div>
@@ -20,12 +29,25 @@
     <user-vue :user="user" />
     <high-lights :user="user" />
     <user-journal :user="user" />
-    <popular-topics :user="user" isForUserOnly="true" />
+    <popular-topics :user="user" :isForUserOnly="true" />
 
     <div class="md:hidden flex flex-col">
       <button
         @click="onLogout"
-        class="self-stretch bg-gray-50 text-red-500 px-2 py-2 space-x-4 hover:text-red-500 focus:outline-none flex justify-center items-center border"
+        class="
+          self-stretch
+          bg-gray-50
+          text-red-500
+          px-2
+          py-2
+          space-x-4
+          hover:text-red-500
+          focus:outline-none
+          flex
+          justify-center
+          items-center
+          border
+        "
       >
         <svg
           class="fill-current"

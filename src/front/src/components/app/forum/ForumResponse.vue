@@ -156,10 +156,9 @@
       :reply="reply"
     />
     <horizontal-line />
-    <div v-if="repliesOpened">
+    <div v-if="repliesOpened && replies.length">
       <div class="pl-4">
         <forum-response
-          v-if="replies.length"
           v-for="reply in replies"
           :key="reply.id"
           :post="post"

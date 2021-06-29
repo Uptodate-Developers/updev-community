@@ -95,7 +95,7 @@
             </g>
           </svg>
         </forum-vote-button>
-        <button @click="onGetReplies" class="focus:outline-none">
+        <button @click="loadReplies" class="focus:outline-none">
           <div
             class="
               flex
@@ -128,57 +128,41 @@
       </div>
     </div>
 
-    <div v-if="commentsOpened">
-      <horizontal-line v-if="isAuth" />
-      <forum-post-comment-input
-        v-if="isAuth"
-        :post="post"
-        :user="user"
-        class="px-1 py-2"
-      />
-      <horizontal-line />
-    </div>
-
-    <div v-if="commentsOpened">
-      <forum-response
-        v-if="replies.length"
-        v-for="reply in replies"
-        :key="reply.id"
-        :post="post"
-        :user="user"
-        :reply="reply"
-        can-respond="true"
-      />
-    </div>
+    <ForumCommentList
+      v-bind="$attrs"
+      @replyAdded="addReply"
+      :is-auth="isAuth"
+      :post="post"
+      :user="user"
+      :replies="replies"
+      :container-opened="containerOpened"
+    />
   </div>
 </template>
 <script lang="ts">
-import ForumResponse from "./ForumResponse.vue";
-import HorizontalLine from "../HorizontalLine.vue";
-import ForumPostCommentInput from "./ForumPostCommentInput.vue";
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, ref, toRefs, watch } from "vue";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { User, VoteStatus } from "../../../../api/models";
-import { PostResponse, ReplyResponse } from "../../../../api/responses";
-import { PostService } from "../../../services";
+import { PostResponse } from "../../../../api/responses";
 import { EventKeys } from "../../../constants";
 import { message } from "ant-design-vue";
 import EditorReadOnly from "../EditorReadOnly.vue";
 import { useRouter } from "vue-router";
 import ForumVoteButton from "./ForumVoteButton.vue";
+import ForumCommentList from "./ForumCommentList.vue";
 import useVote from "../../../composables/vote-composable";
+import useComment from "../../../composables/comment-composable";
 
 dayjs.extend(utc);
 
 export default defineComponent({
   name: "FullForumPost",
+  inheritAttrs: false,
   components: {
     EditorReadOnly,
     ForumVoteButton,
-    ForumResponse,
-    HorizontalLine,
-    ForumPostCommentInput,
+    ForumCommentList,
   },
   props: {
     post: {
@@ -192,7 +176,7 @@ export default defineComponent({
   emits: [EventKeys.TagSelected],
   setup(props) {
     const editorContent = ref(props.post?.body ? props.post.body : "");
-    const postService = new PostService();
+
     const isAuth = ref(props.user !== null && props.user !== undefined);
     const fullName = computed(
       () =>
@@ -212,37 +196,13 @@ export default defineComponent({
           .local()
           .format("HH:mm")}`
     );
-    const isLoading = ref(false);
-    const commentsOpened = ref(false);
-    const skip = ref(0);
-    const take = ref(20);
-    const replies = ref<ReplyResponse[]>([]);
     const { voteStatus } = useVote("Post");
-    const getReplies = async () => {
-      isLoading.value = true;
-      const repliesResponse = await postService.getReplies(
-        props.post.id,
-        undefined,
-        undefined,
-        skip.value,
-        take.value
-      );
-      if (typeof repliesResponse == "string") {
-        isLoading.value = false;
-        return [];
-      }
+    const { manager, loadReplies, setResource, addReply } = useComment();
 
-      isLoading.value = false;
-      return repliesResponse;
-    };
+    const managerRefs = toRefs(manager);
 
-    const onGetReplies = async () => {
-      commentsOpened.value = !commentsOpened.value;
-      if (commentsOpened.value) {
-        replies.value = [];
-        replies.value.push(...(await getReplies()));
-      }
-    };
+    const replies = managerRefs.replies;
+    const containerOpened = managerRefs.containerOpened;
 
     watch(
       () => props.post,
@@ -251,16 +211,24 @@ export default defineComponent({
       }
     );
 
+    onMounted(() => {
+      setResource({
+        id: props.post.id,
+        type: "Post",
+      });
+    });
+
     return {
       avatar,
       isAuth,
       replies,
       fullName,
       fullDate,
+      addReply,
       voteStatus,
-      onGetReplies,
+      loadReplies,
       editorContent,
-      commentsOpened,
+      containerOpened,
     };
   },
 });

@@ -26,7 +26,7 @@
 <script lang="ts">
 import Cropper from "cropperjs";
 import AvatarCropper from "./../../modules/vue-avatar-cropper";
-import { dataURLtoFile, getUUID } from "./../../utils/str-utils";
+import { dataURLtoFile, randomChar } from "./../../utils/str-utils";
 import {
   h,
   defineComponent,
@@ -65,7 +65,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const uuid = getUUID().replace(/[^a-z]/i, "");
+    const uuid = randomChar(12);
     const processing = ref<boolean>(false);
     const selectedFile = ref<string>(props.value);
     const fileName = ref<string>("");

@@ -15,6 +15,8 @@ import { documentHrefWithoutHash } from "../helpers/href";
 import { getCallbackName } from "../helpers/callback_name";
 import { sliceThousandInt } from "../helpers/count_number";
 import { openPopUpWindow } from "../helpers/popup_window";
+import { documentTitle } from "../helpers/title";
+import { metaDescription } from "../helpers/description";
 
 export default {
   name: "VueGoodshareFacebook",
@@ -24,15 +26,17 @@ export default {
       default: documentHrefWithoutHash,
     },
     title_social: String,
+    page_title: {
+      type: String,
+      default: documentTitle,
+    },
+    page_description: {
+      type: String,
+      default: metaDescription,
+    },
   },
   data() {
     return {
-      buttonSocialDesignObject: {
-        "button-social__square_edges": this.$props.has_square_edges,
-        facebook__design__flat: this.$props.button_design === "flat",
-        facebook__design__gradient: this.$props.button_design === "gradient",
-        facebook__design__outline: this.$props.button_design === "outline",
-      },
       counter_facebook: 0,
     };
   },

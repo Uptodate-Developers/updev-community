@@ -14,6 +14,7 @@ import { clickEvent } from "../helpers/events";
 import { documentHref } from "../helpers/href";
 import { documentTitle } from "../helpers/title";
 import { openPopUpWindow } from "../helpers/popup_window";
+import { metaDescription } from "../helpers/description";
 
 export default {
   name: "VueGoodshareTwitter",
@@ -23,16 +24,10 @@ export default {
       default: documentHref,
     },
     title_social: String,
-  },
-  data() {
-    return {
-      buttonSocialDesignObject: {
-        "button-social__square_edges": this.$props.has_square_edges,
-        twitter__design__flat: this.$props.button_design === "flat",
-        twitter__design__gradient: this.$props.button_design === "gradient",
-        twitter__design__outline: this.$props.button_design === "outline",
-      },
-    };
+    page_title: {
+      type: String,
+      default: documentTitle,
+    },
   },
   methods: {
     /**

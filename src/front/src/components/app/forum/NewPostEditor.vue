@@ -12,7 +12,10 @@
       <a-input v-model:value="title" placeholder="Titre" />
     </div>
     <div class="-mx-4">
-      <editor @contentChanged="onContentChanged" />
+      <editor
+        :key="`editor-${editorUuid}`"
+        @contentChanged="onContentChanged"
+      />
     </div>
     <div class="space-y-2 -mx-4">
       <div>
@@ -36,6 +39,8 @@
           accept=".jpg, .jpeg, .png,.gif"
           list-type="picture"
           v-model:file-list="fileList"
+          :key="`uploader-${editorUuid}`"
+          :action="tempAction"
         >
           <button
             class="
@@ -74,6 +79,7 @@ import {
 } from "../../../../api/requests";
 import { HashTagService, PhotoService, PostService } from "../../../services";
 import { EventKeys } from "../../../constants";
+import { isEmpty, getUUID } from "../../../utils/str-utils";
 
 export default defineComponent({
   name: "NewPostEditor",
@@ -90,10 +96,18 @@ export default defineComponent({
   },
   setup(props, context) {
     const isLoading = ref(false);
+    const editorUuid = ref<number>(getUUID());
 
     const photoService = new PhotoService();
     const fileList = ref<FileItem[]>([]);
     const uploadedImages: PhotoResponse[] = [];
+
+    const postService = new PostService();
+
+    const newPostEdit = ref(false);
+    const title = ref<string>("");
+    const postContent = ref("");
+
     const uploadImages = async () => {
       const items = [...fileList.value];
       for (const item of items) {
@@ -145,19 +159,31 @@ export default defineComponent({
       } else message.error(hashTagsResponse);
     };
     onMounted(async () => await loadHashTags());
-
-    const newPostEdit = ref(false);
-    const title = ref<string>("");
-    const postContent = ref("Que voulez-vous poster?");
-    const onContentChanged = (e: any) => (postContent.value = e);
     watch(
       () => props.openEditor,
-      () => (newPostEdit.value = true)
+      () => {
+        editorUuid.value = getUUID();
+        newPostEdit.value = true;
+      }
     );
 
-    const postService = new PostService();
+    const onContentChanged = (e: any) => {
+      postContent.value = e;
+    };
+
+    const resetForm = (): void => {
+      title.value = "";
+      postContent.value = "";
+      hashtags.value = "";
+    };
+
     const uploadPost = async () => {
       try {
+        if (isEmpty(title.value) || isEmpty(postContent.value)) {
+          message.error("Vous devez renseigner le contenu");
+          return;
+        }
+
         isLoading.value = true;
         await uploadImages();
 
@@ -181,23 +207,28 @@ export default defineComponent({
           context.emit(EventKeys.PostAdded, postResult);
           newPostEdit.value = false;
           message.success("Publié");
+          resetForm();
         }
       } finally {
         isLoading.value = false;
       }
     };
 
+    const baseURL = import.meta.env.VITE_APP_API_URL;
+
     return {
       newPostEdit,
       isLoading,
       fileList,
       hashtags,
+      editorUuid,
       options,
       onSearch,
       prefix,
       onContentChanged,
       uploadPost,
       title,
+      tempAction: `${baseURL}api/posts/temp-upload`,
     };
   },
 });

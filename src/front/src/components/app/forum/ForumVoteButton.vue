@@ -1,40 +1,51 @@
 <template>
-  <a-tooltip
-    @visibleChange="handleTooltipVisibility"
-    v-if="post"
-    placement="top"
-    arrow-point-at-center
+  <div
+    :class="{
+      'text-blue-400': isUpvoted && voteType === voteStatus.Up,
+      'text-yellow-600': isDownvoted && voteType === voteStatus.Down,
+    }"
+    class="flex items-center space-x-1 text-gray-900"
   >
-    <template #title>
-      <div class="p-2 voters-tooltip">
-        <a-spin v-if="isLoading">
-          <a-icon
-            slot="indicator"
-            type="loading"
-            style="font-size: 24px"
-            spin
-          />
-        </a-spin>
-        <span v-for="user in users">
-          <a @click="goToProfile(user)" href="#">{{ getFullName(user) }}</a>
-        </span>
-        <span v-if="!isLoading && users.length === 0">
-          <a href="#">Aucun</a>
-        </span>
-      </div>
-    </template>
     <button @click="onVote" class="focus:outline-none">
-      <div
-        :class="isUpvoted ? 'text-yellow-600' : 'hover:text-blue-400'"
-        class="flex items-center space-x-1 text-gray-900"
-      >
-        <slot></slot>
-        <h3 class="text-current fill-current mb-0 font-normal">
-          {{ voteType === voteStatus.Up ? post.upvote : post.downvote }}
-        </h3>
-      </div>
+      <slot></slot>
     </button>
-  </a-tooltip>
+    <a-tooltip
+      @visibleChange="handleTooltipVisibility"
+      v-if="post"
+      placement="top"
+      arrow-point-at-center
+    >
+      <template #title>
+        <div class="voters-tooltip">
+          <a-spin v-if="isLoading">
+            <a-icon
+              slot="indicator"
+              type="loading"
+              style="font-size: 24px"
+              spin
+            />
+          </a-spin>
+          <span v-for="user in users">
+            <a @click="goToProfile(user)" href="#">{{ getFullName(user) }}</a>
+          </span>
+          <span v-if="!isLoading && users.length === 0">
+            <a href="#">Aucun</a>
+          </span>
+        </div>
+      </template>
+      <span
+        class="
+          ant-avatar ant-avatar-sm ant-avatar-circle
+          text-current
+          fill-current
+          font-normal
+          ml-06
+        "
+      >
+        {{ voteType === voteStatus.Up ? post.upvote : post.downvote }}
+      </span>
+    </a-tooltip>
+  </div>
 </template>
 <script lang="ts">
 import { useRouter } from "vue-router";
@@ -70,9 +81,8 @@ export default defineComponent({
 
     const user = reactive(authService.user);
 
-    const { users, isLoading, setParams, handleTooltipVisibility } = useVote(
-      "Post"
-    );
+    const { users, isLoading, setParams, handleTooltipVisibility } =
+      useVote("Post");
 
     const voteStatus = ref(VoteStatus);
     const isUpvoted = ref(false);
@@ -99,8 +109,8 @@ export default defineComponent({
         if (typeof post !== "string") {
           props.post.downvote = post.downvote;
           props.post.upvote = post.upvote;
-          isUpvoted.value = status == VoteStatus.Up;
-          isDownvoted.value = status == VoteStatus.Down;
+          isUpvoted.value = !isUpvoted.value;
+          isDownvoted.value = !isDownvoted.value;
         } else {
           message.error(post);
         }
@@ -110,7 +120,7 @@ export default defineComponent({
       const voteStatusResponse = await postService.getVoteStatus(
         props.post.id.toString(),
         undefined,
-        props.user?.id.toString()
+        user.id.toString()
       );
       if (typeof voteStatusResponse == "string")
         console.log(voteStatusResponse);
@@ -149,17 +159,3 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="scss" scoped>
-.voters-tooltip {
-  span {
-    display: block;
-    line-height: 1.2;
-    a {
-      color: #fff;
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-}
-</style>

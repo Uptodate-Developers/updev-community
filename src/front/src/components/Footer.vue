@@ -7,10 +7,11 @@
           <div class="space-y-2 flex flex-col justify-center">
             <h2 class="text-lg text-gray-50">Updev Community</h2>
             <p class="text-gray-300">
-              Updev Community est un forum d'échange et de partage de
-              connaissances entre débutants, experts, designers et plus dans un
-              contexte africain
+              Updev Community est un forum d'échange et de partage des
+              connaissances entre informaticiens, aussi bien débutants
+              qu'experts dans le but d'améliorer les compétences africaines
             </p>
+            <a class="home-link" href="/"> Revenir à l'accueil </a>
           </div>
         </div>
         <div class="space-y-5 flex flex-col justify-center">
@@ -62,12 +63,19 @@
         <div style="height: 0.2px" class="bg-red-100" />
         <div class="flex flex-col items-center pt-2">
           <p class="text-sm">
-            Copyright @2021
-            <a href="https://uptodatedevelopers.com/">Uptodate Developers.</a>
+            Copyright &copy; 2021
+            <a target="_blank" href="https://uptodatedevelopers.com/"
+              >Uptodate Developers.</a
+            >
           </p>
-          <p class="text-sm">Tout droit reservé</p>
+          <p class="text-sm">Tous droits reservés</p>
         </div>
       </div>
     </div>
   </div>
 </template>
+<style scoped>
+.home-link {
+  color: #ff8a00;
+}
+</style>

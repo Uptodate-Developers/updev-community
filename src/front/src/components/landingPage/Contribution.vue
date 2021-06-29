@@ -11,7 +11,7 @@
           différents contributeurs. Merci à tous ceux qui participent au
           développement de cette communauté.
         </p>
-        <div class="flex items-center">
+        <div class="flex items-center justify-center">
           <div
             v-for="contributor in contributors"
             :key="contributor.names"
@@ -24,6 +24,9 @@
             >
               {{ contributor.avatarName }}
             </a-avatar>
+            <!-- <p class="block">
+              {{ contributor.gitUsername }}
+            </p> -->
           </div>
         </div>
       </div>
@@ -46,7 +49,9 @@
           </p>
         </div>
 
-        <button
+        <a
+          href="//uptodatedevelopers.com/contact"
+          target="_blank"
           class="
             block
             font-semibold
@@ -58,8 +63,8 @@
             shadow
           "
         >
-          Rejoignez-nous sur GitHub
-        </button>
+          Contactez-nous
+        </a>
       </div>
     </div>
   </div>
@@ -74,16 +79,22 @@ export default {
     return {
       contributors: [
         {
-          names: "Jospeh Kalema",
-          gitUsername: "@berna39",
-          roles: "lead maintainer,devops",
-          avatarName: "JK",
+          names: "Uptodate Develoeprs",
+          gitUsername: "@developersup",
+          roles: "author",
+          avatarName: "UD",
         },
         {
           names: "Jack Mutobu",
           gitUsername: "@mutobujack",
           roles: "developer",
           avatarName: "JM",
+        },
+        {
+          names: "Yannick Nsenga",
+          gitUsername: "@yannick243",
+          roles: "developer",
+          avatarName: "YS",
         },
       ],
     };
