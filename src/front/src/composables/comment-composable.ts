@@ -67,6 +67,12 @@ export default function useComment() {
       if (manager.containerOpened) {
         manager.replies = await getReplies();
       }
+    },
+    onReplyDeleted(replyId: string) {
+      const index = manager.replies.findIndex(r => r.id.toString() === replyId);
+      if (index > -1) {
+        manager.replies.splice(index, 1);
+      }
     }
   };
 

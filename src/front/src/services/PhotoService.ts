@@ -8,6 +8,7 @@ export class PhotoService {
     const uploaderURL = import.meta.env.VITE_UPLOADER_URL;
     const formData = new FormData();
     formData.set("file", file);
+    formData.set("folder", "users");
 
     const uplaodResult = await axios.post(`${uploaderURL}/upload`, formData);
 

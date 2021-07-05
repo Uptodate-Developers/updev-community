@@ -11,6 +11,8 @@ import VueScrollTo from "vue-scrollto";
 import ShareButton from "./components/app/forum/ShareButton.vue";
 import "./registerServiceWorker";
 import { createMetaManager } from "vue-meta";
+import { createPinia } from "pinia";
+
 import {
   Avatar,
   Carousel,
@@ -28,6 +30,14 @@ import {
   Tooltip,
   Popover
 } from "ant-design-vue";
+
+import SocketIO from "socket.io-client";
+import VueSocketIO from "./modules/vue-socket-io/src/index.js";
+
+const optionsVueIO = {
+  debug: true,
+  connection: SocketIO("http://localhost:5000")
+};
 
 const app = createApp(App);
 
@@ -50,6 +60,9 @@ app.use(Icon);
 app.use(Tooltip);
 app.use(Popover);
 app.use(createMetaManager());
+app.use(createPinia());
+app.use(new VueSocketIO(optionsVueIO));
+
 app.component("share-button", ShareButton);
 
 app.mount("#app");

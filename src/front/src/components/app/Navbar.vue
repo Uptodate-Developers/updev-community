@@ -1,6 +1,16 @@
 <template>
   <nav
-    class="container mx-auto xl:px-16 fixed left-0 right-0 bg-gray-50 z-30 shadow-sm"
+    class="
+      container
+      mx-auto
+      xl:px-16
+      fixed
+      left-0
+      right-0
+      bg-gray-50
+      z-30
+      shadow-sm
+    "
   >
     <div class="md:hidden grid grid-cols-12 px-2 py-1">
       <router-link class="col-span-2 h-full flex items-center" to="/app">
@@ -16,7 +26,14 @@
       <horizontal-line />
       <div class="grid grid-cols-3 content-center divide-x divide-gray-200">
         <router-link
-          class="py-1 text-gray-600 hover:text-blue-400 flex justify-center items-center"
+          class="
+            py-1
+            text-gray-600
+            hover:text-blue-400
+            flex
+            justify-center
+            items-center
+          "
           to="/app"
         >
           <svg
@@ -66,40 +83,48 @@
             </g>
           </svg>
         </router-link>
-
-        <router-link
-          class="py-1 text-gray-600 hover:text-blue-400 flex justify-center items-center"
-          to="/app/notifications"
-        >
-          <svg
-            class="h-6 fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24.2 32.947"
+        <a-badge count="5">
+          <router-link
+            class="
+              py-1
+              text-gray-600
+              hover:text-blue-400
+              flex
+              justify-center
+              items-center
+            "
+            to="/app/notifications"
           >
-            <g id="notifications" transform="translate(-5.3 -5.1)">
-              <g id="Layer_3" transform="translate(5.3 5.1)">
-                <path
-                  id="Path_155"
-                  data-name="Path 155"
-                  d="M29.063,29.057,26.585,26A1.977,1.977,0,0,1,26.2,24.83V18.512a8.849,8.849,0,0,0-6.415-8.5V7.53a2.437,2.437,0,0,0-2.43-2.43,2.469,2.469,0,0,0-2.43,2.43V9.96a8.835,8.835,0,0,0-6.415,8.553V24.83A1.977,1.977,0,0,1,8.119,26L5.64,29.057a1.534,1.534,0,0,0-.34.923V33.82H29.5V29.981A2.709,2.709,0,0,0,29.063,29.057ZM16.331,7.53a.972.972,0,0,1,1.944,0V9.717a6.844,6.844,0,0,0-1.992,0V7.53ZM27.945,32.313H6.661V29.981l2.478-3.061a3.22,3.22,0,0,0,.729-2.09V18.512a7.435,7.435,0,1,1,14.87,0V24.83a3.22,3.22,0,0,0,.729,2.09l2.478,3.061v2.333Z"
-                  transform="translate(-5.3 -5.1)"
-                />
-                <path
-                  id="Path_156"
-                  data-name="Path 156"
-                  d="M28,20.8v1.458a5.413,5.413,0,0,1,5.394,5.394h1.458A6.844,6.844,0,0,0,28,20.8Z"
-                  transform="translate(-16.969 -13.171)"
-                />
-                <path
-                  id="Path_157"
-                  data-name="Path 157"
-                  d="M25.785,67.227A2.51,2.51,0,0,1,23.258,64.7H21.8a3.985,3.985,0,0,0,7.97,0H28.312A2.51,2.51,0,0,1,25.785,67.227Z"
-                  transform="translate(-13.782 -35.737)"
-                />
+            <svg
+              class="h-6 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24.2 32.947"
+            >
+              <g id="notifications" transform="translate(-5.3 -5.1)">
+                <g id="Layer_3" transform="translate(5.3 5.1)">
+                  <path
+                    id="Path_155"
+                    data-name="Path 155"
+                    d="M29.063,29.057,26.585,26A1.977,1.977,0,0,1,26.2,24.83V18.512a8.849,8.849,0,0,0-6.415-8.5V7.53a2.437,2.437,0,0,0-2.43-2.43,2.469,2.469,0,0,0-2.43,2.43V9.96a8.835,8.835,0,0,0-6.415,8.553V24.83A1.977,1.977,0,0,1,8.119,26L5.64,29.057a1.534,1.534,0,0,0-.34.923V33.82H29.5V29.981A2.709,2.709,0,0,0,29.063,29.057ZM16.331,7.53a.972.972,0,0,1,1.944,0V9.717a6.844,6.844,0,0,0-1.992,0V7.53ZM27.945,32.313H6.661V29.981l2.478-3.061a3.22,3.22,0,0,0,.729-2.09V18.512a7.435,7.435,0,1,1,14.87,0V24.83a3.22,3.22,0,0,0,.729,2.09l2.478,3.061v2.333Z"
+                    transform="translate(-5.3 -5.1)"
+                  />
+                  <path
+                    id="Path_156"
+                    data-name="Path 156"
+                    d="M28,20.8v1.458a5.413,5.413,0,0,1,5.394,5.394h1.458A6.844,6.844,0,0,0,28,20.8Z"
+                    transform="translate(-16.969 -13.171)"
+                  />
+                  <path
+                    id="Path_157"
+                    data-name="Path 157"
+                    d="M25.785,67.227A2.51,2.51,0,0,1,23.258,64.7H21.8a3.985,3.985,0,0,0,7.97,0H28.312A2.51,2.51,0,0,1,25.785,67.227Z"
+                    transform="translate(-13.782 -35.737)"
+                  />
+                </g>
               </g>
-            </g>
-          </svg>
-        </router-link>
+            </svg>
+          </router-link>
+        </a-badge>
         <div v-if="isAuth">
           <router-link to="/app/profile">
             <div class="flex justify-center py-1">
@@ -119,7 +144,14 @@
 
         <router-link
           v-if="!isAuth"
-          class="py-2 text-gray-600 hover:text-blue-400 flex justify-center items-center"
+          class="
+            py-2
+            text-gray-600
+            hover:text-blue-400
+            flex
+            justify-center
+            items-center
+          "
           to="/login"
         >
           <svg
@@ -139,7 +171,17 @@
     </div>
 
     <div
-      class="hidden md:flex justify-between items-center container mx-auto xl:px-12 py-2 px-2"
+      class="
+        hidden
+        md:flex
+        justify-between
+        items-center
+        container
+        mx-auto
+        xl:px-12
+        py-2
+        px-2
+      "
     >
       <div>
         <img
@@ -150,7 +192,14 @@
       </div>
       <div class="flex space-x-10 lg:space-x-20">
         <router-link
-          class="py-1 text-gray-600 hover:text-blue-400 flex justify-center items-center"
+          class="
+            py-1
+            text-gray-600
+            hover:text-blue-400
+            flex
+            justify-center
+            items-center
+          "
           to="/app"
         >
           <svg
@@ -200,41 +249,48 @@
             </g>
           </svg>
         </router-link>
-
-        <router-link
-          class="py-1 text-gray-600 hover:text-blue-400 flex justify-center items-center"
-          to="/app/notifications"
-        >
-          <svg
-            class="h-7 fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24.2 32.947"
+        <a-badge :count="unreadNotifications">
+          <router-link
+            class="
+              py-1
+              text-gray-600
+              hover:text-blue-400
+              flex
+              justify-center
+              items-center
+            "
+            to="/app/notifications"
           >
-            <g id="notifications" transform="translate(-5.3 -5.1)">
-              <g id="Layer_3" transform="translate(5.3 5.1)">
-                <path
-                  id="Path_155"
-                  data-name="Path 155"
-                  d="M29.063,29.057,26.585,26A1.977,1.977,0,0,1,26.2,24.83V18.512a8.849,8.849,0,0,0-6.415-8.5V7.53a2.437,2.437,0,0,0-2.43-2.43,2.469,2.469,0,0,0-2.43,2.43V9.96a8.835,8.835,0,0,0-6.415,8.553V24.83A1.977,1.977,0,0,1,8.119,26L5.64,29.057a1.534,1.534,0,0,0-.34.923V33.82H29.5V29.981A2.709,2.709,0,0,0,29.063,29.057ZM16.331,7.53a.972.972,0,0,1,1.944,0V9.717a6.844,6.844,0,0,0-1.992,0V7.53ZM27.945,32.313H6.661V29.981l2.478-3.061a3.22,3.22,0,0,0,.729-2.09V18.512a7.435,7.435,0,1,1,14.87,0V24.83a3.22,3.22,0,0,0,.729,2.09l2.478,3.061v2.333Z"
-                  transform="translate(-5.3 -5.1)"
-                />
-                <path
-                  id="Path_156"
-                  data-name="Path 156"
-                  d="M28,20.8v1.458a5.413,5.413,0,0,1,5.394,5.394h1.458A6.844,6.844,0,0,0,28,20.8Z"
-                  transform="translate(-16.969 -13.171)"
-                />
-                <path
-                  id="Path_157"
-                  data-name="Path 157"
-                  d="M25.785,67.227A2.51,2.51,0,0,1,23.258,64.7H21.8a3.985,3.985,0,0,0,7.97,0H28.312A2.51,2.51,0,0,1,25.785,67.227Z"
-                  transform="translate(-13.782 -35.737)"
-                />
+            <svg
+              class="h-7 fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24.2 32.947"
+            >
+              <g id="notifications" transform="translate(-5.3 -5.1)">
+                <g id="Layer_3" transform="translate(5.3 5.1)">
+                  <path
+                    id="Path_155"
+                    data-name="Path 155"
+                    d="M29.063,29.057,26.585,26A1.977,1.977,0,0,1,26.2,24.83V18.512a8.849,8.849,0,0,0-6.415-8.5V7.53a2.437,2.437,0,0,0-2.43-2.43,2.469,2.469,0,0,0-2.43,2.43V9.96a8.835,8.835,0,0,0-6.415,8.553V24.83A1.977,1.977,0,0,1,8.119,26L5.64,29.057a1.534,1.534,0,0,0-.34.923V33.82H29.5V29.981A2.709,2.709,0,0,0,29.063,29.057ZM16.331,7.53a.972.972,0,0,1,1.944,0V9.717a6.844,6.844,0,0,0-1.992,0V7.53ZM27.945,32.313H6.661V29.981l2.478-3.061a3.22,3.22,0,0,0,.729-2.09V18.512a7.435,7.435,0,1,1,14.87,0V24.83a3.22,3.22,0,0,0,.729,2.09l2.478,3.061v2.333Z"
+                    transform="translate(-5.3 -5.1)"
+                  />
+                  <path
+                    id="Path_156"
+                    data-name="Path 156"
+                    d="M28,20.8v1.458a5.413,5.413,0,0,1,5.394,5.394h1.458A6.844,6.844,0,0,0,28,20.8Z"
+                    transform="translate(-16.969 -13.171)"
+                  />
+                  <path
+                    id="Path_157"
+                    data-name="Path 157"
+                    d="M25.785,67.227A2.51,2.51,0,0,1,23.258,64.7H21.8a3.985,3.985,0,0,0,7.97,0H28.312A2.51,2.51,0,0,1,25.785,67.227Z"
+                    transform="translate(-13.782 -35.737)"
+                  />
+                </g>
               </g>
-            </g>
-          </svg>
-        </router-link>
-
+            </svg>
+          </router-link>
+        </a-badge>
         <div>
           <serch-input />
         </div>
@@ -262,7 +318,12 @@
         </router-link>
         <button
           @click="onLogout"
-          class="bg-transparent text-blue-500 hover:text-red-500 focus:outline-none"
+          class="
+            bg-transparent
+            text-blue-500
+            hover:text-red-500
+            focus:outline-none
+          "
         >
           <svg
             class="fill-current"
@@ -295,7 +356,14 @@
             >Voulez-vous vraiment vous deconnecter?</template
           >
           <div
-            class="fill-current text-current flex justify-center items-center space-x-2.5"
+            class="
+              fill-current
+              text-current
+              flex
+              justify-center
+              items-center
+              space-x-2.5
+            "
           >
             <svg
               class="h-8 fill-current"
@@ -319,10 +387,11 @@
 import Button from "../Button.vue";
 import SerchInput from "./SearchInput.vue";
 import HorizontalLine from "./HorizontalLine.vue";
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, onMounted } from "vue";
 import { AuthService } from "../../services/AuthService";
 import { useRouter } from "vue-router";
 import { appConfig } from "../../config/app";
+import { useNotificationStore } from "./../../store/notification";
 
 export default defineComponent({
   name: "Navbar",
@@ -330,6 +399,8 @@ export default defineComponent({
   setup() {
     const authService = new AuthService();
     const router = useRouter();
+    const notificationStore = useNotificationStore();
+
     const user = authService.user;
     const isAuth = authService.isAuthenticated;
     const fullName = computed(
@@ -339,12 +410,24 @@ export default defineComponent({
       () => `${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`
     );
 
+    const unreadNotifications = computed(
+      () => notificationStore.unreadNotifications
+    );
+
+    const onGetNotifications = async () => {
+      if (user) {
+        await notificationStore.loadNotifications(user.id.toString());
+      }
+    };
+
+    onMounted(onGetNotifications);
+
     const onLogout = async () => {
       if (await authService.logout())
         window.location.href = `${appConfig.appUrl}/app`;
     };
 
-    return { user, fullName, avatar, isAuth, onLogout };
+    return { user, fullName, avatar, isAuth, unreadNotifications, onLogout };
   },
 });
 </script>

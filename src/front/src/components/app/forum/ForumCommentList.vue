@@ -60,7 +60,7 @@ export default defineComponent({
     },
     user: {
       type: Object as () => PropType<User>,
-      required: true,
+      required: false,
     },
     post: {
       type: Object as () => PropType<PostResponse>,

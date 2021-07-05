@@ -44,10 +44,7 @@
     <div class="flex px-4">
       <div style="width: 1.5px" class="bg-gray-200 h-full"></div>
       <div>
-        <div
-          class="text-gray-500"
-          v-html="reply?.body?.substring(0, 200)"
-        ></div>
+        <div class="text-gray-500" v-html="reply?.body"></div>
       </div>
     </div>
     <div class="flex space-x-4">
@@ -173,7 +170,14 @@
 <script lang="ts">
 import HorizontalLine from "../HorizontalLine.vue";
 import ForumPostCommentInput from "./ForumPostCommentInput.vue";
-import { computed, createVNode, defineComponent, ref, watch } from "vue";
+import {
+  computed,
+  createVNode,
+  defineComponent,
+  ref,
+  watch,
+  PropType,
+} from "vue";
 import { User, VoteStatus } from "../../../../api/models";
 import dayjs from "dayjs";
 import { message, Modal } from "ant-design-vue";
@@ -192,11 +196,11 @@ export default defineComponent({
       type: Object as () => User,
     },
     post: {
-      type: Object as () => PostResponse,
+      type: Object as PropType<PostResponse>,
       required: true,
     },
     reply: {
-      type: Object as () => ReplyResponse,
+      type: Object as PropType<ReplyResponse>,
       required: true,
     },
     canRespond: {

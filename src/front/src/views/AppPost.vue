@@ -10,12 +10,12 @@
         :post="post"
         :user="user"
       />
-      <UserProfile :user="postUser" />
+      <!-- <UserProfile :user="postUser" />
       <PopularTopics
         sectionTitle="Autres posts"
         :tags="tags"
         :exceptPost="post"
-      />
+      /> -->
     </div>
   </div>
   <div

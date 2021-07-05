@@ -9,7 +9,8 @@
             <p class="text-gray-300">
               Updev Community est un forum d'échange et de partage des
               connaissances entre informaticiens, aussi bien débutants
-              qu'experts dans le but d'améliorer les compétences africaines
+              qu'experts dans le but d'améliorer les compétences des
+              développeurs
             </p>
             <a class="home-link" href="/"> Revenir à l'accueil </a>
           </div>

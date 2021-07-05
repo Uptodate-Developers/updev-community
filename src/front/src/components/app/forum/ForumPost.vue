@@ -171,6 +171,7 @@
     <ForumCommentList
       v-bind="$attrs"
       @replyAdded="addReply"
+      @replyDeleted="onReplyDeleted"
       :is-auth="isAuth"
       :post="post"
       :user="user"
@@ -312,10 +313,9 @@ export default defineComponent({
         onCancel() {},
       });
     };
-    const onReplyDeleted = (replyId: string) => {
-      replies.value = replies.value.filter((r) => r.id.toString() != replyId);
-    };
-    const { manager, loadReplies, setResource, addReply } = useComment();
+
+    const { manager, loadReplies, setResource, addReply, onReplyDeleted } =
+      useComment();
 
     const managerRefs = toRefs(manager);
 

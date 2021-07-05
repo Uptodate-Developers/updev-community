@@ -131,6 +131,7 @@
     <ForumCommentList
       v-bind="$attrs"
       @replyAdded="addReply"
+      @replyDeleted="onReplyDeleted"
       :is-auth="isAuth"
       :post="post"
       :user="user"
@@ -140,7 +141,15 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, toRefs, watch } from "vue";
+import {
+  computed,
+  defineComponent,
+  inject,
+  onMounted,
+  ref,
+  toRefs,
+  watch,
+} from "vue";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { User, VoteStatus } from "../../../../api/models";
@@ -175,29 +184,29 @@ export default defineComponent({
   },
   emits: [EventKeys.TagSelected],
   setup(props) {
-    const editorContent = ref(props.post?.body ? props.post.body : "");
+    const post = ref(props.post);
+
+    const editorContent = ref(post?.body ? post.body : "");
 
     const isAuth = ref(props.user !== null && props.user !== undefined);
     const fullName = computed(
-      () =>
-        `${props.post.user?.name} ${props.post.user?.firstName} ${props.post.user?.lastName}`
+      () => `${post.user?.name} ${post.user?.firstName} ${post.user?.lastName}`
     );
     const avatar = computed(
       () =>
-        `${props.post.user?.firstName?.charAt(
-          0
-        )}${props.post.user?.lastName?.charAt(0)}`
+        `${post.user?.firstName?.charAt(0)}${post.user?.lastName?.charAt(0)}`
     );
     const fullDate = computed(
       () =>
-        `${dayjs(props.post.datePosted)
-          .local()
-          .format("DD MMMM YYYY")} à ${dayjs(props.post.datePosted)
+        `${dayjs(post.datePosted).local().format("DD MMMM YYYY")} à ${dayjs(
+          post.datePosted
+        )
           .local()
           .format("HH:mm")}`
     );
     const { voteStatus } = useVote("Post");
-    const { manager, loadReplies, setResource, addReply } = useComment();
+    const { manager, loadReplies, setResource, addReply, onReplyDeleted } =
+      useComment();
 
     const managerRefs = toRefs(manager);
 
@@ -229,6 +238,7 @@ export default defineComponent({
       loadReplies,
       editorContent,
       containerOpened,
+      onReplyDeleted,
     };
   },
 });

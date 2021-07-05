@@ -26,7 +26,7 @@
         <p class="mt-2 text-gray-600">
           Updev Community est un forum d'échange et de partage des connaissances
           entre informaticiens, aussi bien débutants qu'experts dans le but
-          d'améliorer les compétences africaines.
+          d'améliorer les compétences des développeurs.
         </p>
         <p class="mt-2 text-gray-600">
           Posez vos questions sur le forum Updev Community et recevez des

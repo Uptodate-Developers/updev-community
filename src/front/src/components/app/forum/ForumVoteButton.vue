@@ -79,7 +79,7 @@ export default defineComponent({
     const authService = new AuthService();
     const router = useRouter();
 
-    const user = reactive(authService.user);
+    const user = reactive(authService.user || {});
 
     const { users, isLoading, setParams, handleTooltipVisibility } =
       useVote("Post");
@@ -98,29 +98,29 @@ export default defineComponent({
     const onVote = async (): Promise<void> => {
       if (!user) {
         message.info("Vous devez vous connecter pour placer votre vote");
+        return;
+      }
+      const status = props.voteType;
+      const post = await postService.vote(
+        props.post.id.toString(),
+        undefined,
+        user.id.toString(),
+        status
+      );
+      if (typeof post !== "string") {
+        props.post.downvote = post.downvote;
+        props.post.upvote = post.upvote;
+        isUpvoted.value = !isUpvoted.value;
+        isDownvoted.value = !isDownvoted.value;
       } else {
-        const status = props.voteType;
-        const post = await postService.vote(
-          props.post.id.toString(),
-          undefined,
-          user.id.toString(),
-          status
-        );
-        if (typeof post !== "string") {
-          props.post.downvote = post.downvote;
-          props.post.upvote = post.upvote;
-          isUpvoted.value = !isUpvoted.value;
-          isDownvoted.value = !isDownvoted.value;
-        } else {
-          message.error(post);
-        }
+        message.error(post);
       }
     };
     const onGetVoteStatus = async (): Promise<void> => {
       const voteStatusResponse = await postService.getVoteStatus(
         props.post.id.toString(),
         undefined,
-        user.id.toString()
+        user && user.id ? user.id.toString() : null
       );
       if (typeof voteStatusResponse == "string")
         console.log(voteStatusResponse);
@@ -139,10 +139,11 @@ export default defineComponent({
 
     onMounted(async () => {
       await onGetVoteStatus();
-      setParams({
-        id: props.post.id,
-        status: props.voteType,
-      });
+    });
+
+    setParams({
+      id: props.post.id,
+      status: props.voteType,
     });
 
     return {

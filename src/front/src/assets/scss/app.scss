@@ -1,3 +1,23 @@
+.text-lowercase {
+  text-transform: lowercase !important;
+}
+.text-uppercase {
+  text-transform: uppercase !important;
+}
+.text-capitalize {
+  text-transform: capitalize !important;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.router-link-active {
+  &.router-link-exact-active {
+    color: #40a9ff;
+  }
+}
+
 .voters-tooltip {
   span {
     display: block;
@@ -8,6 +28,9 @@
         cursor: pointer;
       }
     }
+  }
+  .ant-spin-nested-loading > div > .ant-spin .ant-spin-dot {
+    margin: 0px -10px -10px -10px;
   }
 }
 .ml-06 {

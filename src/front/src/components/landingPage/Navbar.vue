@@ -49,7 +49,7 @@
           />
         </div>
 
-        <div v-if="user" class="flex space-x-2">
+        <div v-if="user" class="hidden md:flex space-x-2">
           <router-link to="/app/profile">
             <div class="flex space-x-2">
               <div class="flex justify-center">
@@ -166,6 +166,11 @@ export default defineComponent({
     },
     fullName() {
       return `${this.user?.name} ${this.user?.firstName} ${this.user?.lastName}`;
+    },
+    avatar() {
+      return `${this.user?.firstName?.charAt(0)}${this.user?.lastName?.charAt(
+        0
+      )}`;
     },
   },
 });
