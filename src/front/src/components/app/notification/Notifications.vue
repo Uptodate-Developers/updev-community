@@ -1,11 +1,7 @@
 <template>
-  <div
-    v-if="user"
-    v-for="subnotifications in groupedNotifications"
-    :key="subnotifications"
-  >
-    <h3 class="text-xs px-2 text-capitalize">
-      {{ formatDate(subnotifications[0].post.createdAt) }}
+  <div v-for="(subnotifications, idx) in groupedNotifications" :key="idx">
+    <h3 class="text-xs m-0 p-1 text-capitalize text-center">
+      {{ idx }}
     </h3>
     <div v-for="notif in subnotifications" :key="notif" class="space-y-1">
       <a @click="goToPost(notif)">
@@ -45,9 +41,7 @@ import { formatDate } from "./../../../utils/date-utils";
 import { ReloadOutlined } from "@ant-design/icons-vue";
 import { NotificationResponse } from "../../../../api/responses";
 import { useNotificationStore } from "./../../../store/notification";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-dayjs.extend(utc);
+import _groupBy from "lodash/groupBy";
 
 export default defineComponent({
   name: "Notifications",
@@ -70,17 +64,15 @@ export default defineComponent({
       }
     };
 
-    watch(notifications, (value) => {
-      // console.log("notifications", notifications);
-      const notifs = groupBy(value, (x) =>
-        dayjs(x.createdAt).toDate().getDate()
+    watch(notifications, (notifs) => {
+      groupedNotifications.value = _groupBy(notifs, (n) =>
+        formatDate(n.createdAt, true)
       );
-      groupedNotifications.value = notifs.values();
     });
     onMounted(onGetNotifications);
 
     const goToPost = (notif: NotificationResponse) => {
-      if (notif && notif.post) {
+      if (notif.post && notif.post.slug) {
         router.push(`/app/post/${notif.post?.slug}`);
       }
     };
@@ -99,21 +91,6 @@ export default defineComponent({
       return map;
     }
 
-    // const socket = inject("socket");
-
-    // // socket.subscribe("notification", function (data) {
-    // //   console.log("This event was fired by - subscribe", data);
-    // // });
-    // socket.on("notification", function (data) {
-    //   console.log("This event was fired by - on", data);
-    // });
-
-    // socket.on("connections", (data) => {
-    //   console.log("connections", data);
-    // });
-    // socket.on("disconnect", (data) => {
-    //   console.log("disconnected", data);
-    // });
     return {
       goToPost,
       user,

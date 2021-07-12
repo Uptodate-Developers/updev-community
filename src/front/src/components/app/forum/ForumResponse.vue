@@ -7,7 +7,7 @@
       >
         <a-avatar
           :src="reply.user?.profilePicUrl"
-          :style="{ backgroundColor: '#0068B7', verticalAlign: 'middle' }"
+          :style="{ backgroundColor: '#0068B7', verticalAlign: 'middle',width: '40px',height: '40px' }"
           :size="35"
           ><span
             style="line-height: 35px"
@@ -44,7 +44,7 @@
     <div class="flex px-4">
       <div style="width: 1.5px" class="bg-gray-200 h-full"></div>
       <div>
-        <div class="text-gray-500" v-html="reply?.body"></div>
+        <div class="text-gray-500 comment-body" v-html="commentBody"></div>
       </div>
     </div>
     <div class="flex space-x-4">
@@ -161,7 +161,7 @@
           :post="post"
           :user="user"
           :reply="reply"
-          can-respond="false"
+          :can-respond="false"
         />
       </div>
     </div>
@@ -182,6 +182,7 @@ import { User, VoteStatus } from "../../../../api/models";
 import dayjs from "dayjs";
 import { message, Modal } from "ant-design-vue";
 import { PostService, AuthService } from "../../../services";
+import { replaceURLs } from "../../../utils/str-utils";
 import { PostResponse, ReplyResponse } from "../../../../api/responses";
 import { EventKeys } from "../../../constants";
 import { WarningOutlined } from "@ant-design/icons-vue";
@@ -229,6 +230,8 @@ export default defineComponent({
           .local()
           .format("HH:mm")}`
     );
+
+    const commentBody = computed(() => replaceURLs(props.reply?.body));
     const isLoading = ref(false);
     const voteStatus = ref(VoteStatus);
 
@@ -321,21 +324,28 @@ export default defineComponent({
       router.push(`/app/profile/${props.reply.user.username}`);
 
     return {
-      goToProfile,
-      isOwner,
-      showConfirmDeletion,
       isAuth,
+      onVote,
+      avatar,
+      isOwner,
+      replies,
+      respond,
       fullName,
       fullDate,
-      avatar,
-      respond,
       onRespond,
       voteStatus,
-      onVote,
-      replies,
-      repliesOpened,
+      commentBody,
+      goToProfile,
       onGetReplies,
+      repliesOpened,
+      showConfirmDeletion,
     };
   },
 });
 </script>
+<style lang="scss" scoped>
+.comment-body {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+</style>

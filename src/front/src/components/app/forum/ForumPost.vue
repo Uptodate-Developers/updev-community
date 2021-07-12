@@ -209,6 +209,7 @@ import { User, VoteStatus } from "../../../../api/models";
 import useVote from "../../../composables/vote-composable";
 import { PostService, AuthService } from "../../../services";
 import { PostResponse, ReplyResponse } from "../../../../api/responses";
+import { replaceURLs } from "../../../utils/str-utils";
 
 dayjs.extend(utc);
 
@@ -234,7 +235,7 @@ export default defineComponent({
   },
   emits: [EventKeys.PostDeleted],
   setup(props, context) {
-    const editorContent = ref(props.post.body.substring(0, 300));
+    const editorContent = ref(replaceURLs(props.post.body.substring(0, 300)));
     const readMoreText = ref("Lire la suite");
     const canReadMore = ref(props.post?.body?.length > 150);
     const isOpened = ref(false);
@@ -245,14 +246,14 @@ export default defineComponent({
       if (canReadMore) {
         if (isOpened.value) {
           isOpened.value = false;
-          editorContent.value = props.post.body.substring(0, 300);
+          editorContent.value = replaceURLs(props.post.body.substring(0, 300));
           readMoreText.value = "Lire la suite";
         } else {
           if (props.post.body.length > 1600) {
             onNavigateToPostDetail();
           } else {
             isOpened.value = true;
-            editorContent.value = props.post.body;
+            editorContent.value = replaceURLs(props.post.body);
             readMoreText.value = "Reduire";
           }
         }

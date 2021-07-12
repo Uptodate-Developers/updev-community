@@ -62,9 +62,10 @@ import NotConnected from "../components/app/NotConnected.vue";
 import PopularTopics from "../components/app/PopularTopics.vue";
 import SideHasgTags from "../components/app/forum/SideHashtags.vue";
 import Connected from "../components/app/ShortUserProfile.vue";
-import { defineComponent, ref, reactive } from "vue";
+import { defineComponent, ref, reactive, onMounted } from "vue";
 import { AuthService, HashTagService } from "../services";
 import { useMeta } from "vue-meta";
+import { handlePermission } from "./../utils/push-notifications";
 
 export default defineComponent({
   name: "AppHome",
@@ -88,6 +89,8 @@ export default defineComponent({
     useMeta({
       title: "Forum",
     });
+
+    onMounted(handlePermission);
 
     return {
       selectedTab,

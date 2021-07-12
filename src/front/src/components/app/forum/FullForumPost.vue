@@ -162,6 +162,7 @@ import ForumVoteButton from "./ForumVoteButton.vue";
 import ForumCommentList from "./ForumCommentList.vue";
 import useVote from "../../../composables/vote-composable";
 import useComment from "../../../composables/comment-composable";
+import { replaceURLs } from "../../../utils/str-utils";
 
 dayjs.extend(utc);
 
@@ -184,27 +185,32 @@ export default defineComponent({
   },
   emits: [EventKeys.TagSelected],
   setup(props) {
-    const post = ref(props.post);
-
-    const editorContent = ref(post?.body ? post.body : "");
+    const editorContent = ref(
+      props.post?.body ? replaceURLs(props.post.body) : ""
+    );
 
     const isAuth = ref(props.user !== null && props.user !== undefined);
     const fullName = computed(
-      () => `${post.user?.name} ${post.user?.firstName} ${post.user?.lastName}`
+      () =>
+        `${props.post.user?.name} ${props.post.user?.firstName} ${props.post.user?.lastName}`
     );
     const avatar = computed(
       () =>
-        `${post.user?.firstName?.charAt(0)}${post.user?.lastName?.charAt(0)}`
+        `${props.post.user?.firstName?.charAt(
+          0
+        )}${props.post.user?.lastName?.charAt(0)}`
     );
     const fullDate = computed(
       () =>
-        `${dayjs(post.datePosted).local().format("DD MMMM YYYY")} à ${dayjs(
-          post.datePosted
-        )
+        `${dayjs(props.post.datePosted)
+          .local()
+          .format("DD MMMM YYYY")} à ${dayjs(props.post.datePosted)
           .local()
           .format("HH:mm")}`
     );
+
     const { voteStatus } = useVote("Post");
+
     const { manager, loadReplies, setResource, addReply, onReplyDeleted } =
       useComment();
 
@@ -216,7 +222,7 @@ export default defineComponent({
     watch(
       () => props.post,
       () => {
-        editorContent.value = props.post.body;
+        editorContent.value = replaceURLs(props.post.body);
       }
     );
 

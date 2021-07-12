@@ -180,7 +180,7 @@ export default defineComponent({
     const uploadPost = async () => {
       try {
         if (isEmpty(title.value) || isEmpty(postContent.value)) {
-          message.error("Vous devez renseigner le contenu");
+          message.error("Vous devez renseigner le titre et le contenu");
           return;
         }
 

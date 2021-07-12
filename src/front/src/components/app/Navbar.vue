@@ -83,7 +83,7 @@
             </g>
           </svg>
         </router-link>
-        <a-badge count="5">
+        <a-badge :count="unreadNotifications">
           <router-link
             class="
               py-1

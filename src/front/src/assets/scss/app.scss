@@ -14,7 +14,9 @@
 
 .router-link-active {
   &.router-link-exact-active {
-    color: #40a9ff;
+    &:not(.landing) {
+      color: #40a9ff;
+    }
   }
 }
 

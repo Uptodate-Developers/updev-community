@@ -50,10 +50,11 @@
 import UserProfile from "../components/app/ShortUserProfile.vue";
 import ForumPost from "../components/app/forum/FullForumPost.vue";
 import PopularTopics from "../components/app/PopularTopics.vue";
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted, watch, inject } from "vue";
 import { AuthService, PostService } from "../services";
 import { message } from "ant-design-vue";
 import { useMeta } from "vue-meta";
+import { io } from "socket.io-client";
 
 export default defineComponent({
   name: "AppPost",
@@ -100,6 +101,35 @@ export default defineComponent({
       () => props.id,
       async () => await onLoadPost()
     );
+
+    onMounted(() => {
+      // const socket = inject("socket");
+      // console.log("socket", socket);
+
+      // socket.on("connect", () => {
+      //   console.log("connected to server");
+      // });
+
+      // socket.on("notification", function (data) {
+      //   console.log("This event was fired by - on", data);
+      // });
+
+      // socket.on("connection", (data) => {
+      //   console.log("connections", data);
+      // });
+      // socket.on("disconnect", (data) => {
+      //   console.log("disconnected", data);
+      // });
+
+      // @ts-ignore
+      // const socket = io("http://localhost:5000?uid=1234", {
+      //   path: "/socket.io",
+      // });
+
+      // socket.on("connect", () => {
+      //   console.log("connected to server");
+      // });
+    });
 
     return { key, post, user, postUser, tags, isLoading, onNewReply };
   },
