@@ -7,7 +7,12 @@
       >
         <a-avatar
           :src="reply.user?.profilePicUrl"
-          :style="{ backgroundColor: '#0068B7', verticalAlign: 'middle',width: '40px',height: '40px' }"
+          :style="{
+            backgroundColor: '#0068B7',
+            verticalAlign: 'middle',
+            width: '40px',
+            height: '40px',
+          }"
           :size="35"
           ><span
             style="line-height: 35px"
@@ -198,7 +203,7 @@ export default defineComponent({
     },
     post: {
       type: Object as PropType<PostResponse>,
-      required: true,
+      required: false,
     },
     reply: {
       type: Object as PropType<ReplyResponse>,

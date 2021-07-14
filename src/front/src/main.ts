@@ -36,10 +36,16 @@ import VueSocketIO from "./modules/vue-socket-io/src/index.js";
 
 const optionsVueIO = {
   debug: true,
-  connection: SocketIO("http://localhost:5000", {
+  connection: SocketIO(`http://localhost:5000?uid=user-${1}`, {
     path: "/socket.io"
   })
 };
+// const optionsVueIO = {
+//   debug: true,
+//   connection: SocketIO(`http://localhost:5000?uid=user-${1}`, {
+//     path: "/socket.io"
+//   })
+// };
 
 const app = createApp(App);
 

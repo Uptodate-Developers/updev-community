@@ -92,6 +92,7 @@ import { AuthService, UserService } from "../services";
 import { appConfig } from "../config/app";
 import { useRouter } from "vue-router";
 import { message } from "ant-design-vue";
+import { isBlank } from "../utils/str-utils";
 
 export default defineComponent({
   name: "Profile",
@@ -107,7 +108,7 @@ export default defineComponent({
     const userService = new UserService();
     const router = useRouter();
     const isLoading = ref(true);
-    const username = router.currentRoute.value.params.username;
+    let username = router.currentRoute.value.params.username;
     const user = ref({});
     const isAuthenticated = ref(authService.isAuthenticated);
     const onLogout = async () => {
@@ -115,6 +116,11 @@ export default defineComponent({
         window.location.href = `${appConfig.appUrl}/app`;
     };
     onMounted(async () => {
+      const authUser = authService.user;
+
+      if (isBlank(username) && authUser) {
+        username = authUser?.username;
+      }
       if (username) {
         const userResponse = await userService.getUserByUsername(
           String(username)
@@ -123,8 +129,6 @@ export default defineComponent({
         else {
           user.value = userResponse;
         }
-      } else {
-        user.value = authService.user ?? {};
       }
       isLoading.value = false;
     });

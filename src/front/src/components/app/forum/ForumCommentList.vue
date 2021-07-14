@@ -26,6 +26,12 @@
       :can-respond="true"
     />
   </div>
+  <div
+    v-if="containerOpened && !isLoading && replies.length === 0"
+    class="text-center"
+  >
+    <span>Aucun commentaire pour l'instant</span>
+  </div>
 </template>
 <script lang="ts">
 import { PropType } from "vue";
@@ -52,6 +58,10 @@ export default defineComponent({
     containerOpened: {
       type: Boolean,
       required: true,
+    },
+    isLoading: {
+      type: Boolean,
+      required: false,
     },
     replies: {
       type: Array as PropType<ReplyResponse[]>,

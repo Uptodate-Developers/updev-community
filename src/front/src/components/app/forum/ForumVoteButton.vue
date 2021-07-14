@@ -96,7 +96,7 @@ export default defineComponent({
     };
 
     const onVote = async (): Promise<void> => {
-      if (!user) {
+      if (user.id === undefined) {
         message.info("Vous devez vous connecter pour placer votre vote");
         return;
       }

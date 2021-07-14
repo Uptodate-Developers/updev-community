@@ -103,32 +103,25 @@ export default defineComponent({
     );
 
     onMounted(() => {
-      // const socket = inject("socket");
+      const socket = inject("socket");
       // console.log("socket", socket);
 
       // socket.on("connect", () => {
       //   console.log("connected to server");
       // });
 
-      // socket.on("notification", function (data) {
-      //   console.log("This event was fired by - on", data);
-      // });
+      socket.on("notification", function (data) {
+        console.log("This event was fired by - on", data);
+      });
 
-      // socket.on("connection", (data) => {
-      //   console.log("connections", data);
-      // });
-      // socket.on("disconnect", (data) => {
-      //   console.log("disconnected", data);
-      // });
+      socket.on("connection", (data) => {
+        console.log("connections", data);
+      });
 
       // @ts-ignore
-      // const socket = io("http://localhost:5000?uid=1234", {
-      //   path: "/socket.io",
-      // });
-
-      // socket.on("connect", () => {
-      //   console.log("connected to server");
-      // });
+      socket.on("connect", () => {
+        console.log("connected to server");
+      });
     });
 
     return { key, post, user, postUser, tags, isLoading, onNewReply };

@@ -28,7 +28,7 @@ export default defineComponent({
         syntax: true,
         toolbar: "",
       },
-      readOnly: true,
+      readOnly: false,
       theme: "snow",
     });
     const contentInHtml = ref(props.content);

@@ -137,6 +137,7 @@
       :user="user"
       :replies="replies"
       :container-opened="containerOpened"
+      :is-loading="isLoading"
     />
   </div>
 </template>
@@ -217,6 +218,7 @@ export default defineComponent({
     const managerRefs = toRefs(manager);
 
     const replies = managerRefs.replies;
+    const isLoading = managerRefs.isLoading;
     const containerOpened = managerRefs.containerOpened;
 
     watch(
@@ -240,6 +242,7 @@ export default defineComponent({
       fullName,
       fullDate,
       addReply,
+      isLoading,
       voteStatus,
       loadReplies,
       editorContent,

@@ -9,6 +9,8 @@ export class User {
 
   name: string | undefined;
 
+  username: string | undefined;
+
   firstName: string | undefined;
 
   lastName: string | undefined;

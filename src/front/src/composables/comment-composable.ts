@@ -48,11 +48,6 @@ export default function useComment() {
     return repliesResponse;
   };
 
-  // const getters = reactive({
-  //   currentModel: computed(() => state.model),
-  //   currentRoute: computed(() => state.route)
-  // });
-
   const actions = {
     setResource(payload: ResourceSchema) {
       manager.resource = payload;
