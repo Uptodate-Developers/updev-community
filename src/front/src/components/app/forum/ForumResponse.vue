@@ -217,10 +217,7 @@ export default defineComponent({
   setup(props, context) {
     const postService = new PostService();
     const respond = ref(false);
-    const fullName = computed(
-      () =>
-        `${props.reply.user?.name} ${props.reply.user?.firstName} ${props.reply.user?.lastName}`
-    );
+    const fullName = computed(() => props.reply.user?.name);
     const avatar = computed(
       () =>
         `${props.reply.user?.firstName?.charAt(

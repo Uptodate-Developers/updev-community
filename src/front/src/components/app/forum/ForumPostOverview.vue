@@ -98,10 +98,7 @@ export default defineComponent({
   },
   setup(props) {
     const router = useRouter();
-    const fullName = computed(
-      () =>
-        `${props.post.user?.name} ${props.post.user?.firstName} ${props.post.user?.lastName}`
-    );
+    const fullName = computed(() => props.post.user?.name);
     const avatar = computed(
       () =>
         `${props.post.user?.firstName?.charAt(

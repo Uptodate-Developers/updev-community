@@ -165,7 +165,7 @@ export default defineComponent({
       return authService.user;
     },
     fullName() {
-      return `${this.user?.name} ${this.user?.firstName} ${this.user?.lastName}`;
+      return this.user?.name;
     },
     avatar() {
       return `${this.user?.firstName?.charAt(0)}${this.user?.lastName?.charAt(

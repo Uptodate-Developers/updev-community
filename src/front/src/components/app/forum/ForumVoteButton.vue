@@ -89,7 +89,7 @@ export default defineComponent({
     const isDownvoted = ref(false);
 
     const getFullName = (user: User): string => {
-      return `${user.name} ${user.firstName} ${user.lastName}`;
+      return user.name;
     };
     const goToProfile = (user: User): void => {
       return router.push(`/app/profile/${user.username}`);

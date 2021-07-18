@@ -9,29 +9,49 @@
       </div>
       <div class="flex flex-col px-4 space-y-2 mb-5">
         <button-icon
-          @click="onFacebookLogin"
+          @click="requestSocialAuth('facebook')"
           class="max-w-lg"
-          title="Se connecter avec Facebook"
           :img="fbImage"
+          :title="
+            isProviderLoading('facebook')
+              ? 'Connexion en cours, patientez ...'
+              : 'Se connecter avec Facebook'
+          "
+          :loading="isProviderLoading('facebook')"
         />
         <button-icon
-          @click="onGoogleLogin"
+          @click="requestSocialAuth('google')"
           class="max-w-lg"
-          title="Se connecter avec Google"
           :img="googleImage"
+          :title="
+            isProviderLoading('google')
+              ? 'Connexion en cours, patientez ...'
+              : 'Se connecter avec Google'
+          "
+          :loading="isProviderLoading('google')"
         />
         <button-icon
-          @click="onTwitterLogin"
+          @click="requestSocialAuth('twitter')"
           class="max-w-lg"
-          title="Se connecter avec Twitter"
           :img="twitterImage"
+          :title="
+            isProviderLoading('twitter')
+              ? 'Connexion en cours, patientez ...'
+              : 'Se connecter avec Twitter'
+          "
+          :loading="isProviderLoading('twitter')"
         />
-        <button-icon
-          @click="onGithubLogin"
-          class="max-w-lg hidden"
-          title="Se connecter avec Github"
+        <!-- <button-icon
+          @click="requestSocialAuth('github')"
+          class="max-w-lg"
           :img="githubImage"
-        />
+          :title="
+            isProviderLoading('github')
+              ? 'Connexion en cours, patientez ...'
+              : 'Se connecter avec Github'
+          "
+          :loading="isProviderLoading('github')"
+        /> -->
       </div>
     </div>
 
@@ -44,7 +64,13 @@
       <div class="absolute inset-0 bg-gray-900 bg-opacity-75" />
       <div class="flex justify-center items-center h-full relative">
         <h2
-          class="text-center font-normal px-2 text-2xl text-green-50 tracking-wider"
+          class="
+            text-center
+            font-normal
+            px-2
+            text-2xl text-green-50
+            tracking-wider
+          "
         >
           Communauté de développeurs, pour les développeurs et par les
           développeurs.
@@ -55,102 +81,85 @@
 </template>
 <script lang="ts">
 import ButtonIcon from "../components/ButtonIcon.vue";
-import googleImg from "../assets/icons/google.svg";
-import twitterImg from "../assets/icons/twitter.svg";
-import fbImg from "../assets/icons/facebook.svg";
-import githubImg from "../assets/icons/githubblack.svg";
-import { defineComponent, onMounted } from "vue";
+import googleImage from "../assets/icons/google.svg";
+import twitterImage from "../assets/icons/twitter.svg";
+import fbImage from "../assets/icons/facebook.svg";
+import githubImage from "../assets/icons/githubblack.svg";
+import { defineComponent, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { appConfig } from "../config/app";
 import { AuthService, UserService } from "../services";
 import { AuthResponse } from "../../api/responses";
 import { deserialize } from "class-transformer";
-import { StatusCodes } from "../../api/models";
+import { StatusCodes, User } from "../../api/models";
 import { message } from "ant-design-vue";
+import useAuth, {
+  SocialResponse,
+  SocialProviders,
+} from "./../composables/auth-composable";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "Login",
   components: { ButtonIcon },
-  data() {
-    return {
-      fbImage: fbImg,
-      googleImage: googleImg,
-      twitterImage: twitterImg,
-      githubImage: githubImg,
-    };
-  },
   setup() {
     const userService = new UserService();
     const authService = new AuthService();
-    const onFacebookLogin = async () =>
-      await getAuthResponse(`${appConfig.apiUrl}/auth/facebook`);
 
-    const onGoogleLogin = async () =>
-      await getAuthResponse(`${appConfig.apiUrl}/auth/google`);
+    const router = useRouter();
 
-    const onTwitterLogin = async () =>
-      await getAuthResponse(`${appConfig.apiUrl}/auth/twitter`);
+    const { requestSocialAuth, toggleLoading, manager } = useAuth();
 
-    const onGithubLogin = async () =>
-      await getAuthResponse(`${appConfig.apiUrl}/auth/github`);
+    const { provider, isLoading, socialResponse } = manager;
 
-    async function getAuthResponse(url: string) {
+    watch(socialResponse, (value) => {
+      if (value.token) {
+        saveUser(value);
+      }
+    });
+
+    async function saveUser(socialResponse: SocialResponse): Promise<void> {
       try {
-        const popupWindow = window.open(url, "Se connecter à Updev Community");
-        popupWindow?.addEventListener("unload", async function (event) {
-          setInterval(async () => {
-            try {
-              const authResp = deserialize(
-                AuthResponse,
-                popupWindow.document.body.innerText
-              );
-              const authResult = await saveUser(authResp);
-              popupWindow.close();
-              if (authResult === true) navigateToProfile();
-              else
-                message.error(
-                  `L'authentification a echoué, message:${authResult}`
-                );
-            } catch (ex) {
-              console.log(ex);
-            }
-          }, 100);
-        });
-      } catch (ex) {
-        console.log(ex);
+        if (socialResponse.status === StatusCodes.Success) {
+          toggleLoading(true);
+          authService.jwtToken = socialResponse.token;
+          const regUser = await userService.getUserFromApi(
+            socialResponse.uid,
+            socialResponse.token
+          );
+
+          if (regUser && regUser?.id) {
+            authService.user = <User>regUser;
+            navigateToProfile();
+          }
+        }
+      } catch (error) {
+        console.log("error", error);
+        message.error(`L'authentification a echoué`);
+      } finally {
+        toggleLoading(false);
       }
     }
 
-    async function saveUser(
-      authResponse: AuthResponse
-    ): Promise<Boolean | string> {
-      if (authResponse.status == StatusCodes.Success) {
-        authService.jwtToken = authResponse.token;
-        const regUser = await userService.getUserFromApi(
-          authResponse.user.id.toString(),
-          authResponse.token
-        );
+    const isProviderLoading = (prov: SocialProviders) => {
+      return isLoading.value === true && provider.value === prov;
+    };
 
-        if (typeof regUser !== "string") authService.user = regUser;
-        else return regUser;
-        return true;
-      }
-
-      return authResponse.message;
-    }
-
-    function sleep(ms: number) {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    }
-
-    const navigateToProfile = () =>
-      (window.location.href = `${appConfig.appUrl}/app`);
+    const navigateToProfile = () => router.push({ name: "AppHome" });
 
     onMounted(async () => {
       if (authService.isAuthenticated) navigateToProfile();
     });
 
-    return { onFacebookLogin, onGoogleLogin, onTwitterLogin, onGithubLogin };
+    return {
+      fbImage,
+      isLoading,
+      githubImage,
+      googleImage,
+      twitterImage,
+      requestSocialAuth,
+      isProviderLoading,
+    };
   },
 });
 </script>

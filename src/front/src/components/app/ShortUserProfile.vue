@@ -1,39 +1,51 @@
 <template>
-    <div v-if="user" class=" bg-gray-50">
-        <div class="py-1.5 px-4 bg-blue-500 h-10 -mb-5">
-           
-        </div>
-        <div class="ml-4">
-            <a-avatar :src="user.profilePicUrl" class="border-2 border-gray-100"  :style="{backgroundColor: '#0068B7', verticalAlign: 'middle'}" :size="50"><span style="line-height: 50px" class="block text-xl font-semibold">{{avatar}}</span></a-avatar>
-        </div> 
-        <div class="px-4 py-2" >
-            <h2 class=" mb-0 text-md font-semibold">{{fullName}}</h2>
-            <h3 class=" my-1 text-xs text-gray-500">{{user.profession}}</h3>
-            <p class=" text-sm text-gray-500" >{{user.bio}}</p>
-        </div>
+  <div v-if="user" class="bg-gray-50">
+    <div class="py-1.5 px-4 bg-blue-500 h-10 -mb-5"></div>
+    <div class="ml-4">
+      <a-avatar
+        :src="user.profilePicUrl"
+        class="border-2 border-gray-100"
+        :style="{ backgroundColor: '#0068B7', verticalAlign: 'middle' }"
+        :size="50"
+        ><span style="line-height: 50px" class="block text-xl font-semibold">{{
+          avatar
+        }}</span></a-avatar
+      >
     </div>
+    <div class="px-4 py-2">
+      <h2 class="mb-0 text-md font-semibold">{{ fullName }}</h2>
+      <h3 class="my-1 text-xs text-gray-500">{{ user.profession }}</h3>
+      <p class="text-sm text-gray-500">{{ user.bio }}</p>
+    </div>
+  </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref,watch } from "vue"
-import {User} from "../../../api/models/User"
+import { defineComponent, ref, watch } from "vue";
+import { User } from "../../../api/models/User";
 export default defineComponent({
-  props:{
+  props: {
     user: {
       type: Object as () => User,
-      required: true
-    }
+      required: true,
+    },
   },
-  setup(props){
+  setup(props) {
+    const fullName = ref(props?.user?.name);
+    const avatar = ref(
+      `${props.user?.firstName?.charAt(0)}${props.user?.lastName?.charAt(0)}`
+    );
 
-    const fullName = ref(`${props?.user?.name} ${props?.user?.firstName} ${props.user?.lastName}`)
-    const avatar = ref(`${props.user?.firstName?.charAt(0)}${props.user?.lastName?.charAt(0)}`)
+    watch(
+      () => props.user,
+      () => {
+        fullName.value = `${props.user.name} ${props.user.firstName} ${props.user.lastName}`;
+        avatar.value = `${props.user.firstName?.charAt(
+          0
+        )}${props.user.lastName?.charAt(0)}`;
+      }
+    );
 
-    watch(() => props.user, () => {
-      fullName.value = `${props.user.name} ${props.user.firstName} ${props.user.lastName}`
-      avatar.value = `${props.user.firstName?.charAt(0)}${props.user.lastName?.charAt(0)}`
-    })
-
-    return {fullName, avatar}
-  }
-})
+    return { fullName, avatar };
+  },
+});
 </script>

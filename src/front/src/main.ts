@@ -12,6 +12,7 @@ import ShareButton from "./components/app/forum/ShareButton.vue";
 import "./registerServiceWorker";
 import { createMetaManager } from "vue-meta";
 import { createPinia } from "pinia";
+import { appConfig } from "./config/app";
 
 import {
   Avatar,
@@ -36,16 +37,10 @@ import VueSocketIO from "./modules/vue-socket-io/src/index.js";
 
 const optionsVueIO = {
   debug: true,
-  connection: SocketIO(`http://localhost:5000?uid=user-${1}`, {
+  connection: SocketIO(`${appConfig.socketUrl}?uid=user-${1}`, {
     path: "/socket.io"
   })
 };
-// const optionsVueIO = {
-//   debug: true,
-//   connection: SocketIO(`http://localhost:5000?uid=user-${1}`, {
-//     path: "/socket.io"
-//   })
-// };
 
 const app = createApp(App);
 

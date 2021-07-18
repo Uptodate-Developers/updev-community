@@ -1,84 +1,62 @@
-import {LocalStorageKeys} from '../constants/LocalStorageKeys'
-import {User} from "../../api/models/User"
-import { plainToClass} from 'class-transformer'
-import axios from "axios"
+import { LocalStorageKeys } from "../constants/LocalStorageKeys";
+import { User } from "../../api/models/User";
+import { plainToClass } from "class-transformer";
+import axios from "axios";
+import { useCookie } from "@vue-composable/cookie";
 
-export class AuthService{
+export class AuthService {
+  // 30 days
+  private timeToLive = 30;
 
-    private timeToLive = 86400000
+  get jwtToken(): string | null | undefined {
+    const { cookie } = useCookie(LocalStorageKeys.JwtToken);
 
-    get jwtToken():(string | null){
-        const itemStr = localStorage.getItem(LocalStorageKeys.JwtToken)
-        if(!itemStr)
-            return null;
-
-        const item = JSON.parse(itemStr)
-        const now = new Date()
-        if(now.getTime() > item.expiry)
-        {
-            localStorage.removeItem(LocalStorageKeys.JwtToken)
-            return null;
-        }
-        return item.value;
+    return cookie.value;
+  }
+  set jwtToken(value) {
+    if (value) {
+      useCookie(LocalStorageKeys.JwtToken, value, { expires: this.timeToLive });
     }
-    set jwtToken(v) {
-        if(v)
-        {
-            const now = new Date();
-            const item = {
-                value: v,
-                expiry: now.getTime() + this.timeToLive,
-            }
-            localStorage.setItem(LocalStorageKeys.JwtToken,JSON.stringify(item));
-        }
+  }
+
+  get isAuthenticated(): Boolean {
+    return this.jwtToken && this.user?.id ? true : false;
+  }
+
+  get user(): User | null {
+    const { cookie } = useCookie(LocalStorageKeys.User);
+
+    if (cookie.value) {
+      return plainToClass(User, JSON.parse(cookie.value));
     }
-
-    get isAuthenticated():Boolean{
-        return this.jwtToken ? true : false;
+    return null;
+  }
+  set user(value) {
+    if (value) {
+      useCookie(LocalStorageKeys.User, JSON.stringify(value), {
+        expires: this.timeToLive
+      });
     }
+  }
 
-    get user():(User|null) {
+  async logout(): Promise<Boolean> {
+    if (this.user) {
+      const token = this.jwtToken;
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
 
-        const itemStr = localStorage.getItem(LocalStorageKeys.User)
-        if(!itemStr)
-            return null
+      const logoutResponse = await axios.get(`/auth/logout`, config);
+      sessionStorage.clear();
 
-        const item = JSON.parse(itemStr)
-        const now = new Date()
-        if(now.getTime() > item.expiry)
-        {
-            localStorage.removeItem(LocalStorageKeys.User)
-            return null;
-        }
-        return plainToClass(User,item.value)
+      let { removeCookie: removeJwtCookie } = useCookie(
+        LocalStorageKeys.JwtToken
+      );
+      let { removeCookie: removeUserCookie } = useCookie(LocalStorageKeys.User);
+
+      removeJwtCookie();
+      removeUserCookie();
     }
-    set user(v)
-    {
-        if(v) {
-            const now = new Date();
-            const item = {
-                value: v,
-                expiry: now.getTime() + this.timeToLive,
-            }
-            localStorage.setItem(LocalStorageKeys.User, JSON.stringify(item));
-        }
-    }
-
-    async logout():Promise<Boolean>{
-        if(this.user)
-        {
-            const token = this.jwtToken
-            const config = {
-                headers: { Authorization: `Bearer ${token}` }
-            }
-
-            const logoutResponse = await axios.get(`/auth/logout`,config)
-            sessionStorage.clear()
-
-            localStorage.removeItem(LocalStorageKeys.User)
-            localStorage.removeItem(LocalStorageKeys.JwtToken)
-        }
-        return true;
-    }
-
+    return true;
+  }
 }

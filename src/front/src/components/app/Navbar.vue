@@ -403,9 +403,7 @@ export default defineComponent({
 
     const user = authService.user;
     const isAuth = authService.isAuthenticated;
-    const fullName = computed(
-      () => `${user?.name} ${user?.firstName} ${user?.lastName}`
-    );
+    const fullName = computed(() => user?.name);
     const avatar = computed(
       () => `${user?.firstName?.charAt(0)}${user?.lastName?.charAt(0)}`
     );

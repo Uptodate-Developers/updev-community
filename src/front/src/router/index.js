@@ -13,46 +13,52 @@ const routes = [
     path: "/",
     name: "Home",
     component: LandingPage,
-    meta: { layout: MainLayout },
+    meta: { layout: MainLayout }
   },
   {
     path: "/login",
     name: "Login",
     component: Login,
-    meta: { layout: MainLayout },
+    meta: { layout: MainLayout }
   },
   {
     path: "/app/profile/:username?",
     name: "Profile",
     component: Profile,
     meta: { layout: AppLayout },
-    props: true,
+    props: true
   },
   {
     path: "/app/home",
     name: "AppHome",
     component: AppHome,
-    meta: { layout: AppLayout },
+    meta: { layout: AppLayout }
   },
   {
     path: "/app",
     name: "AppHome",
     component: AppHome,
-    meta: { layout: AppLayout },
+    meta: { layout: AppLayout }
   },
   {
     path: "/app/notifications",
     name: "AppNotification",
     component: AppNotification,
-    meta: { layout: AppLayout },
+    meta: { layout: AppLayout }
   },
   {
     path: "/app/post/:id",
     name: "AppPost",
     component: AppPost,
     meta: { layout: AppLayout },
-    props: true,
+    props: true
   },
+  {
+    path: "/auth/:provider/callback",
+    component: {
+      template: '<div class="auth-component"></div>'
+    }
+  }
 ];
 
 const router = createRouter({ history: createWebHistory(), routes });
